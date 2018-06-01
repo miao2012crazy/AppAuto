@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="handler"
+            type="com.fresh.app.handlerevent.HandlerEvent"/>
+    </data>
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/ic_main_bg"
+        android:orientation="vertical"
+        tools:context="com.fresh.app.MainActivity">
+
+        <include layout="@layout/layout_yundao_head" />
+
+        <include
+
+            android:id="@+id/layout_list"
+            layout="@layout/layout_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_10"
+            android:background="@drawable/shape_item_confirm"
+            android:gravity="center"
+            android:padding="@dimen/dp_30"
+            android:text="自 提"
+            android:textColor="#fff"
+            android:textSize="40dp" />
+    </LinearLayout>
+</layout>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="item"
+            type="com.fresh.app.bean.QueryCardBean" />
+
+        <variable
+            name="handler"
+            type="com.fresh.app.handlerevent.HandlerEvent" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_40"
+            android:gravity="center"
+            android:text="会员卡查询"
+            android:textColor="#f00"
+            android:textSize="@dimen/sp_80" />
+
+        <LinearLayout
+            android:id="@+id/ll_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_200"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/card_tv_title"
+
+                    android:text="会员实名"
+                    />
+
+
+                <TextView
+
+                    style="@style/card_tv_title"
+                    android:text="卡内余额" />
+
+                <TextView
+                    style="@style/card_tv_title"
+                    android:text="绑定手机"
+                    />
+
+                <TextView
+                    style="@style/card_tv_title"
+                    android:text="绑定身份证"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/card_tv_title"
+                    android:text="@{item.realName}"
+                    />
+                <TextView
+
+                    style="@style/card_tv_title"
+                    android:text="@{String.valueOf(item.membershipBalance)}" />
+
+                <TextView
+                    style="@style/card_tv_title"
+                    android:text="@{item.membershipTel}"
+                    />
+
+                <TextView
+                    style="@style/card_tv_title"
+                    android:text="@{item.realNum}"
+                    />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:padding="@dimen/dp_20"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/ll_info"
+            android:layout_marginTop="166dp"
+            android:text="查看更多信息 >>"
+            android:textColor="#0a6df7"
+            android:textSize="@dimen/sp_40" />
+    </RelativeLayout>
+
+
+</layout>

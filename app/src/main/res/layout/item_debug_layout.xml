@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="item"
+            type="com.fresh.app.bean.DebugBean"/>
+
+        <variable
+            name="items"
+            type="java.util.List"/>
+        <variable
+            name="handler"
+            type="com.fresh.app.handlerevent.HandlerEvent"/>
+    </data>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/dp_10"
+        android:background="@drawable/shape_item_debug"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_debug_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="电机1"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/tv_debug_speed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="转速"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/tv_debug_pressure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="压力"
+            android:textSize="30sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_40"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_10">
+
+            <Button
+                android:id="@+id/btn_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="启动"
+                android:textSize="30sp" />
+
+            <Button
+                android:id="@+id/btn_stop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="停止"
+                android:textSize="30sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

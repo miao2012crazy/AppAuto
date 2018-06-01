@@ -1,0 +1,46 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+    <!--详情页专用 文本标题-->
+    <style name="detail_text_title">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/detail_title_color</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <!--详情页描述专用文本-->
+    <style name="detail_text_desc">
+        <item name="android:gravity">left</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:textColor">@color/detail_desc_color</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="custon_dialog">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
+    <!--会员卡详情-->
+    <style name="card_tv_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#f00</item>
+        <item name="android:layout_margin">@dimen/dp_20</item>
+        <item name="android:textSize">@dimen/sp_26</item>
+    </style>
+
+    <dimen name="sp_14">14sp</dimen>
+    <dimen name="sp_30">30sp</dimen>
+    <dimen name="sp_26">26sp</dimen>
+</resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="itemP"
+            type="com.fresh.app.MainActivity" />
+
+        <variable
+            name="data"
+            type="com.fresh.app.bean.ProductItemType2Bean" />
+
+        <variable
+            name="handler"
+            type="com.fresh.app.handlerevent.HandlerEvent" />
+    </data>
+
+    <RelativeLayout
+        android:paddingBottom="@dimen/dp_20"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:onClick="@{(view)->handler.toReserve(view)}">
+
+        <TextView
+            android:layout_margin="@dimen/dp_4"
+            android:background="@drawable/shape_item_owner"
+            android:id="@+id/tv_owner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="预 定"
+            android:textColor="#fff"
+            android:textSize="35sp" />
+    </RelativeLayout>
+
+</layout>
