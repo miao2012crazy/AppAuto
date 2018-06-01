@@ -66,11 +66,11 @@ public class MainActivity extends BaseActivity implements IProductView, IBaseVie
         });
 
 
-        binding.tvTest.setOnClickListener(view -> {
-            if (mSocket != null) {
-                SocketUtil.sendDataToServer(mSocket, "TD02的手机");
-            }
-        });
+//        binding.tvTest.setOnClickListener(view -> {
+//            if (mSocket != null) {
+//                SocketUtil.sendDataToServer(mSocket, "TD02的手机");
+//            }
+//        });
 
 
 
