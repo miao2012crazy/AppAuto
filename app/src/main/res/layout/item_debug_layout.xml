@@ -25,22 +25,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="电机1"
+            android:text="@{item.name}"
             android:textSize="40sp" />
-
-        <TextView
-            android:id="@+id/tv_debug_speed"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="转速"
-            android:textSize="30sp" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_debug_speed"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="转速"
+                android:textSize="30sp" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@{item.speed}"
+                android:textSize="30sp" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_debug_pressure"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="压力"
-            android:textSize="30sp" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_debug_pressure"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="压力"
+                android:gravity="center"
+                android:textSize="30sp" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@{item.pressure}"
+                android:textSize="30sp" />
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,19 +78,20 @@
             <Button
                 android:id="@+id/btn_start"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_80"
                 android:layout_weight="1"
+                android:onClick="@{(view)->handler.start(view,item)}"
                 android:text="启动"
                 android:textSize="30sp" />
 
             <Button
                 android:id="@+id/btn_stop"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="停止"
+                android:onClick="@{(view)->handler.stop(view,item)}"
+                android:layout_height="@dimen/dp_80"
                 android:textSize="30sp" />
-
         </LinearLayout>
     </LinearLayout>
 </layout>

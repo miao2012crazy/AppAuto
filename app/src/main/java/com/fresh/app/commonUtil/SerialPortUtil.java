@@ -136,7 +136,6 @@ public class SerialPortUtil {
                             readCount += inputStream.read(bytes, readCount, count - readCount);
                             String s = StringUtils.bytesToHexString(bytes, readCount);
                             Log.e("miao", "有数据" + s);
-
                             parseData(s);
                         }
 
@@ -151,20 +150,26 @@ public class SerialPortUtil {
     }
 
     /**
-     * 判断当前数据内容
+     * 判断当前数据内容 为支付状态 还是查询状态
      *
      * @param s
      */
     private static void parseData(String s) {
         switch (CustomApplaction.state) {
             case 0:
+                //已经获取到序列号
 
-                String cmd = IConstant.read_walte + StringUtils.xor(IConstant.read_walte);
-                SerialPortUtil.sendSerialPort(cmd);
-                //修改状态不做任何操作
-                CustomApplaction.state=5;
-                //临时关闭
-//                sendSerialPort(IConstant.close_find + StringUtils.xor(IConstant.close_find));
+
+
+
+//                //查询
+//                String cmd = IConstant.read_walte + StringUtils.xor(IConstant.read_walte);
+//                SerialPortUtil.sendSerialPort(cmd);
+//                //修改状态不做任何操作
+                CustomApplaction.state=999;
+                EventBus.getDefault().post(new MessageEvent(1004,s));
+//                //临时关闭
+////                sendSerialPort(IConstant.close_find + StringUtils.xor(IConstant.close_find));
 
                 break;
             case 1:

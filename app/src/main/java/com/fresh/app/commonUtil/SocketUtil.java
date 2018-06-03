@@ -2,6 +2,8 @@ package com.fresh.app.commonUtil;
 
 import android.util.Log;
 
+import com.fresh.app.bean.SocketBean;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,16 +21,13 @@ public class SocketUtil {
     private static Socket socket;
 
     public static void initSocket(final OnInitSocketListener onInitSocketListener) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    socket = new Socket("192.168.1.10", 2000);
-                    onInitSocketListener.onInitSuccess(socket);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    onInitSocketListener.onInitFailed("主机错误");
-                }
+        new Thread(() -> {
+            try {
+                socket = new Socket("192.168.1.10", 2000);
+                onInitSocketListener.onInitSuccess(socket);
+            } catch (IOException e) {
+                e.printStackTrace();
+                onInitSocketListener.onInitFailed("主机错误");
             }
         }).start();
     }
@@ -46,8 +45,9 @@ public class SocketUtil {
     }
 
 
-    public interface OnInitSocketListener{
+    public interface OnInitSocketListener {
         void onInitSuccess(Socket socket);
+
         void onInitFailed(String errStr);
     }
 
@@ -79,15 +79,9 @@ public class SocketUtil {
                     byte[] bytes = new byte[8];
                     int i = is.read(bytes);
 //                    String s = StringUtils.bytesToHexString(bytes, i);
-                    Log.e("miao","接收到数据"+Arrays.toString(bytes));
+                    Log.e("miao", "接收到数据" + Arrays.toString(bytes));
                     parseData(bytes);
-
-
-
-
                 }
-
-
 
 
 //
@@ -103,10 +97,6 @@ public class SocketUtil {
 //                }
 
 
-
-
-
-
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -116,14 +106,14 @@ public class SocketUtil {
 
     private static void parseData(byte[] bytes) {
         String binary = StringUtils.binary(bytes, 2);
-        Log.e("test",binary);
+        Log.e("test", binary);
 
-        if(binary.length()<64){
-            for (int i=0;binary.length()<64;i++){
-                binary="0"+binary;
+        if (binary.length() < 64) {
+            for (int i = 0; binary.length() < 64; i++) {
+                binary = "0" + binary;
             }
         }
-        Log.e("test",binary);
+        Log.e("test", binary);
     }
 
     /**
@@ -148,7 +138,7 @@ public class SocketUtil {
             OutputStream outputStream = socket.getOutputStream();
 //            outputStream.write((data + "\n").getBytes("utf-8"));
 
-            byte[] bytes = {0,1,0};
+            byte[] bytes = {0, 1, 0};
             outputStream.write(bytes);
 
             // 特别注意：数据的结尾加上换行符才可让服务器端的readline()停止阻塞
@@ -159,9 +149,6 @@ public class SocketUtil {
             e.printStackTrace();
         }
     }
-
-
-
 
 
     /**
@@ -191,6 +178,190 @@ public class SocketUtil {
             UIUtils.showToast("数据发送");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 获取socketbean 下面代码谁都别动
+     */
+    /**
+     * 获取socketbean
+     *
+     * @param id
+     */
+    public static SocketBean getUpdateBit(String id,boolean bool) {
+        SocketBean socketBean = new SocketBean();
+        switch (id) {
+            case "00":
+                socketBean.setB0(bool);
+                return socketBean;
+
+            case "01":
+                socketBean.setB0_1(bool);
+                return socketBean;
+            case "02":
+
+                socketBean.setB0_2(bool);
+                return socketBean;
+
+            case "03":
+                socketBean.setB0_3(bool);
+                return socketBean;
+            case "04":
+                socketBean.setB0_4(bool);
+                return socketBean;
+            case "05":
+                socketBean.setB0_5(bool);
+                return socketBean;
+            case "06":
+                socketBean.setB0_6(bool);
+                return socketBean;
+            case "07":
+                socketBean.setB0_7(bool);
+                return socketBean;
+            case "10":
+                socketBean.setB1_0(bool);
+                return socketBean;
+            case "11":
+                socketBean.setB1_1(bool);
+                return socketBean;
+            case "12":
+                socketBean.setB1_2(bool);
+                return socketBean;
+            case "13":
+                socketBean.setB1_3(bool);
+                return socketBean;
+            case "14":
+                socketBean.setB1_4(bool);
+                return socketBean;
+            case "15":
+                socketBean.setB1_5(bool);
+                return socketBean;
+            case "16":
+                socketBean.setB1_6(bool);
+                return socketBean;
+            case "17":
+                socketBean.setB1_7(bool);
+                return socketBean;
+            case "20":
+                socketBean.setB2_0(bool);
+                return socketBean;
+
+            case "21":
+                socketBean.setB2_1(bool);
+                return socketBean;
+            case "22":
+                socketBean.setB2_2(bool);
+                return socketBean;
+            case "23":
+                socketBean.setB2_3(bool);
+                return socketBean;
+            case "24":
+                socketBean.setB2_4(bool);
+                return socketBean;
+            case "25":
+                socketBean.setB2_5(bool);
+                return socketBean;
+            case "26":
+                socketBean.setB2_6(bool);
+                return socketBean;
+            case "27":
+                socketBean.setB2_7(bool);
+                return socketBean;
+            case "30":
+                socketBean.setB3_0(bool);
+                return socketBean;
+            case "31":
+
+                socketBean.setB3_1(bool);
+                return socketBean;
+            case "32":
+
+                socketBean.setB3_2(bool);
+                return socketBean;
+            case "33":
+
+                socketBean.setB3_3(bool);
+                return socketBean;
+            case "34":
+
+                socketBean.setB3_4(bool);
+                return socketBean;
+            case "35":
+
+                socketBean.setB3_5(bool);
+                return socketBean;
+            case "36":
+
+                socketBean.setB3_6(bool);
+                return socketBean;
+            case "37":
+
+                socketBean.setB3_7(bool);
+                return socketBean;
+            case "40":
+
+                socketBean.setB4_0(bool);
+                return socketBean;
+            case "41":
+
+                socketBean.setB4_1(bool);
+                return socketBean;
+            case "42":
+
+                socketBean.setB4_2(bool);
+                return socketBean;
+            case "43":
+
+                socketBean.setB4_3(bool);
+                return socketBean;
+            case "44":
+
+                socketBean.setB4_4(bool);
+                return socketBean;
+            case "45":
+
+                socketBean.setB4_5(bool);
+                return socketBean;
+            case "46":
+
+                socketBean.setB4_6(bool);
+                return socketBean;
+            case "47":
+
+                socketBean.setB4_7(bool);
+                return socketBean;
+            case "50":
+
+                socketBean.setB5_0(bool);
+                return socketBean;
+            case "51":
+
+                socketBean.setB5_1(bool);
+                return socketBean;
+            case "52":
+                socketBean.setB5_2(bool);
+                return socketBean;
+            case "53":
+                socketBean.setB5_3(bool);
+                return socketBean;
+            case "54":
+                socketBean.setB5_4(bool);
+                return socketBean;
+            case "55":
+                socketBean.setB5_5(bool);
+                return socketBean;
+            case "56":
+                socketBean.setB5_6(bool);
+                return socketBean;
+            case "57":
+                socketBean.setB5_7(bool);
+                return socketBean;
+
+            default:
+                return socketBean;
+
         }
     }
 

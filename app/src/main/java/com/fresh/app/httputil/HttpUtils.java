@@ -1,9 +1,11 @@
 package com.fresh.app.httputil;
 
 import com.fresh.app.base.BindingAdapterItem;
+import com.fresh.app.bean.CardHistoryBean;
 import com.fresh.app.bean.FreshOrderBean;
 import com.fresh.app.bean.ProductBean;
 import com.fresh.app.bean.ProductDetailBean;
+import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.QueryCardBean;
 
 import java.util.concurrent.TimeUnit;
@@ -45,7 +47,7 @@ public class HttpUtils {
     }
 
     //获取商品详情数据
-    public static Observable<ProductDetailBean> getProductDetail(String product_id) {
+    public static Observable<ProductItemBean> getProductDetail(String product_id) {
         return getRetrofit().getProductDetailData(product_id);
     }
 
@@ -73,4 +75,11 @@ public class HttpUtils {
     }
 
 
+    public static Observable<CardHistoryBean> getCardHistory(String card_id) {
+        return getRetrofit().getCardHistory(card_id);
+    }
+
+    public static Observable<String> getPayResult(String orderId) {
+        return getRetrofit().getPayResultFromNet(orderId);
+    }
 }

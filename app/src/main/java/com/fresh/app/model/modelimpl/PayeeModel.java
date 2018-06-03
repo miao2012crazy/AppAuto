@@ -1,7 +1,13 @@
 package com.fresh.app.model.modelimpl;
 
+import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BaseLoadListener;
 import com.fresh.app.bean.FreshOrderBean;
+import com.fresh.app.bean.ProductDetailBean;
+import com.fresh.app.bean.ProductItemBean;
+import com.fresh.app.commonUtil.UIUtils;
+import com.fresh.app.gen.ProductDetailBeanDao;
+import com.fresh.app.gen.ProductItemBeanDao;
 import com.fresh.app.httputil.HttpUtils;
 import com.fresh.app.model.IPayeeModel;
 
@@ -36,4 +42,22 @@ public class PayeeModel implements IPayeeModel {
                     }
                 });
     }
+
+    @Override
+    public boolean updateLocalData(String product_id) {
+        ProductItemBeanDao productItemBeanDao = CustomApplaction.getInstances().getDaoSession().getProductItemBeanDao();
+        ProductItemBean productItemBean = productItemBeanDao.queryBuilder()
+                .where(ProductItemBeanDao.Properties.ProductId.eq(product_id))
+                .unique();
+        int productStock = productItemBean.getDeviceProductStock();
+        if (productStock<1){
+            UIUtils.showToast("库存不足，您可以预定！");
+            return false;
+        }
+        productItemBean.setDeviceProductStock(productStock-1);
+        productItemBeanDao.update(productItemBean);
+        return true;
+    }
+
+
 }

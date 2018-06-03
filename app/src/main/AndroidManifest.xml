@@ -46,6 +46,7 @@
         <!--</receiver>-->
         <service android:name=".service.SocketService"/>
         <service android:name=".service.TimeService"/>
+        <service android:name=".service.PayResultService"/>
 
 
     </application>

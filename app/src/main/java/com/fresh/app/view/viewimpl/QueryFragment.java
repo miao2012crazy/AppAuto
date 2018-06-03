@@ -5,6 +5,7 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,7 @@ public class QueryFragment extends BaseFragment implements IQueryView {
         EventBus.getDefault().register(this);
 //        bind = DataBindingUtil.bind(view);
         queryCardViewModel = new QueryCardViewModel(this, bind);
-        EventBus.getDefault().post(new MessageEvent(1005,"123"));
+//        EventBus.getDefault().post(new MessageEvent(1004,"000b01205e724ba5040008e4"));
     }
 
 
@@ -61,9 +62,18 @@ public class QueryFragment extends BaseFragment implements IQueryView {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void receiveCard(MessageEvent messageEvent){
-        if (messageEvent.getCode()==1005){
-            queryCardViewModel.getCardInfo(messageEvent.getMessage());
+        switch (messageEvent.getCode()){
+            case 1004:
+                Log.e("miao卡片",messageEvent.getMessage());
+                //发现卡片
+                queryCardViewModel.getCardInfo(messageEvent.getMessage());
+                break;
         }
+
+
+//        if (messageEvent.getCode()==1005){
+//            queryCardViewModel.getCardInfo(messageEvent.getMessage());
+//        }
 
     }
 

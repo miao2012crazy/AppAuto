@@ -10,4 +10,6 @@ import com.fresh.app.bean.ProductDetailBean;
 
 public interface IPayeeModel {
     void creatOrder(String product_id,String deviceid,BaseLoadListener<FreshOrderBean> loadListener);
+    boolean updateLocalData(String product_id);
+
 }

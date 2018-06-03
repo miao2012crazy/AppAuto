@@ -10,6 +10,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,8 +25,14 @@ import com.bumptech.glide.Glide;
 import com.fresh.app.R;
 import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BindingAdapterItem;
+import com.fresh.app.bean.DebugBean;
+import com.fresh.app.bean.DebugBean2;
 import com.fresh.app.bean.PayeeBean;
 import com.fresh.app.bean.ProductItemBean;
+import com.fresh.app.bean.SocketBean;
+import com.fresh.app.commonUtil.LogUtils;
+import com.fresh.app.commonUtil.SocketUtil;
+import com.fresh.app.commonUtil.StringUtils;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.databinding.LayoutDialogPayBinding;
@@ -36,6 +43,8 @@ import com.fresh.app.view.viewimpl.MainProductDetailActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.net.Socket;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -89,6 +98,48 @@ public class HandlerEvent {
 
     }
 
+    /**
+     * @param view
+     * @param debugBean
+     */
+    public void start(View view, DebugBean debugBean) {
+        SocketBean updateBit = SocketUtil.getUpdateBit(debugBean.getId(), true);
+        getSocketAndSendData(updateBit);
+    }
+
+
+    public void stop(View view, DebugBean debugBean) {
+        SocketBean updateBit = SocketUtil.getUpdateBit(debugBean.getId(), false);
+        getSocketAndSendData(updateBit);
+    }
+
+
+    public void start(View view, DebugBean2 debugBean) {
+        SocketBean updateBit = SocketUtil.getUpdateBit(debugBean.getId(), true);
+        getSocketAndSendData(updateBit);
+    }
+
+    public void stop(View view, DebugBean2 debugBean) {
+        SocketBean updateBit = SocketUtil.getUpdateBit(debugBean.getId(), false);
+        getSocketAndSendData(updateBit);
+    }
+
+
+    private void getSocketAndSendData(SocketBean socketBean) {
+        SocketUtil.getSocket(new SocketUtil.OnInitSocketListener() {
+            @Override
+            public void onInitSuccess(Socket socket) {
+                byte[] binary = socketBean.getBinary("40");
+                LogUtils.e(Arrays.toString(binary));
+                SocketUtil.sendDataToServer(socket, binary);
+            }
+
+            @Override
+            public void onInitFailed(String errStr) {
+                UIUtils.showToast("连接主机错误");
+            }
+        });
+    }
 
     /**
      * 支付方式选择
@@ -98,45 +149,46 @@ public class HandlerEvent {
      */
     public void itemPayWayClick(View view, PayeeBean item) {
         PayeeBean lastItem = CustomApplaction.lastItem;
-       if (lastItem==null){
-           item.setVisiable(true);
-           CustomApplaction.lastItem=item;
-       }else{
-           if (lastItem==item){
-               if (item.getVisiable()){
-                   item.setVisiable(false);
-                   CustomApplaction.lastItem=null;
-               }else{
-                   item.setVisiable(true);
-                   CustomApplaction.lastItem=item;
-               }
+        if (lastItem == null) {
+            item.setVisiable(true);
+            CustomApplaction.lastItem = item;
+        } else {
+            if (lastItem == item) {
+                if (item.getVisiable()) {
+                    item.setVisiable(false);
+                    CustomApplaction.lastItem = null;
+                } else {
+                    item.setVisiable(true);
+                    CustomApplaction.lastItem = item;
+                }
 
-           }else{
-               lastItem.setVisiable(false);
-               item.setVisiable(true);
-               CustomApplaction.lastItem=item;
-           }
-       }
+            } else {
+                lastItem.setVisiable(false);
+                item.setVisiable(true);
+                CustomApplaction.lastItem = item;
+            }
+        }
 
     }
 
     /**
      * 退出调试
+     *
      * @param view
      */
-    public void finishDebug(View view){
+    public void finishDebug(View view) {
         Activity mActivity = (Activity) this.mActivity;
         mActivity.finish();
     }
-   /**
-     * 退出调试
+
+    /**
+     * 光控页面
+     *
      * @param view
      */
-   public void startDebugController(View view){
-            startActivityBase(mActivity, DebugControlActivity.class);
+    public void startDebugController(View view) {
+        startActivityBase(mActivity, DebugControlActivity.class);
     }
-
-
 
 
     //启动页面不带参数 直接启动
@@ -147,6 +199,7 @@ public class HandlerEvent {
 
     /**
      * 带参数启动
+     *
      * @param context
      * @param clazz
      * @param bundle

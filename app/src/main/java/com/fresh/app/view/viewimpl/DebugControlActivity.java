@@ -38,13 +38,13 @@ public class DebugControlActivity extends BaseActivity {
         recyclerView.setLayoutManager(gridLayoutManager);
         mList = new ArrayList<>();
         BindingAdapter bindingAdapter = new BindingAdapter();
-        DebugBean2 bean211 = new DebugBean2("上仓门", "通电");
-        DebugBean2 bean212 = new DebugBean2("下仓门", "断电");
-        DebugBean2 bean221 = new DebugBean2("内仓门", "通电");
-        DebugBean2 bean222 = new DebugBean2("出米照明灯", "通电");
-        DebugBean2 bean231 = new DebugBean2("仓内照明灯1", "通电");
-        DebugBean2 bean232 = new DebugBean2("仓内照明灯2", "断电");
-        DebugBean2 bean23 = new DebugBean2("仓内照明灯3", "断电");
+        DebugBean2 bean211 = new DebugBean2("11","上仓门", "通电");
+        DebugBean2 bean212 = new DebugBean2("12","下仓门", "断电");
+        DebugBean2 bean221 = new DebugBean2("13","内仓门", "通电");
+        DebugBean2 bean222 = new DebugBean2("14","出米照明灯", "通电");
+        DebugBean2 bean231 = new DebugBean2("15","仓内照明灯1", "通电");
+        DebugBean2 bean232 = new DebugBean2("16","仓内照明灯2", "断电");
+        DebugBean2 bean23 = new DebugBean2("17","仓内照明灯3", "断电");
 
         mList.add(bean211);
         mList.add(bean212);

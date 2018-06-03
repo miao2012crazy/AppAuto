@@ -33,7 +33,7 @@ android {
     }
 
     greendao {
-        schemaVersion 2
+        schemaVersion 3
         daoPackage 'com.fresh.app.gen'
         targetGenDir 'src/main/java'
     }

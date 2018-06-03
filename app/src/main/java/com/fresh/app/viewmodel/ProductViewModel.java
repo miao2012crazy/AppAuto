@@ -6,6 +6,7 @@ import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BaseLoadListener;
 import com.fresh.app.bean.ProductBean;
 import com.fresh.app.bean.ProductItemBean;
+import com.fresh.app.commonUtil.LogUtils;
 import com.fresh.app.commonUtil.StringUtils;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.constant.IConstant;
@@ -52,12 +53,10 @@ public class ProductViewModel  implements BaseLoadListener<ProductBean>{
     public void loadSuccess(ProductBean productBean) {
         productview.getDataSuccessed(productBean.getData());
         //开线程 将数据写入数据库
-        CustomApplaction.getExecutorService().execute(new Runnable() {
-            @Override
-            public void run() {
-                List<ProductItemBean> data = productBean.getData();
-                productItemBeanDao.insertOrReplaceInTx(data);
-            }
+        CustomApplaction.getExecutorService().execute(() -> {
+            List<ProductItemBean> data = productBean.getData();
+            productItemBeanDao.insertOrReplaceInTx(data);
+            LogUtils.e("数据库写入完成");
         });
 
 
@@ -99,22 +98,9 @@ public class ProductViewModel  implements BaseLoadListener<ProductBean>{
                 productview.getDataSuccessed(productItemBeans);
 
                 break;
-
-            case 1004:
-                //发现卡片
-                //1.联网获取卡片可使用性  是否已加为白名单（或查询数据库）
-                //卡片可用
-                //2. 读取余额
-                //修改状态
-                CustomApplaction.state=1;
-                Log.e("miao状态修改，",CustomApplaction.state+"");
-                String cmd =IConstant.read_walte+ StringUtils.xor(IConstant.read_walte);
-//                SerialPortUtil.sendSerialPort(cmd);
-//                productview.showDialogForBalance();
+            default:
+                LogUtils.e("无任何绑定");
                 break;
-            case 1005:
-                //3 读取到余额信息
-            break;
         }
     }
 

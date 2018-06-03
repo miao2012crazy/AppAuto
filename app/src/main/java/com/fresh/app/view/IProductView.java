@@ -3,6 +3,7 @@ package com.fresh.app.view;
 import com.fresh.app.base.BindingAdapterItem;
 import com.fresh.app.base.IBaseView;
 import com.fresh.app.bean.ProductItemBean;
+import com.fresh.app.bean.QueryCardBean;
 
 import java.util.List;
 
@@ -12,6 +13,8 @@ import java.util.List;
 
 public interface IProductView extends IBaseView{
     void getDataSuccessed( List<ProductItemBean> mainList);
+
+
 
 
 }

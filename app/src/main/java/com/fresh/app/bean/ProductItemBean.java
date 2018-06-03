@@ -6,17 +6,17 @@ import android.databinding.Bindable;
 import com.fresh.app.BR;
 import com.fresh.app.R;
 import com.fresh.app.base.BindingAdapterItem;
-import com.google.gson.annotations.SerializedName;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 
 /**
  * Created by mr.miao on 2018/5/8.
  */
 @Entity
 public class ProductItemBean extends BaseObservable implements BindingAdapterItem {
+
     /**
      * id : 1
      * productDesc : 明月几时有，把酒问青天
@@ -58,14 +58,22 @@ public class ProductItemBean extends BaseObservable implements BindingAdapterIte
     private int deviceProductStock;
     private String singleDeviceId;
     private String singleStorageRoomId;
+    /**
+     * deviceId : 20180515_01
+     * id : 1
+     * productDetailDesc : 作为宫庭御膳米，优良的品种，晶莹如珠、米香浓郁，已成为施名中外的“名产”。它含有人体所需的各种氨基酸、脂肪酸、矿物质、较多的纤维素和丰富的日族维生素，不仅好吃，而且营养丰富。
+     * productPrice : 25.5
+     */
 
-    @Generated(hash = 802155634)
-    public ProductItemBean(long id, String productDesc, String productId,
-            String productImg01, String productImg02, String productImg03,
-            String productImg04, String productManage, String productName,
-            String productOption, double productPrice, int productStock,
-            int productUsable, String regDate, int deviceProductStock,
-            String singleDeviceId, String singleStorageRoomId) {
+    private String productDetailDesc;
+
+
+    @Generated(hash = 347670074)
+    public ProductItemBean(long id, String productDesc, String productId, String productImg01,
+            String productImg02, String productImg03, String productImg04, String productManage,
+            String productName, String productOption, double productPrice, int productStock, int productUsable,
+            String regDate, int deviceProductStock, String singleDeviceId, String singleStorageRoomId,
+            String productDetailDesc) {
         this.id = id;
         this.productDesc = productDesc;
         this.productId = productId;
@@ -83,11 +91,13 @@ public class ProductItemBean extends BaseObservable implements BindingAdapterIte
         this.deviceProductStock = deviceProductStock;
         this.singleDeviceId = singleDeviceId;
         this.singleStorageRoomId = singleStorageRoomId;
+        this.productDetailDesc = productDetailDesc;
     }
 
     @Generated(hash = 1206367571)
     public ProductItemBean() {
     }
+
 
     public long getId() {
         return id;
@@ -208,7 +218,7 @@ public class ProductItemBean extends BaseObservable implements BindingAdapterIte
 
     @Override
     public String toString() {
-        return "DataBean{" +
+        return "ProductItemBean{" +
                 "id=" + id +
                 ", productDesc='" + productDesc + '\'' +
                 ", productId='" + productId + '\'' +
@@ -223,6 +233,10 @@ public class ProductItemBean extends BaseObservable implements BindingAdapterIte
                 ", productStock=" + productStock +
                 ", productUsable=" + productUsable +
                 ", regDate='" + regDate + '\'' +
+                ", deviceProductStock=" + deviceProductStock +
+                ", singleDeviceId='" + singleDeviceId + '\'' +
+                ", singleStorageRoomId='" + singleStorageRoomId + '\'' +
+                ", productDetailDesc='" + productDetailDesc + '\'' +
                 '}';
     }
 
@@ -259,5 +273,14 @@ public class ProductItemBean extends BaseObservable implements BindingAdapterIte
 
     public void setId(long id) {
         this.id = id;
+    }
+    @Bindable
+    public String getProductDetailDesc() {
+        return productDetailDesc;
+    }
+
+    public void setProductDetailDesc(String productDetailDesc) {
+        this.productDetailDesc = productDetailDesc;
+        notifyPropertyChanged(BR.productDetailDesc);
     }
 }

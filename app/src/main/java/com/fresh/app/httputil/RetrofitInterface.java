@@ -1,8 +1,10 @@
 package com.fresh.app.httputil;
 
+import com.fresh.app.bean.CardHistoryBean;
 import com.fresh.app.bean.FreshOrderBean;
 import com.fresh.app.bean.ProductBean;
 import com.fresh.app.bean.ProductDetailBean;
+import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.QueryCardBean;
 
 import io.reactivex.Observable;
@@ -19,7 +21,7 @@ public interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("product_detail")
-    Observable<ProductDetailBean> getProductDetailData(@Field("product_id")String product_id);
+    Observable<ProductItemBean> getProductDetailData(@Field("product_id")String product_id);
 
     @FormUrlEncoded
     @POST("product")
@@ -32,4 +34,11 @@ public interface RetrofitInterface {
     @FormUrlEncoded
     @POST("card_info")
     Observable<QueryCardBean> getCardInfo(@Field("card_id")String card_id);
+    @FormUrlEncoded
+    @POST("card_history")
+    Observable<CardHistoryBean> getCardHistory(@Field("card_id") String card_id);
+
+    @FormUrlEncoded
+    @POST("order_state")
+    Observable<String> getPayResultFromNet(@Field("order_id") String orderId);
 }

@@ -12,7 +12,7 @@ public class HttpUrl {
     private static String baseUrl="";
     public static String getBaseUrl() {
         if (AppConstant.isDebug){
-            return "http://192.168.0.105:8080/";
+            return "http://192.168.0.109:8080/";
 //            return "http://39.105.77.235/";
         }
         return baseUrl;

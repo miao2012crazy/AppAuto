@@ -23,7 +23,7 @@ import java.util.List;
  * Created by mr.miao on 2018/5/7.
  */
 
-public class ProductDetailViewModel implements BaseLoadListener<ProductDetailBean>{
+public class ProductDetailViewModel implements BaseLoadListener<ProductItemBean>{
 
     public  IDetailView mDetailView;
     public ActivityDetailBinding mActivityDetailBinding;
@@ -33,7 +33,7 @@ public class ProductDetailViewModel implements BaseLoadListener<ProductDetailBea
         EventBus.getDefault().register(this);
         this.mDetailView=detailView;
         this.mActivityDetailBinding=activityDetailBinding;
-        mActivityDetailBinding.setModel(new ProductDetailBean());
+//        mActivityDetailBinding.setModel(new ProductItemBean());
         detailModel = new DetailModelImpl();
     }
 
@@ -47,13 +47,13 @@ public class ProductDetailViewModel implements BaseLoadListener<ProductDetailBea
 
 
     @Override
-    public void loadSuccess(List<ProductDetailBean> list) {
+    public void loadSuccess(List<ProductItemBean> list) {
 
     }
 
     @Override
-    public void loadSuccess(ProductDetailBean productDetailBean) {
-        mActivityDetailBinding.setModel(productDetailBean);
+    public void loadSuccess(ProductItemBean productDetailBean) {
+        mActivityDetailBinding.setItem(productDetailBean);
         CustomApplaction.product_detail_bean=productDetailBean;
     }
 
@@ -84,9 +84,11 @@ public class ProductDetailViewModel implements BaseLoadListener<ProductDetailBea
 
             case 1003:
 //                Log.e("miao查询数据库","");
+//
 //                //查询数据库
 //                ProductItemBeanDao productItemBeanDao = CustomApplaction.getInstances().getDaoSession().getProductItemBeanDao();
 //                List<ProductItemBean> productItemBeans = productItemBeanDao.loadAll();
+//                mActivityDetailBinding.setItem(productDetailBean);
 //                productview.getDataSuccessed(productItemBeans);
                 break;
         }

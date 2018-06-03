@@ -24,11 +24,13 @@ import com.fresh.app.base.IBaseView;
 import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.ProductItemType2Bean;
 import com.fresh.app.commonUtil.SocketUtil;
+import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.databinding.ActivityMainBinding;
 import com.fresh.app.databinding.LayoutDialogBalanceBinding;
 import com.fresh.app.handlerevent.HandlerEvent;
 import com.fresh.app.service.TimeService;
 import com.fresh.app.view.IProductView;
+import com.fresh.app.view.viewimpl.DebugActivity;
 import com.fresh.app.viewmodel.ProductViewModel;
 
 import org.greenrobot.eventbus.EventBus;
@@ -44,13 +46,14 @@ public class MainActivity extends BaseActivity implements IProductView, IBaseVie
     private List<BindingAdapterItem> mainList;
     private Socket mSocket;
     private ActivityMainBinding binding;
+    private ProductViewModel productViewModel;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setHandler(new HandlerEvent(this));
-        ProductViewModel productViewModel = new ProductViewModel(this, binding);
+        productViewModel = new ProductViewModel(this, binding);
         initRecyclerList();
         SocketUtil.getSocket(new SocketUtil.OnInitSocketListener() {
             @Override
@@ -71,7 +74,7 @@ public class MainActivity extends BaseActivity implements IProductView, IBaseVie
 //                SocketUtil.sendDataToServer(mSocket, "TD02的手机");
 //            }
 //        });
-
+//        startActivityBase(DebugActivity.class);
 
 
 //        //定时器服务
@@ -159,4 +162,10 @@ public class MainActivity extends BaseActivity implements IProductView, IBaseVie
 //    }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+//       productViewModel.getData(new MessageEvent(1003,""));
+
+    }
 }

@@ -38,6 +38,13 @@
                 android:onClick="@{handler.startDebugController}"
                 android:text="打开光控界面"
                 android:textSize="40sp" />
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="@{handler.startDebugController}"
+                android:text="复位"
+                android:textSize="40sp" />
         </LinearLayout>
     </LinearLayout>
 </layout>

@@ -3,10 +3,12 @@ package com.fresh.app.model.modelimpl;
 import android.util.Log;
 
 import com.fresh.app.base.BaseLoadListener;
+import com.fresh.app.bean.CardHistoryBean;
 import com.fresh.app.bean.ProductBean;
 import com.fresh.app.bean.QueryCardBean;
 import com.fresh.app.commonUtil.LogUtils;
 import com.fresh.app.httputil.HttpUtils;
+import com.fresh.app.listener.OnCardHistoryListener;
 import com.fresh.app.model.IQueryModel;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -43,4 +45,28 @@ public class QueryCardModel implements IQueryModel{
                     }
                 });
     }
+
+    @Override
+    public void getCardHistory(String card_id, OnCardHistoryListener loadListener) {
+        HttpUtils.getCardHistory(card_id).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableObserver<CardHistoryBean>() {
+                               @Override
+                               public void onNext(CardHistoryBean cardHistoryBean) {
+                                   loadListener.getCardHistorySuccess(cardHistoryBean.getData());
+                               }
+
+                               @Override
+                               public void onError(Throwable e) {
+
+                               }
+
+                               @Override
+                               public void onComplete() {
+
+                               }
+                           }
+                );
+    }
+
 }

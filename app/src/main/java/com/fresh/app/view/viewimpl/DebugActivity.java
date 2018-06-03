@@ -26,7 +26,7 @@ import java.util.List;
  * Created by mr.miao on 2018/5/2.
  */
 
-public class DebugActivity extends BaseActivity implements IDebugView{
+public class DebugActivity extends BaseActivity implements IDebugView {
 
     private RecyclerView recyclerView;
 
@@ -43,46 +43,119 @@ public class DebugActivity extends BaseActivity implements IDebugView{
         recyclerList.setLayoutManager(gridLayoutManager);
         recyclerList.setAdapter(bindingAdapter);
 
-        bindingAdapter.setItems(mList);
 
-        DebugBean debugBean1 = new DebugBean("碾米电机1号", "700r/min", "9.8kpa");
-        DebugBean debugBean2 = new DebugBean("碾米电机2号", "800r/min", "19.8kpa");
-        DebugBean debugBean3 = new DebugBean("碾米电机3号", "800r/min", "19.8kpa");
-        DebugBean debugBean4 = new DebugBean("提米电机号", "500r/min", "19.8kpa");
-        DebugBean2 bean211 = new DebugBean2("1号加压", "通电");
-        DebugBean2 bean212 = new DebugBean2("1号卸压", "断电");
-        DebugBean2 bean221 = new DebugBean2("2号加压", "通电");
-        DebugBean2 bean222 = new DebugBean2("2号卸压", "断电");
-        DebugBean2 bean231 = new DebugBean2("3号加压", "通电");
-        DebugBean2 bean232 = new DebugBean2("3号卸压", "断电");
-        DebugBean2 bean23 = new DebugBean2("漏斗升降气缸", "伸出");
-        mList.add(debugBean1);
-        mList.add(debugBean2);
-        mList.add(debugBean3);
-        mList.add(debugBean4);
-        mList.add(bean211);
-        mList.add(bean212);
-        mList.add(bean221);
-        mList.add(bean222);
-        mList.add(bean231);
-        mList.add(bean232);
-        mList.add(bean23);
+        DebugBean bean0_0 = new DebugBean("00", "提米电机", "", "");
+        DebugBean bean0_1 = new DebugBean("01", "提米加压气缸", "", "");
+        DebugBean2 bean0_2 = new DebugBean2("02", "提米卸压气缸", "");
+        DebugBean2 bean0_3 = new DebugBean2("03", "碾米电机1", "");
+        DebugBean bean0_4 = new DebugBean("04", "碾米电机2", "", "");
+        DebugBean bean0_5 = new DebugBean("05", "碾米电机3", "", "");
+        DebugBean2 bean0_6 = new DebugBean2("06", "碾米加压电磁阀1", "");
+        DebugBean2 bean0_7 = new DebugBean2("07", "碾米加压电磁阀2", "");
+        DebugBean2 bean1_0 = new DebugBean2("10", "碾米加压电磁阀3", "");
+        DebugBean2 bean1_1 = new DebugBean2("11", "碾米卸压电磁阀1", "");
+        DebugBean2 bean1_2 = new DebugBean2("12", "碾米卸压电磁阀2", "");
+        DebugBean2 bean1_3 = new DebugBean2("13", "碾米卸压电磁阀3", "");
+        DebugBean2 bean1_4 = new DebugBean2("14", "漏斗升降气缸加压电磁阀得电", "");
+        DebugBean2 bean1_5 = new DebugBean2("15", "漏斗升降气缸卸压电磁阀得电", "");
+        DebugBean bean1_6 = new DebugBean("16", "吸糠风机启动", "", "");
+        DebugBean2 bean1_7 = new DebugBean2("17", "备用", "");
+        DebugBean2 bean2_0 = new DebugBean2("20", "上仓门电磁锁得电", "");
+        DebugBean2 bean2_1 = new DebugBean2("21", "下仓门电磁锁得电", "");
+        DebugBean2 bean2_2 = new DebugBean2("22", "内仓门电磁锁得电", "");
+        DebugBean2 bean2_3 = new DebugBean2("23", "出米照明灯启动", "");
+        DebugBean2 bean2_4 = new DebugBean2("24", "舱内照明灯1启动", "");
+        DebugBean2 bean2_5 = new DebugBean2("25", "舱内照明灯2启动", "");
+        DebugBean2 bean2_6 = new DebugBean2("26", "备用", "");
+        DebugBean2 bean2_7 = new DebugBean2("27", "装米模式运行中", "");
+        DebugBean2 bean3_0 = new DebugBean2("30", "买米模式运行中", "");
+        DebugBean2 bean3_1 = new DebugBean2("31", "故障模式", "");
+        DebugBean2 bean3_2 = new DebugBean2("32", "装米模式空米桶到达", "");
+        DebugBean2 bean3_3 = new DebugBean2("33", "买米模式米桶到达", "");
+        DebugBean2 bean3_4 = new DebugBean2("34", "手动模式运行中", "");
+        DebugBean2 bean3_5 = new DebugBean2("35", "网络运行中", "");
+        DebugBean2 bean3_6 = new DebugBean2("36", "备用", "");
+        DebugBean2 bean3_7 = new DebugBean2("37", "备用", "");
+        DebugBean2 bean4_0 = new DebugBean2("40", "出米完成检测信号", "");
+        DebugBean2 bean4_1 = new DebugBean2("41", "上加米模式", "");
+        DebugBean2 bean4_2 = new DebugBean2("42", "下加米模式", "");
+        DebugBean2 bean4_3 = new DebugBean2("43", "上舱门关闭-行程开关", "");
+        DebugBean2 bean4_4 = new DebugBean2("44", "下舱门关闭-行程开关", "");
+        DebugBean2 bean4_5 = new DebugBean2("45", "内舱门关闭-行程开关", "");
+        DebugBean2 bean4_6 = new DebugBean2("46", "碾米电机1运行超时", "");
+        DebugBean2 bean4_7 = new DebugBean2("47", "碾米电机2运行超时", "");
+        DebugBean2 bean5_0 = new DebugBean2("50", "碾米电机3运行超时", "");
+        DebugBean2 bean5_1 = new DebugBean2("51", "备用", "");
+        DebugBean2 bean5_2 = new DebugBean2("52", "备用", "");
+        DebugBean2 bean5_3 = new DebugBean2("53", "备用", "");
+        DebugBean2 bean5_4 = new DebugBean2("54", "备用", "");
+        DebugBean2 bean5_5 = new DebugBean2("55", "备用", "");
+        DebugBean2 bean5_6 = new DebugBean2("56", "备用", "");
+        DebugBean2 bean5_7 = new DebugBean2("57", "备用", "");
+        mList.add(bean0_0);
+        mList.add(bean0_1);
+        mList.add(bean0_2);
+        mList.add(bean0_3);
+        mList.add(bean0_4);
+        mList.add(bean0_5);
+        mList.add(bean0_6);
+        mList.add(bean0_7);
+        mList.add(bean1_0);
+        mList.add(bean1_1);
+        mList.add(bean1_2);
+        mList.add(bean1_3);
+        mList.add(bean1_4);
+        mList.add(bean1_5);
+        mList.add(bean1_6);
+        mList.add(bean1_7);
+        mList.add(bean2_0);
+        mList.add(bean2_1);
+        mList.add(bean2_2);
+        mList.add(bean2_3);
+        mList.add(bean2_4);
+        mList.add(bean2_5);
+        mList.add(bean2_6);
+        mList.add(bean2_7);
+        mList.add(bean3_0);
+        mList.add(bean3_1);
+        mList.add(bean3_2);
+        mList.add(bean3_3);
+        mList.add(bean3_4);
+        mList.add(bean3_5);
+        mList.add(bean3_6);
+        mList.add(bean3_7);
+        mList.add(bean4_0);
+        mList.add(bean4_1);
+        mList.add(bean4_2);
+        mList.add(bean4_3);
+        mList.add(bean4_4);
+        mList.add(bean4_5);
+        mList.add(bean4_6);
+        mList.add(bean4_7);
+        mList.add(bean5_0);
+        mList.add(bean5_1);
+        mList.add(bean5_2);
+        mList.add(bean5_3);
+        mList.add(bean5_4);
+        mList.add(bean5_5);
+        mList.add(bean5_6);
+        mList.add(bean5_7);
+
+        bindingAdapter.setItems(mList);
 
     }
 
 
-    public  class Presenter{
-        public void finishDebug(View view){
+    public class Presenter {
+        public void finishDebug(View view) {
             finish();
         }
 
-        public void startDebugController(View view){
+        public void startDebugController(View view) {
             startActivityBase(DebugControlActivity.class);
         }
 
     }
-
-
 
 
 }

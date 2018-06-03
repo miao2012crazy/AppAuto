@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="model"
-            type="com.fresh.app.bean.ProductDetailBean" />
+            name="item"
+            type="com.fresh.app.bean.ProductItemBean" />
     </data>
 
 
@@ -21,7 +21,7 @@
             android:layout_height="120dp"
             android:background="#99ffffff"
             android:gravity="center"
-            android:text="@{model.productName}"
+            android:text="@{item.productName}"
             android:textColor="#111"
             android:textSize="40sp" />
 
@@ -48,7 +48,7 @@
                     android:layout_marginTop="@dimen/dp_10"
                     android:padding="@dimen/dp_10"
                     android:scaleType="fitXY"
-                    app:imageUrl="@{model.productImg02}" />
+                    app:imageUrl="@{item.productImg02}" />
 
 
                 <TextView
@@ -66,7 +66,7 @@
                     android:id="@+id/tv_detail_desc"
                     style="@style/detail_text_desc"
                     android:padding="@dimen/dp_40"
-                    android:text="@{model.productDetailDesc}"
+                    android:text="@{item.productDetailDesc}"
                     android:textSize="30sp" />
 
                 <LinearLayout
@@ -90,7 +90,7 @@
                         android:layout_marginLeft="@dimen/dp_10"
                         android:gravity="center_vertical"
                         android:paddingLeft="@dimen/dp_40"
-                        android:text="@{model.productManage}"
+                        android:text="@{item.productManage}"
                         android:textColor="#000"
                         android:textSize="30sp" />
 
@@ -118,7 +118,7 @@
                         android:layout_marginLeft="@dimen/dp_10"
                         android:gravity="center_vertical"
                         android:paddingLeft="@dimen/dp_40"
-                        android:text="@{'¥'+String.valueOf(model.productPrice)+'/'+'桶'}"
+                        android:text="@{'¥'+String.valueOf(item.productPrice)+'/'+'桶'}"
                         android:textColor="#f00"
                         android:textSize="30sp" />
 
@@ -147,7 +147,7 @@
                         android:layout_marginLeft="@dimen/dp_10"
                         android:gravity="center_vertical"
                         android:paddingLeft="@dimen/dp_40"
-                        android:text="@{String.valueOf(model.deviceProductStock)}"
+                        android:text="@{String.valueOf(item.deviceProductStock)}"
                         android:textColor="#000"
                         android:textSize="30sp" />
 

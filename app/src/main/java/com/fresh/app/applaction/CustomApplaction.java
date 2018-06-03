@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.fresh.app.bean.PayeeBean;
 import com.fresh.app.bean.ProductDetailBean;
+import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.commonUtil.SerialPortUtil;
 import com.fresh.app.commonUtil.SocketUtil;
 import com.fresh.app.commonUtil.StringUtils;
@@ -32,7 +33,9 @@ import java.util.concurrent.Executors;
  */
 
 public class CustomApplaction extends Application {
-    //读卡器默认状态 默认状态 自动寻卡
+    //订单id
+    public static String ORDER_ID = "";
+    //读卡器默认状态 默认状态 查询  state==1 支付
     public static int state=0;
     public static String PRODUCT_ID = "";
     private static Context context;
@@ -42,7 +45,7 @@ public class CustomApplaction extends Application {
     private static CustomApplaction app;
     public static PayeeBean lastItem;
     private static ExecutorService executorService = Executors.newFixedThreadPool(3);
-    public static ProductDetailBean product_detail_bean;
+    public static ProductItemBean product_detail_bean;
     //数据库相关
     private DaoMaster.DevOpenHelper mHelper;
     private SQLiteDatabase db;

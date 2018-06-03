@@ -2,6 +2,7 @@ package com.fresh.app.view.viewimpl;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.graphics.Color;
@@ -26,12 +27,19 @@ import com.fresh.app.base.BindingAdapter;
 import com.fresh.app.base.BindingAdapterItem;
 import com.fresh.app.bean.PayeeBean;
 import com.fresh.app.bean.ProductDetailBean;
+import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.commonUtil.UIUtils;
+import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.databinding.ActivityPayeeBinding;
 import com.fresh.app.databinding.LayoutDialogPayBinding;
 import com.fresh.app.handlerevent.HandlerEvent;
+import com.fresh.app.service.PayResultService;
 import com.fresh.app.view.IPayeeView;
 import com.fresh.app.viewmodel.PayeeViewModel;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,11 +56,14 @@ public class PayeeActivity extends BaseActivity implements IPayeeView {
     private BindingAdapter adapter;
     private HandlerEvent handler;
     private PayeeViewModel payeeViewModel;
+    private AlertDialog dialog;
+    private Intent service;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payee);
+        EventBus.getDefault().register(this);
         payeeBinding = DataBindingUtil.setContentView(this, R.layout.activity_payee);
         payeeViewModel = new PayeeViewModel(this, payeeBinding);
         handler = new HandlerEvent(this);
@@ -72,7 +83,7 @@ public class PayeeActivity extends BaseActivity implements IPayeeView {
         mList.add(payeeBean1);
         mList.add(payeeBean2);
         adapter.setItems(mList);
-        ProductDetailBean product_detail_bean = CustomApplaction.product_detail_bean;
+        ProductItemBean product_detail_bean = CustomApplaction.product_detail_bean;
         payeeBinding.order.setItem(product_detail_bean);
     }
 
@@ -85,16 +96,19 @@ public class PayeeActivity extends BaseActivity implements IPayeeView {
     public void showDialogForPay(int last_position) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 //        View inflate = UIUtils.inflate(R.layout.layout_dialog_pay);
-        LayoutDialogPayBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.layout_dialog_pay,null, false);
+        LayoutDialogPayBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.layout_dialog_pay, null, false);
         builder.setView(binding.getRoot());
         binding.setHandler(handler);
-        final AlertDialog dialog = builder.create();
+        dialog = builder.create();
         ImageView iv_pay = binding.ivPay;
         TextView tv_option_2 = binding.tvOption2;
 
         switch (last_position) {
             case 0:
                 tv_option_2.setText("请刷会员卡！");
+                service = new Intent(PayeeActivity.this, PayResultService.class);
+                startService(service);
+
                 break;
             case 1:
                 tv_option_2.setText("请使用微信扫描下方二维码！");
@@ -104,12 +118,6 @@ public class PayeeActivity extends BaseActivity implements IPayeeView {
                 break;
         }
         iv_pay.setBackgroundResource(image_pay_way[last_position]);
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                startActivityBase(MachiningActivity.class);
-            }
-        });
         dialog.show();
         Window dialogWindow = dialog.getWindow();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -129,22 +137,40 @@ public class PayeeActivity extends BaseActivity implements IPayeeView {
     /**
      * 选择支付事件绑定
      */
-    public class Presenter{
+    public class Presenter {
         /**
          * 确认支付
+         *
          * @param view
          */
-        public void itemPayConfirm(View view){
+        public void itemPayConfirm(View view) {
             PayeeBean lastItem = CustomApplaction.lastItem;
-            if (lastItem==null){
+            if (lastItem == null) {
+
                 UIUtils.showToast("还没有选择支付方式");
                 return;
             }
             payeeViewModel.creatOrder(CustomApplaction.PRODUCT_ID);
-
         }
-
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getPayResult(MessageEvent messageEvent) {
+        if (messageEvent.getCode() == 1009) {
+            stopService(service);
+            UIUtils.showToast("支付成功");
+            dialog.dismiss();
+            //支付成功
+            startActivityBase(MachiningActivity.class);
 
+
+
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }
