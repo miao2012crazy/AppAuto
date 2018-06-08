@@ -106,14 +106,11 @@ public class SocketUtil {
 
     private static void parseData(byte[] bytes) {
         String binary = StringUtils.binary(bytes, 2);
-        Log.e("test", binary);
-
         if (binary.length() < 64) {
             for (int i = 0; binary.length() < 64; i++) {
                 binary = "0" + binary;
             }
         }
-        Log.e("test", binary);
     }
 
     /**
@@ -175,7 +172,7 @@ public class SocketUtil {
             // 特别注意：数据的结尾加上换行符才可让服务器端的readline()停止阻塞
             // 步骤3：发送数据到服务端 刷新缓冲区
             outputStream.flush();
-            UIUtils.showToast("数据发送");
+            UIUtils.showToast("数据发送"+Arrays.toString(data));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -201,10 +198,8 @@ public class SocketUtil {
                 socketBean.setB0_1(bool);
                 return socketBean;
             case "02":
-
                 socketBean.setB0_2(bool);
                 return socketBean;
-
             case "03":
                 socketBean.setB0_3(bool);
                 return socketBean;

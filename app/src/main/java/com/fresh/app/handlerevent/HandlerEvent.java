@@ -129,7 +129,7 @@ public class HandlerEvent {
         SocketUtil.getSocket(new SocketUtil.OnInitSocketListener() {
             @Override
             public void onInitSuccess(Socket socket) {
-                byte[] binary = socketBean.getBinary("40");
+                byte[] binary = socketBean.getBinary("3");
                 LogUtils.e(Arrays.toString(binary));
                 SocketUtil.sendDataToServer(socket, binary);
             }

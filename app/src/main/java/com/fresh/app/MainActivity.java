@@ -1,21 +1,12 @@
 package com.fresh.app;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.fresh.app.base.BaseActivity;
 import com.fresh.app.base.BindingAdapter;
@@ -24,9 +15,7 @@ import com.fresh.app.base.IBaseView;
 import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.ProductItemType2Bean;
 import com.fresh.app.commonUtil.SocketUtil;
-import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.databinding.ActivityMainBinding;
-import com.fresh.app.databinding.LayoutDialogBalanceBinding;
 import com.fresh.app.handlerevent.HandlerEvent;
 import com.fresh.app.service.TimeService;
 import com.fresh.app.view.IProductView;
