@@ -14,7 +14,10 @@ import com.fresh.app.base.BindingAdapterItem;
 import com.fresh.app.base.IBaseView;
 import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.ProductItemType2Bean;
+import com.fresh.app.bean.SocketBean;
+import com.fresh.app.commonUtil.LogUtils;
 import com.fresh.app.commonUtil.SocketUtil;
+import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.databinding.ActivityMainBinding;
 import com.fresh.app.handlerevent.HandlerEvent;
 import com.fresh.app.service.TimeService;
@@ -26,6 +29,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends BaseActivity implements IProductView, IBaseView {
@@ -56,8 +60,8 @@ public class MainActivity extends BaseActivity implements IProductView, IBaseVie
 
             }
         });
-
-
+        SocketBean updateBit = SocketUtil.getUpdateBit("00", true);
+        getSocketAndSendData(updateBit);
 //        binding.tvTest.setOnClickListener(view -> {
 //            if (mSocket != null) {
 //                SocketUtil.sendDataToServer(mSocket, "TD02的手机");
@@ -68,6 +72,23 @@ public class MainActivity extends BaseActivity implements IProductView, IBaseVie
 
 //        //定时器服务
         startService(new Intent(MainActivity.this, TimeService.class));
+    }
+
+
+    private void getSocketAndSendData(SocketBean socketBean) {
+        SocketUtil.getSocket(new SocketUtil.OnInitSocketListener() {
+            @Override
+            public void onInitSuccess(Socket socket) {
+                byte[] binary = socketBean.getBinary("30");
+                LogUtils.e(Arrays.toString(binary));
+                SocketUtil.sendDataToServer(socket, binary);
+            }
+
+            @Override
+            public void onInitFailed(String errStr) {
+                UIUtils.showToast("连接主机错误");
+            }
+        });
     }
 
     /**
