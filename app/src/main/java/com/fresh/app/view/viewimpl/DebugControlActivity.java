@@ -57,7 +57,6 @@ public class DebugControlActivity extends BaseActivity {
         bindingAdapter.setItems(mList);
         Button btnFinish = activityDebugBinding.btnFinish;
         btnFinish.setText("返回");
-        activityDebugBinding.btnOpen.setVisibility(View.GONE);
 
     }
 }

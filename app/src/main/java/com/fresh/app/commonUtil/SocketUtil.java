@@ -2,6 +2,7 @@ package com.fresh.app.commonUtil;
 
 import android.util.Log;
 
+import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.bean.SocketBean;
 
 import java.io.BufferedReader;
@@ -19,6 +20,7 @@ import java.util.Arrays;
 public class SocketUtil {
 
     private static Socket socket;
+    private static SocketBean socketBean;
 
     public static void initSocket(final OnInitSocketListener onInitSocketListener) {
         new Thread(() -> {
@@ -94,8 +96,24 @@ public class SocketUtil {
     private static void parseData(byte[] bytes) {
         LogUtils.e("miao数据解析"+Arrays.toString(bytes));
 
-        String binary = StringUtils.binary_private(bytes);
-        LogUtils.e("miao数据解析"+binary);
+        StringBuilder binary = new StringBuilder(StringUtils.binary(bytes, 2));
+
+        if (binary.length()<64){
+            for (int i=binary.length();i<64;i++){
+                binary.insert(0, "0");
+            }
+        }
+        StringBuilder reverse = binary.reverse();
+        String substring0 = String.valueOf(reverse).substring(0, 8);
+        String substring1 = String.valueOf(reverse).substring(8, 16);
+        String substring2 = String.valueOf(reverse).substring(16, 24);
+        String substring3 = String.valueOf(reverse).substring(24, 32);
+        String substring4 = String.valueOf(reverse).substring(32, 40);
+        String substring5 = String.valueOf(reverse).substring(40, 48);
+        String substring6 = String.valueOf(reverse).substring(48, 56);
+        String substring7 = String.valueOf(reverse).substring(56, 63);
+        LogUtils.e("miao数据解析"+substring7+" "+substring6+" "+substring5+" "+substring4+" "+substring3+" "+substring2
+        +" "+substring1+" "+ substring0);
     }
 
 
@@ -142,7 +160,11 @@ public class SocketUtil {
      * @param id
      */
     public static SocketBean getUpdateBit(String id,boolean bool) {
-        SocketBean socketBean = new SocketBean();
+        socketBean=  CustomApplaction.socketbean;
+        if (socketBean==null){
+            socketBean = new SocketBean();
+            CustomApplaction.socketbean=socketBean;
+        }
         switch (id) {
             case "00":
                 socketBean.setB0(bool);

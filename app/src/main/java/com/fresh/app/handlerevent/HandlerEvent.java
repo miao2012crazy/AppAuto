@@ -182,12 +182,14 @@ public class HandlerEvent {
     }
 
     /**
-     * 光控页面
+     * 复位
      *
      * @param view
      */
     public void startDebugController(View view) {
-        startActivityBase(mActivity, DebugControlActivity.class);
+        CustomApplaction.socketbean=null;
+        SocketBean updateBit = SocketUtil.getUpdateBit("99", true);
+        getSocketAndSendData(updateBit);
     }
 
 

@@ -235,7 +235,6 @@ public class StringUtils {
                 }
 //                s.reverse();
             }
-
             s1.append(s);
         }
         return String.valueOf(s1);

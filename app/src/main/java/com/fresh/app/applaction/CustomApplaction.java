@@ -11,6 +11,7 @@ import android.util.Log;
 import com.fresh.app.bean.PayeeBean;
 import com.fresh.app.bean.ProductDetailBean;
 import com.fresh.app.bean.ProductItemBean;
+import com.fresh.app.bean.SocketBean;
 import com.fresh.app.commonUtil.SerialPortUtil;
 import com.fresh.app.commonUtil.SocketUtil;
 import com.fresh.app.commonUtil.StringUtils;
@@ -46,6 +47,7 @@ public class CustomApplaction extends Application {
     public static PayeeBean lastItem;
     private static ExecutorService executorService = Executors.newFixedThreadPool(3);
     public static ProductItemBean product_detail_bean;
+    public static SocketBean socketbean=null;
     //数据库相关
     private DaoMaster.DevOpenHelper mHelper;
     private SQLiteDatabase db;
