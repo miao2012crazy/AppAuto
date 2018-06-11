@@ -224,4 +224,23 @@ public class StringUtils {
     }
 
 
+    public static String binary_private(byte[] bytes){
+        StringBuilder s1= new StringBuilder();
+        for (int i=0;i<6;i++){
+            Integer integer = Integer.valueOf(bytes[i] + "", 16);//不能处理带前缀的情况 0x
+            StringBuilder s = new StringBuilder(Integer.toBinaryString(integer));
+            if (s.length()<8){
+                for (int j=s.length();j<8;j++){
+                    s.insert(0, "0");
+                }
+//                s.reverse();
+            }
+
+            s1.append(s);
+        }
+        return String.valueOf(s1);
+    }
+
+
+
 }

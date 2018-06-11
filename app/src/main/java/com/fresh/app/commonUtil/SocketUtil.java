@@ -78,23 +78,10 @@ public class SocketUtil {
                 while (true) {
                     byte[] bytes = new byte[8];
                     int i = is.read(bytes);
-//                    String s = StringUtils.bytesToHexString(bytes, i);
-                    Log.e("miao", "接收到数据" + Arrays.toString(bytes));
                     parseData(bytes);
                 }
 
 
-//
-//                while (true) {
-//                    if(br.readLine()!=null){
-//                        data=br.readLine();
-//                        Log.e("miao接收到数据", data);
-//
-//                    }else{
-//
-//                    }
-//
-//                }
 
 
             } catch (Exception e1) {
@@ -105,47 +92,13 @@ public class SocketUtil {
     }
 
     private static void parseData(byte[] bytes) {
-        String binary = StringUtils.binary(bytes, 2);
-        if (binary.length() < 64) {
-            for (int i = 0; binary.length() < 64; i++) {
-                binary = "0" + binary;
-            }
-        }
+        LogUtils.e("miao数据解析"+Arrays.toString(bytes));
+
+        String binary = StringUtils.binary_private(bytes);
+        LogUtils.e("miao数据解析"+binary);
     }
 
-    /**
-     * 发送数据到服务器
-     *
-     * @param socket
-     * @param data
-     */
-    public static void sendDataToServer(Socket socket, String data) {
-        if (socket == null) {
-            return;
-        }
 
-        if (!socket.isConnected()) {
-            Log.e("miao", "socket未连接");
-            return;
-        }
-
-        try {
-            Log.e("miao", Arrays.toString(data.getBytes()));
-
-            OutputStream outputStream = socket.getOutputStream();
-//            outputStream.write((data + "\n").getBytes("utf-8"));
-
-            byte[] bytes = {0, 1, 0};
-            outputStream.write(bytes);
-
-            // 特别注意：数据的结尾加上换行符才可让服务器端的readline()停止阻塞
-            // 步骤3：发送数据到服务端 刷新缓冲区
-            outputStream.flush();
-            UIUtils.showToast("数据发送");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
 
     /**
@@ -165,6 +118,7 @@ public class SocketUtil {
         }
 
         try {
+
             Log.e("miao", Arrays.toString(data));
 
             OutputStream outputStream = socket.getOutputStream();
@@ -172,7 +126,7 @@ public class SocketUtil {
             // 特别注意：数据的结尾加上换行符才可让服务器端的readline()停止阻塞
             // 步骤3：发送数据到服务端 刷新缓冲区
             outputStream.flush();
-            UIUtils.showToast("数据发送"+Arrays.toString(data));
+//            UIUtils.showToast("数据发送"+Arrays.toString(data));
         } catch (IOException e) {
             e.printStackTrace();
         }

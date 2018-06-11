@@ -39,7 +39,7 @@ public class SocketBean {
     boolean b3_1 = false;
     boolean b3_2 = false;
     boolean b3_3 = false;
-    boolean b3_4 = false;
+    boolean b3_4 = true;
     boolean b3_5 = false;
     boolean b3_6 = false;
     boolean b3_7 = false;
@@ -60,6 +60,17 @@ public class SocketBean {
     boolean b5_5 = false;
     boolean b5_6 = false;
     boolean b5_7= false;
+
+
+    boolean b6_0=false;
+    boolean b6_1=false;
+    boolean b6_2=false;
+    boolean b6_3=false;
+    boolean b6_4=false;
+    boolean b6_5=false;
+    boolean b6_6=false;
+    boolean b6_7=false;
+
 
     public boolean isB0() {
         return b0;
@@ -464,14 +475,17 @@ public class SocketBean {
         boolean[] bool2_0={ b4_7,b4_6,b4_5,b4_4,b4_3,b4_2,b4_1,b4_0};
         boolean[] bool2_1={b5_7,b5_6,b5_5,b5_4,b5_3,b5_2,b5_1,b5_0};
 
+        boolean[] bool3_0={b6_7,b6_6,b6_5,b6_4,b6_3,b6_2,b6_1,b6_0};
+
         byte aByte0_0 = StringUtils.getByte(bool0_0);
         byte aByte0_1 = StringUtils.getByte(bool0_1);
         byte aByte1_0 = StringUtils.getByte(bool1_0);
         byte aByte1_1 = StringUtils.getByte(bool1_1);
         byte aByte2_0 = StringUtils.getByte(bool2_0);
         byte aByte2_1 = StringUtils.getByte(bool2_1);
+        byte aByte3_0 = StringUtils.getByte(bool3_0);
 
-        byte[] barr={aByte0_0,aByte0_1,aByte1_0,aByte1_1,aByte2_0,aByte2_1};
+        byte[] barr={aByte0_0,aByte0_1,aByte1_0,aByte1_1,aByte2_0,aByte2_1,aByte3_0};
 
         String s = StringUtils.convertDecToHexString(pressure);
         byte[] bytes = StringUtils.hexStringToBytes(s);

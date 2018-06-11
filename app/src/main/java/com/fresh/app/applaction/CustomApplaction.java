@@ -73,7 +73,7 @@ public class CustomApplaction extends Application {
         SocketUtil.initSocket(new SocketUtil.OnInitSocketListener() {
             @Override
             public void onInitSuccess(Socket socket) {
-
+                SocketUtil.getDataFromServer(socket);
             }
 
             @Override

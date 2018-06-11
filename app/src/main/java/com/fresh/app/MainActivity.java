@@ -48,26 +48,26 @@ public class MainActivity extends BaseActivity implements IProductView, IBaseVie
         binding.setHandler(new HandlerEvent(this));
         productViewModel = new ProductViewModel(this, binding);
         initRecyclerList();
-        SocketUtil.getSocket(new SocketUtil.OnInitSocketListener() {
-            @Override
-            public void onInitSuccess(Socket socket) {
-                SocketUtil.getDataFromServer(socket);
-                mSocket = socket;
-            }
-
-            @Override
-            public void onInitFailed(String errStr) {
-
-            }
-        });
-        SocketBean updateBit = SocketUtil.getUpdateBit("00", true);
-        getSocketAndSendData(updateBit);
+//        SocketUtil.getSocket(new SocketUtil.OnInitSocketListener() {
+//            @Override
+//            public void onInitSuccess(Socket socket) {
+//                SocketUtil.getDataFromServer(socket);
+//                mSocket = socket;
+//            }
+//
+//            @Override
+//            public void onInitFailed(String errStr) {
+//
+//            }
+//        });
+//        SocketBean updateBit = SocketUtil.getUpdateBit("00", true);
+//        getSocketAndSendData(updateBit);
 //        binding.tvTest.setOnClickListener(view -> {
 //            if (mSocket != null) {
 //                SocketUtil.sendDataToServer(mSocket, "TD02的手机");
 //            }
 //        });
-//        startActivityBase(DebugActivity.class);
+        startActivityBase(DebugActivity.class);
 
 
 //        //定时器服务
