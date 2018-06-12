@@ -112,6 +112,10 @@ public class SocketUtil {
         String substring5 = String.valueOf(reverse).substring(40, 48);
         String substring6 = String.valueOf(reverse).substring(48, 56);
         String substring7 = String.valueOf(reverse).substring(56, 63);
+
+
+
+
         LogUtils.e("miao数据解析"+substring7+" "+substring6+" "+substring5+" "+substring4+" "+substring3+" "+substring2
         +" "+substring1+" "+ substring0);
     }
@@ -144,6 +148,8 @@ public class SocketUtil {
             // 特别注意：数据的结尾加上换行符才可让服务器端的readline()停止阻塞
             // 步骤3：发送数据到服务端 刷新缓冲区
             outputStream.flush();
+
+
 //            UIUtils.showToast("数据发送"+Arrays.toString(data));
         } catch (IOException e) {
             e.printStackTrace();
@@ -244,7 +250,6 @@ public class SocketUtil {
                 socketBean.setB3_0(bool);
                 return socketBean;
             case "31":
-
                 socketBean.setB3_1(bool);
                 return socketBean;
             case "32":

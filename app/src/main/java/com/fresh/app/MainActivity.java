@@ -79,7 +79,7 @@ public class MainActivity extends BaseActivity implements IProductView, IBaseVie
         SocketUtil.getSocket(new SocketUtil.OnInitSocketListener() {
             @Override
             public void onInitSuccess(Socket socket) {
-                byte[] binary = socketBean.getBinary("30");
+                byte[] binary = socketBean.getBinary("30","5");
                 LogUtils.e(Arrays.toString(binary));
                 SocketUtil.sendDataToServer(socket, binary);
             }

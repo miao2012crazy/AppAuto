@@ -44,7 +44,7 @@ public class SocketBean {
     boolean b3_6 = false;
     boolean b3_7 = false;
     //第三个字节
-    boolean b4_0 = false;
+    boolean b4_0 = false;//出米信号
     boolean b4_1 = false;
     boolean b4_2 = false;
     boolean b4_3 = false;
@@ -70,6 +70,20 @@ public class SocketBean {
     boolean b6_5=false;
     boolean b6_6=false;
     boolean b6_7=false;
+
+
+
+    boolean b8_0=false;
+    boolean b8_1=false;
+    boolean b8_2=false;
+    boolean b8_3=false;
+    boolean b8_4=false;
+    boolean b8_5=false;
+    boolean b8_6=false;
+    boolean b8_7=false;
+
+
+
 
 
     public boolean isB0() {
@@ -461,14 +475,14 @@ public class SocketBean {
      * @param pressure 压力
      * @return  byte数组
      */
-    public byte[] getBinary(String pressure){
+    public byte[] getBinary(String pressure,String pressure_cha){
 
         boolean[] bool0_0={b0_7,b0_6,b0_5,b0_4,b0_3,b0_2,b0_1,b0};
         boolean[] bool0_1={b1_7,b1_6,b1_5,b1_4,b1_3,b1_2,b1_1,b1_0};
 
 
         boolean[] bool1_0={ b2_7,b2_6,b2_5,b2_4,b2_3,b2_2,b2_1,b2_0};
-        boolean[] bool1_1={ b3_7,b3_6,b3_5,b3_4,b3_3,b3_2,b3_1,b3_1};
+        boolean[] bool1_1={ b3_7,b3_6,b3_5,b3_4,b3_3,b3_2,b3_1,b3_0};
 
 
 
@@ -477,6 +491,10 @@ public class SocketBean {
 
         boolean[] bool3_0={b6_7,b6_6,b6_5,b6_4,b6_3,b6_2,b6_1,b6_0};
 
+
+
+        boolean[] bool4_0={b8_7,b8_6,b8_5,b8_4,b8_3,b8_2,b8_1,b8_0};
+
         byte aByte0_0 = StringUtils.getByte(bool0_0);
         byte aByte0_1 = StringUtils.getByte(bool0_1);
         byte aByte1_0 = StringUtils.getByte(bool1_0);
@@ -484,13 +502,26 @@ public class SocketBean {
         byte aByte2_0 = StringUtils.getByte(bool2_0);
         byte aByte2_1 = StringUtils.getByte(bool2_1);
         byte aByte3_0 = StringUtils.getByte(bool3_0);
+        byte aByte4_0 = StringUtils.getByte(bool4_0);
+
+        byte[] byte11={aByte4_0};
 
         byte[] barr={aByte0_0,aByte0_1,aByte1_0,aByte1_1,aByte2_0,aByte2_1,aByte3_0};
 
         String s = StringUtils.convertDecToHexString(pressure);
         byte[] bytes = StringUtils.hexStringToBytes(s);
         byte[] bytes1 = StringUtils.byteMerger(barr, bytes);
-        return bytes1;
+
+
+
+        String s8 = StringUtils.convertDecToHexString(pressure_cha);
+        byte[] bytes8 = StringUtils.hexStringToBytes(s8);
+
+        byte[] bytes88 = StringUtils.byteMerger(byte11, bytes8);
+
+        byte[] bytes888 = StringUtils.byteMerger( bytes1,bytes88);
+
+        return bytes888;
     }
 
 
