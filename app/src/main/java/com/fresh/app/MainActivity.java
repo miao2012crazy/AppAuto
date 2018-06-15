@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -14,10 +16,7 @@ import com.fresh.app.base.BindingAdapterItem;
 import com.fresh.app.base.IBaseView;
 import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.ProductItemType2Bean;
-import com.fresh.app.bean.SocketBean;
-import com.fresh.app.commonUtil.LogUtils;
-import com.fresh.app.commonUtil.SocketUtil;
-import com.fresh.app.commonUtil.UIUtils;
+import com.fresh.app.commonUtil.FragmentFactory;
 import com.fresh.app.databinding.ActivityMainBinding;
 import com.fresh.app.handlerevent.HandlerEvent;
 import com.fresh.app.service.TimeService;
@@ -29,7 +28,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends BaseActivity implements IProductView, IBaseView {
@@ -47,65 +45,44 @@ public class MainActivity extends BaseActivity implements IProductView, IBaseVie
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setHandler(new HandlerEvent(this));
         productViewModel = new ProductViewModel(this, binding);
-        initRecyclerList();
-//        SocketUtil.getSocket(new SocketUtil.OnInitSocketListener() {
-//            @Override
-//            public void onInitSuccess(Socket socket) {
-//                SocketUtil.getDataFromServer(socket);
-//                mSocket = socket;
-//            }
-//
-//            @Override
-//            public void onInitFailed(String errStr) {
-//
-//            }
-//        });
-//        SocketBean updateBit = SocketUtil.getUpdateBit("00", true);
-//        getSocketAndSendData(updateBit);
-//        binding.tvTest.setOnClickListener(view -> {
-//            if (mSocket != null) {
-//                SocketUtil.sendDataToServer(mSocket, "TD02的手机");
-//            }
-//        });
-        startActivityBase(DebugActivity.class);
+//        initRecyclerList();
+        openFragment(0);
+
+
+
+
+
+
+//        startActivityBase(DebugActivity.class);
 
 
 //        //定时器服务
         startService(new Intent(MainActivity.this, TimeService.class));
     }
 
-
-    private void getSocketAndSendData(SocketBean socketBean) {
-        SocketUtil.getSocket(new SocketUtil.OnInitSocketListener() {
-            @Override
-            public void onInitSuccess(Socket socket) {
-                byte[] binary = socketBean.getBinary("30","5");
-                LogUtils.e(Arrays.toString(binary));
-                SocketUtil.sendDataToServer(socket, binary);
-            }
-
-            @Override
-            public void onInitFailed(String errStr) {
-                UIUtils.showToast("连接主机错误");
-            }
-        });
-    }
-
-    /**
-     * 初始化列表
-     */
-    private void initRecyclerList() {
-        mainList = new ArrayList<>();
-        recyclerList = binding.layoutList.recyclerList;
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 5);
-//        LinearLayoutManager layoutmanager = new LinearLayoutManager(this);
-        //设置RecyclerView 布局
-//        recyclerList.setLayoutManager(layoutmanager);
-        adapter = new BindingAdapter();
-        recyclerList.setLayoutManager(gridLayoutManager);
-        recyclerList.setAdapter(adapter);
+    private void openFragment(int position){
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fl_container, FragmentFactory.getFragment(position));
+        fragmentTransaction.commit();
 
     }
+
+//    /**
+//     * 初始化列表
+//     */
+//    private void initRecyclerList() {
+//        mainList = new ArrayList<>();
+//        recyclerList = binding.layoutList.recyclerList;
+//        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 5);
+////        LinearLayoutManager layoutmanager = new LinearLayoutManager(this);
+//        //设置RecyclerView 布局
+////        recyclerList.setLayoutManager(layoutmanager);
+//        adapter = new BindingAdapter();
+//        recyclerList.setLayoutManager(gridLayoutManager);
+//        recyclerList.setAdapter(adapter);
+//
+//    }
 
     @Override
     public void getDataSuccessed(List<ProductItemBean> list) {

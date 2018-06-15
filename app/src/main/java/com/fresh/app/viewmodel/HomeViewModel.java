@@ -1,13 +1,16 @@
 package com.fresh.app.viewmodel;
 
+import android.databinding.ViewDataBinding;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.fresh.app.R;
 import com.fresh.app.base.BindingAdapter;
 import com.fresh.app.base.BindingAdapterItem;
 import com.fresh.app.bean.HomeBean;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.databinding.ActivityHomeBinding;
+import com.fresh.app.databinding.FragmentHomeBinding;
 import com.fresh.app.view.IHomeView;
 
 import java.util.ArrayList;
@@ -18,16 +21,17 @@ import java.util.List;
  */
 
 public class HomeViewModel {
-    private final ActivityHomeBinding mBinding;
+    private final FragmentHomeBinding mBinding;
     private final IHomeView mHomeView;
     private RecyclerView recyclerList;
     private List<BindingAdapterItem> mainList;
     private BindingAdapter adapter;
     private List<HomeBean> homeBeans;
 
-    public HomeViewModel(IHomeView homeView, ActivityHomeBinding binding) {
-        this.mBinding=binding;
+    public HomeViewModel(IHomeView homeView, ViewDataBinding binding) {
+        this.mBinding=(FragmentHomeBinding)binding;
         this.mHomeView=homeView;
+        initRecyclerList();
     }
 
 
@@ -38,18 +42,20 @@ public class HomeViewModel {
         mainList = new ArrayList<>();
         homeBeans = new ArrayList<>();
 
-        recyclerList = mBinding.listHome.recyclerList;
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(UIUtils.getContext(), 2);
+        recyclerList = mBinding.recyclerList.recyclerList;
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(UIUtils.getContext(), 4);
         adapter = new BindingAdapter();
         recyclerList.setLayoutManager(gridLayoutManager);
         recyclerList.setAdapter(adapter);
 
-        HomeBean homeBean = new HomeBean("购买");
-        HomeBean homeBean1 = new HomeBean("充值");
-        HomeBean homeBean2 = new HomeBean("预定");
+        HomeBean homeBean = new HomeBean("购买",0, R.mipmap.ic_alipay);
+        HomeBean homeBean1 = new HomeBean("充值",1, R.mipmap.ic_wechat);
+        HomeBean homeBean2 = new HomeBean("预定",2, R.mipmap.ic_huiyuan);
+        HomeBean homeBean3 = new HomeBean("自提",3, R.mipmap.ic_caomi);
         homeBeans.add(homeBean);
         homeBeans.add(homeBean1);
         homeBeans.add(homeBean2);
+        homeBeans.add(homeBean3);
         mainList.addAll(homeBeans);
         adapter.setItems(mainList);
     }

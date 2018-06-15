@@ -13,7 +13,7 @@ import com.fresh.app.commonUtil.UIUtils;
  * Created by mr.miao on 2018/4/23.
  */
 
-public abstract class BaseActivity extends Activity implements IBaseView{
+public abstract class BaseActivity extends AppCompatActivity implements IBaseView{
 
     protected Bundle bundle=new Bundle();
 

@@ -13,6 +13,39 @@ import com.fresh.app.base.BindingAdapterItem;
 
 public class HomeBean extends BaseObservable implements BindingAdapterItem {
     private String btnName;
+    private int id;
+    private int imagebg;
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Bindable
+    public int getImagebg() {
+        return imagebg;
+    }
+
+    public void setImagebg(int imagebg) {
+        this.imagebg = imagebg;
+        notifyPropertyChanged(BR.imagebg);
+    }
+
+
+    public HomeBean(String btnName, int id, int imagebg) {
+        this.btnName = btnName;
+        this.id = id;
+        this.imagebg = imagebg;
+    }
+
+    public HomeBean(String btnName, int imagebg) {
+        this.btnName = btnName;
+        this.imagebg = imagebg;
+    }
 
     public HomeBean(String btnName) {
         this.btnName = btnName;

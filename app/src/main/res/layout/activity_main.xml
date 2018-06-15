@@ -1,54 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
+
         <variable
             name="handler"
-            type="com.fresh.app.handlerevent.HandlerEvent"/>
+            type="com.fresh.app.handlerevent.HandlerEvent" />
     </data>
-    <LinearLayout
-        android:background="@mipmap/home_bg"
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
-        <LinearLayout
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="0dp"
-            android:layout_weight="3"
+        android:background="@mipmap/home_bg">
+
+        <FrameLayout
+            android:id="@+id/fl_container"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            tools:context="com.fresh.app.MainActivity">
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
 
-            <include layout="@layout/layout_yundao_head" />
-
-            <include
-
-                android:id="@+id/layout_list"
-                layout="@layout/layout_list"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:id="@+id/tv_test"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dp_10"
-                android:background="@drawable/shape_item_confirm"
-                android:gravity="center"
-                android:padding="@dimen/dp_30"
-                android:text="自 提"
-                android:textColor="#fff"
-                android:textSize="40dp" />
-        </LinearLayout>
-        <fragment
-            android:id="@+id/fragment_query"
-            android:name="com.fresh.app.view.viewimpl.QueryFragment"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            tools:layout="@layout/fragment_query" />
-
-    </LinearLayout>
+        <include
+            android:id="@+id/bottom"
+            layout="@layout/layout_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
 
 </layout>

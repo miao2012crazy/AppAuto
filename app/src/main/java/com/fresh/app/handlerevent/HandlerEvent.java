@@ -27,6 +27,7 @@ import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BindingAdapterItem;
 import com.fresh.app.bean.DebugBean;
 import com.fresh.app.bean.DebugBean2;
+import com.fresh.app.bean.HomeBean;
 import com.fresh.app.bean.PayeeBean;
 import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.SocketBean;
@@ -170,6 +171,31 @@ public class HandlerEvent {
         }
 
     }
+
+
+    public void  openFragment(View view, HomeBean homeBean){
+        UIUtils.showToast(homeBean.getId()+"");
+
+        switch (homeBean.getId()){
+            case 0:
+                break;
+
+            case 1:
+                break;
+
+            case 2:
+                break;
+
+            case 3:
+                break;
+
+        }
+
+
+
+    }
+
+
 
     /**
      * 退出调试
