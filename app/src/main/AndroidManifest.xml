@@ -33,12 +33,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.viewimpl.HomeActivity"/>
-        <activity android:name=".view.viewimpl.MainProductDetailActivity" android:launchMode="singleTask"/>
-        <activity android:name=".view.viewimpl.PayeeActivity" android:launchMode="singleTask"/>
-        <activity android:name=".view.viewimpl.MachiningActivity"/>
         <activity android:name=".view.viewimpl.DebugActivity"/>
         <activity android:name=".view.viewimpl.DebugControlActivity"/>
+        <activity android:name=".view.fragment.ProductFragment"/>
         <!--<receiver android:name=".receiver.BootReceiver" android:enabled="true" android:exported="true">-->
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->

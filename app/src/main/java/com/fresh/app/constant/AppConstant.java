@@ -15,4 +15,7 @@ public class AppConstant {
     public static boolean isCache=false;
 
 
+    public static String product_id="";
+
+
 }

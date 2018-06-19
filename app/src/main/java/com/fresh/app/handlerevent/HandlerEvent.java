@@ -1,52 +1,34 @@
 package com.fresh.app.handlerevent;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.BindingAdapter;
-import android.databinding.DataBindingUtil;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.fresh.app.R;
 import com.fresh.app.applaction.CustomApplaction;
-import com.fresh.app.base.BindingAdapterItem;
 import com.fresh.app.bean.DebugBean;
 import com.fresh.app.bean.DebugBean2;
+import com.fresh.app.bean.DetailBean;
 import com.fresh.app.bean.HomeBean;
 import com.fresh.app.bean.PayeeBean;
 import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.SocketBean;
 import com.fresh.app.commonUtil.LogUtils;
 import com.fresh.app.commonUtil.SocketUtil;
-import com.fresh.app.commonUtil.StringUtils;
 import com.fresh.app.commonUtil.UIUtils;
+import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.MessageEvent;
-import com.fresh.app.databinding.LayoutDialogPayBinding;
 import com.fresh.app.httputil.HttpUrl;
-import com.fresh.app.view.viewimpl.DebugControlActivity;
-import com.fresh.app.view.viewimpl.MachiningActivity;
-import com.fresh.app.view.viewimpl.MainProductDetailActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.net.Socket;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by mr.miao on 2018/5/9.
@@ -63,10 +45,8 @@ public class HandlerEvent {
     }
 
     public void itemClick(View view, ProductItemBean item) {
-//        view.getContext().startActivity(new Intent(view.getContext(), MainProductDetailActivity.class));
-        bundle.clear();
-        bundle.putString("product_id", item.getProductId());
-        startActivityBase(view.getContext(), MainProductDetailActivity.class, bundle);
+        AppConstant.product_id = item.getProductId();
+        EventBus.getDefault().post(new MessageEvent(10065, "2"));
     }
 
     public void toReserve(View view) {
@@ -130,7 +110,7 @@ public class HandlerEvent {
         SocketUtil.getSocket(new SocketUtil.OnInitSocketListener() {
             @Override
             public void onInitSuccess(Socket socket) {
-                byte[] binary = socketBean.getBinary("3","5");
+                byte[] binary = socketBean.getBinary("3", "5");
                 LogUtils.e(Arrays.toString(binary));
                 SocketUtil.sendDataToServer(socket, binary);
             }
@@ -149,52 +129,62 @@ public class HandlerEvent {
      * @param item 支付方式
      */
     public void itemPayWayClick(View view, PayeeBean item) {
-        PayeeBean lastItem = CustomApplaction.lastItem;
-        if (lastItem == null) {
-            item.setVisiable(true);
-            CustomApplaction.lastItem = item;
-        } else {
-            if (lastItem == item) {
-                if (item.getVisiable()) {
-                    item.setVisiable(false);
-                    CustomApplaction.lastItem = null;
-                } else {
-                    item.setVisiable(true);
-                    CustomApplaction.lastItem = item;
-                }
+        switch (item.getItemtype()) {
+            case 0:
+                UIUtils.showToast("会员卡");
+                EventBus.getDefault().post(new MessageEvent(10065,"4"));
 
-            } else {
-                lastItem.setVisiable(false);
-                item.setVisiable(true);
-                CustomApplaction.lastItem = item;
-            }
+                break;
+            case product_bg_0:
+                UIUtils.showToast("微信");
+                EventBus.getDefault().post(new MessageEvent(10065,"4"));
+
+
+                break;
+            case 2:
+                UIUtils.showToast("支付宝");
+                EventBus.getDefault().post(new MessageEvent(10065,"4"));
+
+                break;
+            default:
+                break;
         }
+
 
     }
 
 
-    public void  openFragment(View view, HomeBean homeBean){
-        UIUtils.showToast(homeBean.getId()+"");
+    public void openFragment(View view, HomeBean homeBean) {
+        UIUtils.showToast(homeBean.getId() + "");
 
-        switch (homeBean.getId()){
+        switch (homeBean.getId()) {
             case 0:
+                //购买
+                EventBus.getDefault().post(new MessageEvent(10065, "product_bg_0"));
                 break;
 
-            case 1:
+            case product_bg_0:
+                //充值
+//                EventBus.getDefault().post(new MessageEvent(10065,"product_bg_0"));
+
+
                 break;
 
             case 2:
+                //预定
+
+
                 break;
 
             case 3:
+                //自提
+
                 break;
 
         }
 
 
-
     }
-
 
 
     /**
@@ -213,7 +203,7 @@ public class HandlerEvent {
      * @param view
      */
     public void startDebugController(View view) {
-        CustomApplaction.socketbean=null;
+        CustomApplaction.socketbean = null;
         SocketBean updateBit = SocketUtil.getUpdateBit("99", true);
         getSocketAndSendData(updateBit);
     }
@@ -237,5 +227,31 @@ public class HandlerEvent {
         intent.putExtras(bundle);
         context.startActivity(intent);
     }
+
+    /**
+     * 开始加工
+     *
+     * @param view
+     * @param detailBean
+     */
+    public void startProcessing(View view, DetailBean detailBean) {
+        switch (detailBean.getId()) {
+            case 0:
+                //糙米
+                EventBus.getDefault().post(new MessageEvent(10065, "3"));
+                break;
+            case product_bg_0:
+                //胚芽米
+                EventBus.getDefault().post(new MessageEvent(10065, "3"));
+                break;
+            case 2:
+                //精磨米
+                EventBus.getDefault().post(new MessageEvent(10065, "3"));
+                break;
+
+
+        }
+    }
+
 
 }

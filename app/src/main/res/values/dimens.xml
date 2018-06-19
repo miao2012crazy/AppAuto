@@ -14,4 +14,8 @@
     <dimen name="sp_80">80sp</dimen>
     <dimen name="dp_60">60dp</dimen>
     <dimen name="dp_80">80dp</dimen>
+    <dimen name="sp_60">60sp</dimen>
+    <dimen name="sp_28">28sp</dimen>
+    <dimen name="dp_5">5dp</dimen>
+    <dimen name="dp_250">250dp</dimen>
 </resources>

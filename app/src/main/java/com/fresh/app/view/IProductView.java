@@ -12,9 +12,5 @@ import java.util.List;
  */
 
 public interface IProductView extends IBaseView{
-    void getDataSuccessed( List<ProductItemBean> mainList);
-
-
-
-
+//    void getDataSuccessed( List<ProductItemBean> mainList);
 }

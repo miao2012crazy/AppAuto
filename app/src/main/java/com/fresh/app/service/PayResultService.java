@@ -77,7 +77,7 @@ public class PayResultService extends Service {
                     @Override
                     public void onNext(String s) {
                         Log.e("miao","支付查询"+CustomApplaction.ORDER_ID+"支付结果："+s);
-                        if (s.equals("1")){
+                        if (s.equals("product_bg_0")){
                             EventBus.getDefault().post(new MessageEvent(1009,"支付成功！"));
                             timer.cancel();
                             timerTask.cancel();

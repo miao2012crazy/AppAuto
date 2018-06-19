@@ -6,7 +6,7 @@ import com.fresh.app.bean.QueryCardBean;
 import com.fresh.app.listener.OnCardHistoryListener;
 
 /**
- * Created by mr.miao on 2018/6/1.
+ * Created by mr.miao on 2018/6/product_bg_0.
  */
 
 public interface IQueryModel {

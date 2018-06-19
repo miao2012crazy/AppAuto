@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.fresh.app.bean.DetailBean" />
+
+        <variable
+            name="items"
+            type="java.util.List" />
+
+        <variable
+            name="handler"
+            type="com.fresh.app.handlerevent.HandlerEvent" />
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY"
+            app:imageUrlLocal="@{item.imagebg}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                android:gravity="center"
+                android:padding="@dimen/dp_20"
+                android:text="@{item.poroduct_name}"
+                android:textSize="@dimen/sp_50" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="500dp"
+                android:paddingLeft="120dp"
+                android:paddingRight="120dp"
+                android:text="@{item.product_desc}"
+                android:textColor="#fff"
+                android:textSize="@dimen/sp_28" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:id="@+id/button"
+                    android:layout_width="210dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dp_40"
+                    android:background="#fef"
+                    android:gravity="center"
+                    android:onClick="@{(view)->handler.startProcessing(view,item)}"
+                    android:text="@{item.btn_name}"
+                    android:textColor="#333"
+                    android:textSize="@dimen/dp_30" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="150dp"
+                    android:layout_marginTop="@dimen/dp_40"
+                    android:adjustViewBounds="false"
+                    android:src="@drawable/yundaolijian"
+                    android:visibility="@{item.visiable ? View.VISIBLE : View.GONE}" />
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</layout>

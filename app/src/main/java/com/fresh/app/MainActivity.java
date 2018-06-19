@@ -17,6 +17,7 @@ import com.fresh.app.base.IBaseView;
 import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.ProductItemType2Bean;
 import com.fresh.app.commonUtil.FragmentFactory;
+import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.databinding.ActivityMainBinding;
 import com.fresh.app.handlerevent.HandlerEvent;
 import com.fresh.app.service.TimeService;
@@ -25,79 +26,44 @@ import com.fresh.app.view.viewimpl.DebugActivity;
 import com.fresh.app.viewmodel.ProductViewModel;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements IProductView, IBaseView {
+public class MainActivity extends BaseActivity implements IBaseView {
 
-    private RecyclerView recyclerList;
-    private BindingAdapter adapter;
-    private List<BindingAdapterItem> mainList;
-    private Socket mSocket;
     private ActivityMainBinding binding;
-    private ProductViewModel productViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setHandler(new HandlerEvent(this));
-        productViewModel = new ProductViewModel(this, binding);
-//        initRecyclerList();
-        openFragment(0);
-
-
-
-
-
-
+        openFragment(new MessageEvent(10065,"0"));
 //        startActivityBase(DebugActivity.class);
-
-
 //        //定时器服务
         startService(new Intent(MainActivity.this, TimeService.class));
     }
 
-    private void openFragment(int position){
-        FragmentManager supportFragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fl_container, FragmentFactory.getFragment(position));
-        fragmentTransaction.commit();
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void openFragment(MessageEvent messageEvent){
 
-    }
+        switch (messageEvent.getCode()){
+            case 10065:
+                FragmentManager supportFragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fl_container, FragmentFactory.getFragment(Integer.parseInt(messageEvent.getMessage())));
+                fragmentTransaction.commit();
+                break;
+            case 10066:
+                //支付结果回传了
 
-//    /**
-//     * 初始化列表
-//     */
-//    private void initRecyclerList() {
-//        mainList = new ArrayList<>();
-//        recyclerList = binding.layoutList.recyclerList;
-//        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 5);
-////        LinearLayoutManager layoutmanager = new LinearLayoutManager(this);
-//        //设置RecyclerView 布局
-////        recyclerList.setLayoutManager(layoutmanager);
-//        adapter = new BindingAdapter();
-//        recyclerList.setLayoutManager(gridLayoutManager);
-//        recyclerList.setAdapter(adapter);
-//
-//    }
-
-    @Override
-    public void getDataSuccessed(List<ProductItemBean> list) {
-        mainList.clear();
-        mainList.addAll(list);
-        ProductItemType2Bean productItemType2Bean = new ProductItemType2Bean();
-        mainList.add(productItemType2Bean);
-        adapter.setItems(mainList);
-    }
-
-
-    /**
-     * 初始化语音
-     */
-    private void initTTS() {
+                break;
+        }
 
     }
 
@@ -121,38 +87,5 @@ public class MainActivity extends BaseActivity implements IProductView, IBaseVie
             default:
                 return false;
         }
-    }
-
-
-//    /**
-//     * 展示选择对话框
-//     */
-//    @Override
-//    public void showDialogForBalance() {
-//        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        LayoutDialogBalanceBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.layout_dialog_balance, null, false);
-//        builder.setView(binding.getRoot());
-//        final AlertDialog dialog = builder.create();
-//        dialog.show();
-//        Window dialogWindow = dialog.getWindow();
-//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//        assert dialogWindow != null;
-//        WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-//        WindowManager m = getWindowManager();
-//        Display d = m.getDefaultDisplay(); // 获取屏幕宽、高
-//        WindowManager.LayoutParams params = dialogWindow.getAttributes();
-//        params.width = (int) (d.getWidth() * 0.8); // 宽度设置为屏幕的0.6
-//        params.height = (int) (d.getWidth() * 0.8); // 宽度设置为屏幕的0.6
-//        dialogWindow.setGravity(Gravity.CENTER);
-//        dialogWindow.setAttributes(layoutParams);
-//        dialogWindow.setWindowAnimations(R.style.custon_dialog);
-//    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//       productViewModel.getData(new MessageEvent(1003,""));
-
     }
 }

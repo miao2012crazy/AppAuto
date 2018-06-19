@@ -48,10 +48,10 @@ public class HomeViewModel {
         recyclerList.setLayoutManager(gridLayoutManager);
         recyclerList.setAdapter(adapter);
 
-        HomeBean homeBean = new HomeBean("购买",0, R.mipmap.ic_alipay);
-        HomeBean homeBean1 = new HomeBean("充值",1, R.mipmap.ic_wechat);
-        HomeBean homeBean2 = new HomeBean("预定",2, R.mipmap.ic_huiyuan);
-        HomeBean homeBean3 = new HomeBean("自提",3, R.mipmap.ic_caomi);
+        HomeBean homeBean = new HomeBean("购买",0, R.mipmap.ic_buy);
+        HomeBean homeBean1 = new HomeBean("充值",1, R.mipmap.ic_pay);
+        HomeBean homeBean2 = new HomeBean("预定",2, R.mipmap.ic_subscribe);
+        HomeBean homeBean3 = new HomeBean("自提",3, R.mipmap.ic_ziti);
         homeBeans.add(homeBean);
         homeBeans.add(homeBean1);
         homeBeans.add(homeBean2);

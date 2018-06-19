@@ -9,33 +9,29 @@ import android.view.ViewGroup;
 
 import com.fresh.app.R;
 import com.fresh.app.base.BaseFragment;
-import com.fresh.app.constant.AppConstant;
-import com.fresh.app.databinding.FragmentDetailBinding;
-import com.fresh.app.view.IDetailView;
-import com.fresh.app.viewmodel.ProductDetailViewModel;
+import com.fresh.app.databinding.FragmentProgressBinding;
+import com.fresh.app.view.IProgressView;
+import com.fresh.app.viewmodel.ProgressingViewModel;
 
 /**
- * Created by mr.miao on 2018/6/15.
+ * Created by mr.miao on 2018/6/18.
  */
 
-public class ProductDetailFragment extends BaseFragment implements IDetailView {
+public class ProgressingFragment extends BaseFragment implements IProgressView {
 
-    private FragmentDetailBinding bind;
+
+    private FragmentProgressBinding bind;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        bind = DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false);
-
+        bind = DataBindingUtil.inflate(inflater, R.layout.fragment_progress, container, false);
         return bind.getRoot();
-
-
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ProductDetailViewModel productDetailViewModel = new ProductDetailViewModel(this, bind);
-        productDetailViewModel.setProductId(AppConstant.product_id);
+        ProgressingViewModel progressingViewModel = new ProgressingViewModel(this,bind);
     }
 }

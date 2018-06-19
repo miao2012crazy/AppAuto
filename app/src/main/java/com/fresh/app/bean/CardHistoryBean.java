@@ -28,7 +28,7 @@ public class CardHistoryBean {
          * buyProductId : 201805151349
          * buyProductPrice : 25.5
          * cardState : 0
-         * id : 1
+         * id : product_bg_0
          * membershipBalance : 74.5
          * membershipId : 123
          * realName : 苗

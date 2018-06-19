@@ -58,6 +58,4 @@ public class PayeeModel implements IPayeeModel {
         productItemBeanDao.update(productItemBean);
         return true;
     }
-
-
 }

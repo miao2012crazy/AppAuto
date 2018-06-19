@@ -25,7 +25,7 @@ public class SocketUtil {
     public static void initSocket(final OnInitSocketListener onInitSocketListener) {
         new Thread(() -> {
             try {
-                socket = new Socket("192.168.1.10", 2000);
+                socket = new Socket("192.168.product_bg_0.10", 2000);
                 onInitSocketListener.onInitSuccess(socket);
             } catch (IOException e) {
                 e.printStackTrace();

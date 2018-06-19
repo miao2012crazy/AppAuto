@@ -1,86 +1,67 @@
 package com.fresh.app.viewmodel;
 
-import android.content.Intent;
-import android.databinding.BaseObservable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
-import com.fresh.app.applaction.CustomApplaction;
-import com.fresh.app.base.BaseLoadListener;
-import com.fresh.app.base.BaseViewModel;
-import com.fresh.app.bean.FreshOrderBean;
+import com.fresh.app.R;
+import com.fresh.app.base.BindingAdapter;
+import com.fresh.app.base.BindingAdapterItem;
+import com.fresh.app.bean.PayeeBean;
 import com.fresh.app.commonUtil.UIUtils;
-import com.fresh.app.constant.MessageEvent;
-import com.fresh.app.databinding.ActivityPayeeBinding;
+import com.fresh.app.databinding.FragmentPayeeBinding;
 import com.fresh.app.model.modelimpl.PayeeModel;
-import com.fresh.app.service.PayResultService;
 import com.fresh.app.view.IPayeeView;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by mr.miao on 2018/5/10.
  */
-public class PayeeViewModel implements BaseLoadListener<FreshOrderBean> {
+public class PayeeViewModel {
     private final IPayeeView payeeView;
-    private final ActivityPayeeBinding payeeBinding;
+    private final FragmentPayeeBinding payeeBinding;
     private final PayeeModel payeeModel;
     private String product_id;
+    private List<BindingAdapterItem> mainList;
+    private List<PayeeBean> homeBeans;
+    private RecyclerView recyclerList;
+    private BindingAdapter adapter;
 
-    public PayeeViewModel(IPayeeView payeeView, ActivityPayeeBinding payeeBinding) {
+
+    public PayeeViewModel(IPayeeView payeeView, FragmentPayeeBinding payeeBinding) {
         this.payeeView = payeeView;
         this.payeeBinding = payeeBinding;
         payeeModel = new PayeeModel();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void toPay(MessageEvent msg) {
-        if (msg.getCode() == 6666) {
-            UIUtils.showToast("zhi1111111111111fu");
-        }
-    }
-
-
-    public void creatOrder(String productId) {
-        this.product_id = productId;
-
-        //订单创建成功
-        boolean b = payeeModel.updateLocalData(product_id);
-        if (!b) {
-            UIUtils.showToast("库存不足，可以预定");
-            return;
-        }
-        payeeModel.creatOrder(productId, "20180515_01", this);
-    }
-
-    @Override
-    public void loadSuccess(List<FreshOrderBean> list) {
+        initRecyclerList();
 
     }
 
-    @Override
-    public void loadSuccess(FreshOrderBean freshOrderBean) {
-        if (freshOrderBean.getOrderId() != null) {
-            UIUtils.showToast("11111111" + freshOrderBean.getProductName());
+    /**
+     * 初始化列表
+     */
+    public void initRecyclerList() {
+        mainList = new ArrayList<>();
+        homeBeans = new ArrayList<>();
 
-            CustomApplaction.ORDER_ID = freshOrderBean.getOrderId();
-        }
-        payeeView.showDialogForPay(CustomApplaction.lastItem.getItemtype());
+        recyclerList = payeeBinding.recyclerList.recyclerList;
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(UIUtils.getContext(), 3);
+        adapter = new BindingAdapter();
+        recyclerList.setLayoutManager(gridLayoutManager);
+        recyclerList.setAdapter(adapter);
+        PayeeBean payeeBean0 = new PayeeBean("云稻会员卡",R.mipmap.ic_huiyuan,true,0);
+        PayeeBean payeeBean1 = new PayeeBean("微信扫码支付",R.mipmap.ic_wechat,true,1);
+        PayeeBean payeeBean2 = new PayeeBean("支付宝扫码支付",R.mipmap.ic_alipay,true,2);
+
+        homeBeans.add(payeeBean0);
+        homeBeans.add(payeeBean1);
+        homeBeans.add(payeeBean2);
+        mainList.addAll(homeBeans);
+        adapter.setItems(mainList);
     }
 
-    @Override
-    public void loadFailure(String message) {
 
-    }
 
-    @Override
-    public void loadStart() {
 
-    }
 
-    @Override
-    public void loadComplete() {
-
-    }
 }

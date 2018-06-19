@@ -1,44 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="item"
-            type="com.fresh.app.bean.ProductItemBean"/>
+            type="com.fresh.app.bean.ProductItemBean" />
 
         <variable
             name="items"
-            type="java.util.List"/>
+            type="java.util.List" />
+
         <variable
             name="handler"
-            type="com.fresh.app.handlerevent.HandlerEvent"/>
+            type="com.fresh.app.handlerevent.HandlerEvent" />
     </data>
-<RelativeLayout
-    android:onClick="@{(view)->handler.itemClick(view,item)}"
-    android:layout_width="match_parent"
-    android:layout_height="230dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_4"
-        android:background="@drawable/select_item_mainproduct"
-        android:orientation="horizontal"
-        android:padding="@dimen/dp_10">
+        android:layout_height="match_parent"
+        android:onClick="@{(view)->handler.itemClick(view,item)}">
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="fitXY"
+            app:imageUrl="@{item.productImg01}" />
+
 
         <LinearLayout
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageView
-                android:paddingLeft="@dimen/dp_10"
-                android:id="@+id/iv_image"
+            <TextView
+                android:id="@+id/tv_name"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:scaleType="fitXY"
-                app:imageUrl="@{item.productImg01}" />
-
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/dp_4"
+                android:text="@{item.productName}"
+                android:textColor="#333"
+                android:textSize="20sp" />
+            <TextView
+                android:gravity="center"
+                android:id="@+id/tv_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_4"
+                android:text="@{item.productDesc}"
+                android:textColor="#666"
+                android:textSize="20sp" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,11 +72,11 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="left|center_vertical"
-                    android:text="1kg/每桶"
-                    android:textColor="#666"
-                    android:textSize="20sp" />
+                    android:layout_weight="0.7"
+                    android:gravity="center"
+                    android:text="重量:"
+                    android:textSize="18sp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -78,10 +95,9 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="left|center_vertical"
-                    android:text="@{String.valueOf(item.deviceProductStock)+'桶'}"
-                    android:textColor="#666"
+                    android:layout_weight="0.7"
+                    android:gravity="center"
+                    android:text="可售:"
                     android:textSize="20sp" />
 
 
@@ -95,7 +111,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.7"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="价格:"
                     android:textSize="18sp" />
@@ -111,35 +127,32 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
+
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="71dp"
+            android:layout_marginStart="71dp"
+            android:layout_marginTop="39dp"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="@dimen/dp_10">
+            android:gravity="left|center_vertical"
+            android:text="@{String.valueOf(item.deviceProductStock)+'桶'}"
+            android:textColor="#666"
+            android:textSize="20sp" />
 
-            <TextView
-                android:text="@{item.productName}"
-                android:id="@+id/tv_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/dp_4"
-                android:textColor="#333"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/tv_desc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_4"
-                android:text="@{item.productDesc}"
-                android:textColor="#666"
-                android:textSize="20sp" />
-        </LinearLayout>
-    </LinearLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView"
+            android:layout_alignStart="@+id/textView"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:text="1kg/每桶"
+            android:textColor="#666"
+            android:textSize="20sp" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
 
 </layout>
