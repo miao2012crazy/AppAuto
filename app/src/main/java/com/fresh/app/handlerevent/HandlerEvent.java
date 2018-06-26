@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BindingAdapter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,12 +25,14 @@ import com.fresh.app.commonUtil.SocketUtil;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.MessageEvent;
+import com.fresh.app.gen.ProductItemBeanDao;
 import com.fresh.app.httputil.HttpUrl;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by mr.miao on 2018/5/9.
@@ -44,8 +48,16 @@ public class HandlerEvent {
         this.mActivity = context;
     }
 
-    public void itemClick(View view, ProductItemBean item) {
-        AppConstant.product_id = item.getProductId();
+    public void itemClick(View view, ProductItemBean productItemBean) {
+        if (productItemBean==null){
+            return;
+        }
+        if (productItemBean.getDeviceProductStock()==0){
+            UIUtils.showToast("库存不足");
+            return;
+        }
+
+        AppConstant.product_id = productItemBean.getProductId();
         EventBus.getDefault().post(new MessageEvent(10065, "2"));
     }
 
@@ -75,6 +87,18 @@ public class HandlerEvent {
             // Glide代替Volley
 //            Glide.with(imageView.getContext()).load(HttpUrl.getBaseUrl() + url).into(imageView);
             imageView.setImageResource(resId);
+        }
+
+    }
+
+    @BindingAdapter("bitmapUrlLocal")
+    public static void loadBitmapLocal(ImageView imageView, Bitmap bitmap) {
+        if (bitmap == null) {
+            imageView.setImageBitmap(BitmapFactory.decodeResource(UIUtils.getResources(),R.mipmap.ic_launcher));
+        } else {
+            // Glide代替Volley
+//            Glide.with(imageView.getContext()).load(HttpUrl.getBaseUrl() + url).into(imageView);
+            imageView.setImageBitmap(bitmap);
         }
 
     }
@@ -122,36 +146,6 @@ public class HandlerEvent {
         });
     }
 
-    /**
-     * 支付方式选择
-     *
-     * @param view item
-     * @param item 支付方式
-     */
-    public void itemPayWayClick(View view, PayeeBean item) {
-        switch (item.getItemtype()) {
-            case 0:
-                UIUtils.showToast("会员卡");
-                EventBus.getDefault().post(new MessageEvent(10065,"4"));
-
-                break;
-            case product_bg_0:
-                UIUtils.showToast("微信");
-                EventBus.getDefault().post(new MessageEvent(10065,"4"));
-
-
-                break;
-            case 2:
-                UIUtils.showToast("支付宝");
-                EventBus.getDefault().post(new MessageEvent(10065,"4"));
-
-                break;
-            default:
-                break;
-        }
-
-
-    }
 
 
     public void openFragment(View view, HomeBean homeBean) {
@@ -160,12 +154,12 @@ public class HandlerEvent {
         switch (homeBean.getId()) {
             case 0:
                 //购买
-                EventBus.getDefault().post(new MessageEvent(10065, "product_bg_0"));
+                EventBus.getDefault().post(new MessageEvent(10065, "1"));
                 break;
 
-            case product_bg_0:
+            case 1:
                 //充值
-//                EventBus.getDefault().post(new MessageEvent(10065,"product_bg_0"));
+                EventBus.getDefault().post(new MessageEvent(10065,"5"));
 
 
                 break;
@@ -235,23 +229,20 @@ public class HandlerEvent {
      * @param detailBean
      */
     public void startProcessing(View view, DetailBean detailBean) {
-        switch (detailBean.getId()) {
-            case 0:
-                //糙米
-                EventBus.getDefault().post(new MessageEvent(10065, "3"));
-                break;
-            case product_bg_0:
-                //胚芽米
-                EventBus.getDefault().post(new MessageEvent(10065, "3"));
-                break;
-            case 2:
-                //精磨米
-                EventBus.getDefault().post(new MessageEvent(10065, "3"));
-                break;
 
 
-        }
+        EventBus.getDefault().post(new MessageEvent(10065, "3"));
+        CustomApplaction.RICE_TYPE=detailBean.getId();
+        CustomApplaction.PRODUCT_ID=detailBean.getProduct_id();
     }
 
+
+    public void fragmentReturn(View view) {
+        int position = CustomApplaction.POSITION-1;
+        if (CustomApplaction.last_position != -1) {
+            CustomApplaction.last_position = CustomApplaction.POSITION - 1;
+        }
+        EventBus.getDefault().post(new MessageEvent(10065, (position) + ""));
+    }
 
 }

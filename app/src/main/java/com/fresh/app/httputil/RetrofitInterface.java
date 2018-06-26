@@ -5,6 +5,7 @@ import com.fresh.app.bean.FreshOrderBean;
 import com.fresh.app.bean.ProductBean;
 import com.fresh.app.bean.ProductDetailBean;
 import com.fresh.app.bean.ProductItemBean;
+import com.fresh.app.bean.QRBean;
 import com.fresh.app.bean.QueryCardBean;
 
 import io.reactivex.Observable;
@@ -41,4 +42,7 @@ public interface RetrofitInterface {
     @FormUrlEncoded
     @POST("order_state")
     Observable<String> getPayResultFromNet(@Field("order_id") String orderId);
+    @FormUrlEncoded
+    @POST("createQRCode")
+    Observable<QRBean> getQRUrl(@Field("product_id") String product_id,@Field("deviceid") String device_id);
 }

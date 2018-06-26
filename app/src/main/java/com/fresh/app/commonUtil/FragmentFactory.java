@@ -8,6 +8,7 @@ import com.fresh.app.view.fragment.PayeeFragment;
 import com.fresh.app.view.fragment.ProductDetailFragment;
 import com.fresh.app.view.fragment.ProductFragment;
 import com.fresh.app.view.fragment.ProgressingFragment;
+import com.fresh.app.view.fragment.RechargeFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +39,8 @@ public class FragmentFactory {
                 case 4:
                     fragment=new ProgressingFragment();
                     break;
+                case 5:
+                    fragment=new RechargeFragment();
             }
         }
         return fragment;

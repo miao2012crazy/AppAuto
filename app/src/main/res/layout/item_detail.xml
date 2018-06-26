@@ -63,18 +63,17 @@
                 android:layout_height="match_parent">
 
 
-                <TextView
+                <ImageView
+                    app:imageUrlLocal="@{item.btn_bg}"
                     android:id="@+id/button"
-                    android:layout_width="210dp"
-                    android:layout_height="80dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/dp_40"
                     android:background="#fef"
                     android:gravity="center"
                     android:onClick="@{(view)->handler.startProcessing(view,item)}"
-                    android:text="@{item.btn_name}"
-                    android:textColor="#333"
-                    android:textSize="@dimen/dp_30" />
+                     />
 
                 <ImageView
                     android:layout_width="wrap_content"

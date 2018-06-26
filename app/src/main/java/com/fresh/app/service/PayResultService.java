@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.fresh.app.applaction.CustomApplaction;
+import com.fresh.app.commonUtil.LogUtils;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.httputil.HttpUtils;
@@ -27,8 +28,6 @@ import io.reactivex.schedulers.Schedulers;
 public class PayResultService extends Service {
 
     private Timer timer = new Timer();
-    private boolean isFirst=false;
-    private int time=0;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -38,38 +37,31 @@ public class PayResultService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        timer.schedule(timerTask,0,2000);
     }
 
 
     private TimerTask timerTask=new TimerTask() {
         @Override
         public void run() {
-            if (time<=20){
+            if (CustomApplaction.ISRESULT){
                 getResultFromNet();
-
-            }else{
-                timer.cancel();
-                timerTask.cancel();
-
-
             }
-//            Log.e("miao","定时器执行"+zero);
-//            if (zero){
-//                EventBus.getDefault().post(new MessageEvent(1002,"到时间了 发送网络请求吧"));
-//            }
         }
     };
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        time=0;
-
-        timer.schedule(timerTask,0,2000);
 
         return super.onStartCommand(intent, flags, startId);
     }
 
     private void getResultFromNet() {
+        if (CustomApplaction.ORDER_ID.equals("")){
+            LogUtils.e("订单id为\"\"");
+            return;
+        }
+
         HttpUtils.getPayResult(CustomApplaction.ORDER_ID)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -77,10 +69,11 @@ public class PayResultService extends Service {
                     @Override
                     public void onNext(String s) {
                         Log.e("miao","支付查询"+CustomApplaction.ORDER_ID+"支付结果："+s);
-                        if (s.equals("product_bg_0")){
+                        if (s.equals("1")){
+                            CustomApplaction.ISRESULT=false;
+                            CustomApplaction.ORDER_ID="";
                             EventBus.getDefault().post(new MessageEvent(1009,"支付成功！"));
-                            timer.cancel();
-                            timerTask.cancel();
+
                         }
                     }
 
@@ -94,8 +87,6 @@ public class PayResultService extends Service {
                     }
                 });
     }
-
-
     @Override
     public void onDestroy() {
         super.onDestroy();

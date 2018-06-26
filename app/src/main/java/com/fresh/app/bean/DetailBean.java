@@ -15,6 +15,8 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class DetailBean extends  BaseObservable implements BindingAdapterItem {
 
+    private String product_id;
+
     private int id;
 
     private String poroduct_name;
@@ -24,6 +26,8 @@ public class DetailBean extends  BaseObservable implements BindingAdapterItem {
     private String product_desc;
 
     private String btn_name;
+
+    private int btn_bg;
 
     private boolean visiable=false;
     @Bindable
@@ -36,14 +40,34 @@ public class DetailBean extends  BaseObservable implements BindingAdapterItem {
         notifyPropertyChanged(BR.visiable);
     }
 
-    public DetailBean(int id, String poroduct_name, int imagebg, String product_desc, String btn_name) {
+    public String getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(String product_id) {
+        this.product_id = product_id;
+    }
+
+    public DetailBean(String product_id, int id, String poroduct_name, int imagebg, String product_desc, String btn_name, int btn_bg, boolean visiable) {
+        this.product_id = product_id;
         this.id = id;
         this.poroduct_name = poroduct_name;
         this.imagebg = imagebg;
         this.product_desc = product_desc;
         this.btn_name = btn_name;
+        this.btn_bg = btn_bg;
+        this.visiable = visiable;
     }
 
+    @Bindable
+    public int getBtn_bg() {
+        return btn_bg;
+    }
+
+    public void setBtn_bg(int btn_bg) {
+        this.btn_bg = btn_bg;
+        notifyPropertyChanged(BR.btn_bg);
+    }
 
     public int getId() {
         return id;

@@ -11,7 +11,7 @@ import com.fresh.app.view.IQueryView;
 import java.util.List;
 
 /**
- * Created by mr.miao on 2018/6/product_bg_0.
+ * Created by mr.miao on 2018/6/1.
  */
 
 public class QueryCardViewModel implements BaseLoadListener<QueryCardBean> ,OnCardHistoryListener{

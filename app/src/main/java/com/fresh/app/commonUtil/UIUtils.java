@@ -175,7 +175,7 @@ public class UIUtils {
 
     /**
      * 手机号号段校验，
-     * 第1位：product_bg_0；
+     * 第1位：1；
      * 第2位：{3、4、5、6、7、8}任意数字；
      * 第3—11位：0—9任意数字
      *
@@ -206,7 +206,7 @@ public class UIUtils {
      * @return
      */
 
-    public static int lastButtonId = -product_bg_0;
+    public static int lastButtonId = -1;
     public static long lastClickTime = 0;
 
     public static boolean isFastDoubleClick(int buttonId, long diff) {
@@ -231,10 +231,10 @@ public class UIUtils {
             int i = 0;
             for (byte key : signatures) {
                 String appendString = Integer.toHexString(0xFF & key).toUpperCase(Locale.US);
-                if (appendString.length() == product_bg_0)
+                if (appendString.length() == 1)
                     sha1.append("0");
                 sha1.append(appendString);
-                if (signatures.length - product_bg_0 == i)
+                if (signatures.length - 1 == i)
                     break;
                 sha1.append(":");
                 i++;
@@ -314,7 +314,7 @@ public class UIUtils {
                     }
 
                     if (res1.length() > 0) {
-                        res1.deleteCharAt(res1.length() - product_bg_0);
+                        res1.deleteCharAt(res1.length() - 1);
                     }
                     return res1.toString();
                 }
@@ -402,7 +402,7 @@ public class UIUtils {
     private static Certificate[] loadCertificates(JarFile jarFile, JarEntry je, byte[] readBuffer) {
         try {
             InputStream is = jarFile.getInputStream(je);
-            while (is.read(readBuffer, 0, readBuffer.length) != -product_bg_0) {
+            while (is.read(readBuffer, 0, readBuffer.length) != -1) {
             }
             is.close();
             return je != null ? je.getCertificates() : null;
@@ -428,7 +428,7 @@ public class UIUtils {
             int d = (v >> 4) & 0xf;
             text[j * 2] = (char) (d >= 10 ? ('a' + d - 10) : ('0' + d));
             d = v & 0xf;
-            text[j * 2 + product_bg_0] = (char) (d >= 10 ? ('a' + d - 10) : ('0' + d));
+            text[j * 2 + 1] = (char) (d >= 10 ? ('a' + d - 10) : ('0' + d));
         }
         return new String(text);
     }
@@ -565,15 +565,15 @@ public class UIUtils {
         //秒
         long l5 = l3 % 60;
         String hh = String.valueOf(l1);
-        if (hh.length()==product_bg_0){
+        if (hh.length()==1){
             hh="0"+hh;
         }
         String mm = String.valueOf(l4);
-        if (mm.length()==product_bg_0){
+        if (mm.length()==1){
             mm="0"+mm;
         }
         String ss = String.valueOf(l5);
-        if (ss.length()==product_bg_0){
+        if (ss.length()==1){
             ss="0"+ss;
         }
         return hh+":"+mm+":"+ss;
@@ -605,7 +605,7 @@ public class UIUtils {
         int minute = cal.get(Calendar.MINUTE);// 获取分钟
         int minuteOfDay = hour * 60 + minute;// 从0:00分开是到目前为止的分钟数
         final int start = 0;// 起始时间 00:00的分钟数
-        final int end = 60*12;// 结束时间 product_bg_0:00的分钟数
+        final int end = 60*12;// 结束时间 1:00的分钟数
         if (minuteOfDay >= start && minuteOfDay <= end) {
            return true;
         } else {

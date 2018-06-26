@@ -6,6 +6,7 @@ import com.fresh.app.bean.FreshOrderBean;
 import com.fresh.app.bean.ProductBean;
 import com.fresh.app.bean.ProductDetailBean;
 import com.fresh.app.bean.ProductItemBean;
+import com.fresh.app.bean.QRBean;
 import com.fresh.app.bean.QueryCardBean;
 
 import java.util.concurrent.TimeUnit;
@@ -56,15 +57,7 @@ public class HttpUtils {
         return getRetrofit().getProductData(deviceid);
     }
 
-    /**
-     * 创建订单
-     * @param product_id 商品id
-     * @param deviceid  设备id
-     * @return
-     */
-    public static Observable<FreshOrderBean> creatOrder(String product_id, String deviceid) {
-        return getRetrofit().creatOrder(product_id,deviceid);
-    }
+
  /**
      * 创建订单
      * @param card_id 会员卡id
@@ -82,4 +75,11 @@ public class HttpUtils {
     public static Observable<String> getPayResult(String orderId) {
         return getRetrofit().getPayResultFromNet(orderId);
     }
+
+
+    public static Observable<QRBean> creatOrder(String product_id,String device_id){
+        return getRetrofit().getQRUrl(product_id,device_id);
+
+    }
+
 }

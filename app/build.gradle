@@ -59,4 +59,5 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'org.greenrobot:greendao:3.2.2' // add library
+    implementation 'com.google.zxing:core:3.3.0'
 }

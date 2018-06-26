@@ -6,9 +6,11 @@ import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BaseLoadListener;
 import com.fresh.app.bean.ProductDetailBean;
 import com.fresh.app.bean.ProductItemBean;
+import com.fresh.app.bean.QRBean;
 import com.fresh.app.gen.ProductDetailBeanDao;
 import com.fresh.app.gen.ProductItemBeanDao;
 import com.fresh.app.httputil.HttpUtils;
+import com.fresh.app.listener.OnCreatOrderListener;
 import com.fresh.app.model.IDetailModel;
 
 import org.greenrobot.greendao.query.Query;
@@ -58,5 +60,7 @@ public class DetailModelImpl implements IDetailModel {
             loadListener.loadSuccess(productItemBean);
         }
     }
+
+
 
 }

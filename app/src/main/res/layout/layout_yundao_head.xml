@@ -9,7 +9,7 @@
         android:layout_height="250dp"
         android:layout_gravity="center"
         android:layout_margin="@dimen/dp_40"
-        android:src="@mipmap/ic_logo" />
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"

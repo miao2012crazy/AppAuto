@@ -12,10 +12,12 @@ import com.fresh.app.base.BindingAdapterItem;
 import com.fresh.app.bean.DetailBean;
 import com.fresh.app.bean.HomeBean;
 import com.fresh.app.bean.ProductItemBean;
+import com.fresh.app.bean.QRBean;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.databinding.FragmentDetailBinding;
 import com.fresh.app.gen.ProductItemBeanDao;
+import com.fresh.app.listener.OnCreatOrderListener;
 import com.fresh.app.model.modelimpl.DetailModelImpl;
 import com.fresh.app.view.IDetailView;
 
@@ -30,7 +32,7 @@ import java.util.List;
  * Created by mr.miao on 2018/5/7.
  */
 
-public class ProductDetailViewModel implements BaseLoadListener<ProductItemBean>{
+public class ProductDetailViewModel implements BaseLoadListener<ProductItemBean>,OnCreatOrderListener {
     private ProductItemBeanDao productItemBeanDao = CustomApplaction.getInstances().getDaoSession().getProductItemBeanDao();
 
     public  IDetailView mDetailView;
@@ -46,8 +48,11 @@ public class ProductDetailViewModel implements BaseLoadListener<ProductItemBean>
         this.mDetailView=detailView;
         this.mActivityDetailBinding=fragmentDetailBinding;
         detailModel = new DetailModelImpl();
-
+//        EventBus.getDefault().register(this);
     }
+
+
+
 
     /**
      * 初始化列表
@@ -63,9 +68,10 @@ public class ProductDetailViewModel implements BaseLoadListener<ProductItemBean>
         recyclerList.setLayoutManager(gridLayoutManager);
         recyclerList.setAdapter(adapter);
 
-        DetailBean detailBean0 = new DetailBean(0, productItemBean.getProductName(), R.drawable.caomi, "与普通米相比，糙米中维他命，矿物质与膳食纤维含量更高", "立刻购买");
-        DetailBean detailBean1 = new DetailBean(1, productItemBean.getProductName(), R.drawable.peiyami, productItemBean.getProductDetailDesc(), "立刻购买");
-        DetailBean detailBean2 = new DetailBean(2, productItemBean.getProductName(), R.drawable.jingmomi, productItemBean.getProductDetailDesc(), "立刻购买");
+        String productId = productItemBean.getProductId();
+        DetailBean detailBean0 = new DetailBean(productId,0, productItemBean.getProductName(), R.drawable.caomi, "与普通米相比，糙米中维他命，矿物质与膳食纤维含量更高","糙米",R.drawable.ic_btn_caomi,false);
+        DetailBean detailBean1 = new DetailBean(productId,1, productItemBean.getProductName(), R.drawable.peiyami, productItemBean.getProductDetailDesc(), "立刻购买",R.drawable.ic_btn_peiyami,true);
+        DetailBean detailBean2 = new DetailBean(productId,2, productItemBean.getProductName(), R.drawable.jingmomi, productItemBean.getProductDetailDesc(), "立刻购买",R.drawable.ic_btn_jingmomi,false);
         detailBean1.setVisiable(true);
         homeBeans.add(detailBean0);
         homeBeans.add(detailBean1);
@@ -86,9 +92,6 @@ public class ProductDetailViewModel implements BaseLoadListener<ProductItemBean>
                 .unique();
 
         initRecyclerList(productItemBean);
-
-
-
     }
 
 
@@ -124,21 +127,33 @@ public class ProductDetailViewModel implements BaseLoadListener<ProductItemBean>
     public void getData(MessageEvent messageEvent) {
         switch (messageEvent.getCode()) {
             case 1002:
-                Log.e("miao网络数据","请求网络数据");
-
+//                Log.e("miao网络数据","请求网络数据");
                 break;
 
             case 1003:
 //                Log.e("miao查询数据库","");
-//
 //                //查询数据库
 //                ProductItemBeanDao productItemBeanDao = CustomApplaction.getInstances().getDaoSession().getProductItemBeanDao();
 //                List<ProductItemBean> productItemBeans = productItemBeanDao.loadAll();
 //                mActivityDetailBinding.setItem(productDetailBean);
 //                productview.getDataSuccessed(productItemBeans);
                 break;
+            case 10066:
+                String message = messageEvent.getMessage();
+//                UIUtils.showToast(message);
+                //下单
+                break;
         }
     }
 
 
+    @Override
+    public void onCreatOrderSuccessed(QRBean qrBean) {
+        UIUtils.showToast(qrBean.getWechat_url());
+    }
+
+    @Override
+    public void onCreatOrderFailed(String err_msg) {
+        UIUtils.showToast("下单失败");
+    }
 }

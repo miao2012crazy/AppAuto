@@ -18,7 +18,7 @@ import org.greenrobot.greendao.annotation.Id;
 public class ProductItemBean extends BaseObservable implements BindingAdapterItem {
 
     /**
-     * id : product_bg_0
+     * id : 1
      * productDesc : 明月几时有，把酒问青天
      * productId : 201805071207
      * productImg01 :
@@ -60,7 +60,7 @@ public class ProductItemBean extends BaseObservable implements BindingAdapterIte
     private String singleStorageRoomId;
     /**
      * deviceId : 20180515_01
-     * id : product_bg_0
+     * id : 1
      * productDetailDesc : 作为宫庭御膳米，优良的品种，晶莹如珠、米香浓郁，已成为施名中外的“名产”。它含有人体所需的各种氨基酸、脂肪酸、矿物质、较多的纤维素和丰富的日族维生素，不仅好吃，而且营养丰富。
      * productPrice : 25.5
      */

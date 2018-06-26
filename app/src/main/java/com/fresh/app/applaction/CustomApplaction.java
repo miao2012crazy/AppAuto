@@ -34,9 +34,12 @@ import java.util.concurrent.Executors;
  */
 
 public class CustomApplaction extends Application {
+    public static  boolean ISRESULT = false;
+    public static int RICE_TYPE = -1;
+    public static int POSITION = -1;
     //订单id
     public static String ORDER_ID = "";
-    //读卡器默认状态 默认状态 查询  state==product_bg_0 支付
+    //读卡器默认状态 默认状态 查询  state==1 支付
     public static int state=0;
     public static String PRODUCT_ID = "";
     private static Context context;
@@ -48,6 +51,7 @@ public class CustomApplaction extends Application {
     private static ExecutorService executorService = Executors.newFixedThreadPool(3);
     public static ProductItemBean product_detail_bean;
     public static SocketBean socketbean=null;
+    public static int last_position=-1;
     //数据库相关
     private DaoMaster.DevOpenHelper mHelper;
     private SQLiteDatabase db;

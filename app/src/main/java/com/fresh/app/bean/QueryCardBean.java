@@ -6,13 +6,13 @@ import android.databinding.Bindable;
 import com.fresh.app.BR;
 
 /**
- * Created by mr.miao on 2018/6/product_bg_0.
+ * Created by mr.miao on 2018/6/1.
  */
 
 public class QueryCardBean extends BaseObservable {
 
     /**
-     * id : product_bg_0
+     * id : 1
      * membershipBalance : 99.99
      * membershipId : 123
      * membershipTel : 18222703922

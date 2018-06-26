@@ -24,7 +24,7 @@
             android:src="@drawable/home_tv_logo" />
 
         <include
-            android:padding="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_200"
             android:id="@+id/recycler_list"
             layout="@layout/layout_list"
             android:layout_width="match_parent"

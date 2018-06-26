@@ -2,6 +2,7 @@ package com.fresh.app.bean;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.graphics.Bitmap;
 
 import com.fresh.app.BR;
 import com.fresh.app.R;
@@ -13,11 +14,11 @@ import com.fresh.app.base.BindingAdapterItem;
 
 public class PayeeBean extends BaseObservable implements BindingAdapterItem {
     private String pay_name;
-    private int pay_image;
+    private Bitmap pay_image;
     private boolean visiable;
     private int itemtype;
 
-    public PayeeBean(String pay_name, int pay_image, boolean visiable, int itemtype) {
+    public PayeeBean(String pay_name, Bitmap pay_image, boolean visiable, int itemtype) {
         this.pay_name = pay_name;
         this.pay_image = pay_image;
         this.visiable = visiable;
@@ -41,11 +42,11 @@ public class PayeeBean extends BaseObservable implements BindingAdapterItem {
         notifyPropertyChanged(BR.pay_name);
     }
     @Bindable
-    public int getPay_image() {
+    public Bitmap getPay_image() {
         return pay_image;
     }
 
-    public void setPay_image(int pay_image) {
+    public void setPay_image(Bitmap pay_image) {
         this.pay_image = pay_image;
         notifyPropertyChanged(BR.pay_image);
     }

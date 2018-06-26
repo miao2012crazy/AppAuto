@@ -16,7 +16,7 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by mr.miao on 2018/6/product_bg_0.
+ * Created by mr.miao on 2018/6/1.
  */
 
 public class QueryCardModel implements IQueryModel{

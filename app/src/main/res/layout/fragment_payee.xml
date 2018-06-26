@@ -2,10 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
+        android:background="@drawable/ic_bg_pay"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
+            android:textColor="#49e43b"
+            android:layout_marginTop="@dimen/dp_60"
             android:id="@+id/tv_pay_way"
             android:text="选择支付方式"
             android:gravity="center"
@@ -21,6 +24,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/tv_pay_way"
-            android:layout_marginTop="100dp" />
+            android:layout_marginTop="95dp" />
+
     </RelativeLayout>
 </layout>
