@@ -102,22 +102,15 @@ public class MainActivity extends BaseActivity implements IBaseView {
     private void setNavigation(int position) {
         LogUtils.e(position+"");
         position-=1;
-        if (position==-1){
-            binding.bottom.llBottom.setVisibility(View.GONE);
-            binding.btnReturn.setVisibility(View.GONE);
-            return;
-        }
 
-        if (position>=0){
+        if (position==0||position==1||position==2){
             binding.btnReturn.setVisibility(View.VISIBLE);
             binding.bottom.llBottom.setVisibility(View.VISIBLE);
-        }
-        if (position == 3){
+        }else{
             binding.bottom.llBottom.setVisibility(View.GONE);
             binding.btnReturn.setVisibility(View.GONE);
             return;
         }
-
 
         if (CustomApplaction.last_position!=-1){
             imgArr[CustomApplaction.last_position].setBackgroundResource(R.drawable.ic_circle_normal);

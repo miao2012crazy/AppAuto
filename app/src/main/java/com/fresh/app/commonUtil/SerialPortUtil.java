@@ -136,6 +136,7 @@ public class SerialPortUtil {
                             readCount += inputStream.read(bytes, readCount, count - readCount);
                             String s = StringUtils.bytesToHexString(bytes, readCount);
                             Log.e("miao", "有数据" + s);
+
                             parseData(s);
                         }
 
@@ -167,41 +168,13 @@ public class SerialPortUtil {
 //                SerialPortUtil.sendSerialPort(cmd);
 //                //修改状态不做任何操作
                 CustomApplaction.state=999;
+                CustomApplaction.MEMBER_ID=s;
                 EventBus.getDefault().post(new MessageEvent(1004,s));
 //                //临时关闭
 ////                sendSerialPort(IConstant.close_find + StringUtils.xor(IConstant.close_find));
 
                 break;
-            case 1:
-                CustomApplaction.state=999;
-//                String substring = s.substring(7, 13);
-//                //查询卡内余额
-//                Log.e("miao","卡内余额"+substring);
 
-                break;
-            case 2:
-                CustomApplaction.state=999;
-                //充值
-
-
-                break;
-            case 3:
-                CustomApplaction.state=999;
-                //购买 卡内余额减少
-
-            break;
-            case 4:
-                CustomApplaction.state=999;
-
-
-
-
-                break;
-            case 5:
-                CustomApplaction.state=999;
-                EventBus.getDefault().post(new MessageEvent(1004, s));
-
-                break;
             default:
 
                 break;

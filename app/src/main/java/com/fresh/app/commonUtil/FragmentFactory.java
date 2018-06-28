@@ -9,6 +9,7 @@ import com.fresh.app.view.fragment.ProductDetailFragment;
 import com.fresh.app.view.fragment.ProductFragment;
 import com.fresh.app.view.fragment.ProgressingFragment;
 import com.fresh.app.view.fragment.RechargeFragment;
+import com.fresh.app.view.fragment.ReserveFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 public class FragmentFactory {
     private static Map<Integer, BaseFragment> mFragments = new HashMap<>();
+
     public static Fragment getFragment(int position) {
         BaseFragment fragment = null;
         fragment = mFragments.get(position);  //在集合中取出来Fragment
@@ -34,13 +36,16 @@ public class FragmentFactory {
                     fragment = new ProductDetailFragment();
                     break;
                 case 3:
-                    fragment=new PayeeFragment();
+                    fragment = new PayeeFragment();
                     break;
                 case 4:
-                    fragment=new ProgressingFragment();
+                    fragment = new ProgressingFragment();
                     break;
                 case 5:
-                    fragment=new RechargeFragment();
+                    fragment = new RechargeFragment();
+                    break;
+                case 6:
+                    fragment = new ReserveFragment();
             }
         }
         return fragment;

@@ -34,6 +34,7 @@ import java.util.concurrent.Executors;
  */
 
 public class CustomApplaction extends Application {
+    public static  int  MONEY_CHECK_POSITION = -1;
     public static  boolean ISRESULT = false;
     public static int RICE_TYPE = -1;
     public static int POSITION = -1;
@@ -42,6 +43,7 @@ public class CustomApplaction extends Application {
     //读卡器默认状态 默认状态 查询  state==1 支付
     public static int state=0;
     public static String PRODUCT_ID = "";
+    public static String MEMBER_ID="";
     private static Context context;
     private static Handler handler;
     private static Thread mainThread;
@@ -57,6 +59,7 @@ public class CustomApplaction extends Application {
     private SQLiteDatabase db;
     private DaoMaster mDaoMaster;
     private DaoSession mDaoSession;
+
 
     @Override
     public void onCreate() {

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="handler"
+            type="com.fresh.app.handlerevent.HandlerEvent" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/ll_select"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et_money"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_80"
+            android:hint="输入重置金额或选择（只能整存）" />
+
+        <include
+            android:id="@+id/money_list"
+            layout="@layout/layout_list" />
+
+        <EditText
+            android:id="@+id/et_tel"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:hint="您可以直接输入手机号码，进行充值"
+            android:textSize="@dimen/sp_40" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="声明：同时存在会员卡和手机号，将按照会员卡ID进行充值"
+            android:textSize="@dimen/sp_30" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_confirm"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#f00"
+                android:gravity="center"
+
+                android:text="确认" />
+
+            <Button
+                android:id="@+id/btn_return"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#f0f"
+                android:gravity="center"
+
+                android:text="返回" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</layout>

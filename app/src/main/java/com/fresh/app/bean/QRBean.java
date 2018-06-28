@@ -12,6 +12,11 @@ public class QRBean {
 
     private String wechat_url;
     private String order_id;
+    /**
+     * msg : 下单成功
+     */
+
+    private String msg;
 
 
     public String getOrder_id() {
@@ -28,5 +33,14 @@ public class QRBean {
 
     public void setWechat_url(String wechat_url) {
         this.wechat_url = wechat_url;
+    }
+
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }

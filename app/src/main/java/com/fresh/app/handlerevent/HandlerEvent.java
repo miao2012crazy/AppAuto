@@ -17,6 +17,7 @@ import com.fresh.app.bean.DebugBean;
 import com.fresh.app.bean.DebugBean2;
 import com.fresh.app.bean.DetailBean;
 import com.fresh.app.bean.HomeBean;
+import com.fresh.app.bean.MoneyBean;
 import com.fresh.app.bean.PayeeBean;
 import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.SocketBean;
@@ -49,10 +50,10 @@ public class HandlerEvent {
     }
 
     public void itemClick(View view, ProductItemBean productItemBean) {
-        if (productItemBean==null){
+        if (productItemBean == null) {
             return;
         }
-        if (productItemBean.getDeviceProductStock()==0){
+        if (productItemBean.getDeviceProductStock() == 0) {
             UIUtils.showToast("库存不足");
             return;
         }
@@ -94,7 +95,7 @@ public class HandlerEvent {
     @BindingAdapter("bitmapUrlLocal")
     public static void loadBitmapLocal(ImageView imageView, Bitmap bitmap) {
         if (bitmap == null) {
-            imageView.setImageBitmap(BitmapFactory.decodeResource(UIUtils.getResources(),R.mipmap.ic_launcher));
+            imageView.setImageBitmap(BitmapFactory.decodeResource(UIUtils.getResources(), R.mipmap.ic_launcher));
         } else {
             // Glide代替Volley
 //            Glide.with(imageView.getContext()).load(HttpUrl.getBaseUrl() + url).into(imageView);
@@ -147,7 +148,6 @@ public class HandlerEvent {
     }
 
 
-
     public void openFragment(View view, HomeBean homeBean) {
         UIUtils.showToast(homeBean.getId() + "");
 
@@ -159,14 +159,14 @@ public class HandlerEvent {
 
             case 1:
                 //充值
-                EventBus.getDefault().post(new MessageEvent(10065,"5"));
+                EventBus.getDefault().post(new MessageEvent(10065, "5"));
 
 
                 break;
 
             case 2:
                 //预定
-
+                EventBus.getDefault().post(new MessageEvent(10065,"6"));
 
                 break;
 
@@ -229,20 +229,39 @@ public class HandlerEvent {
      * @param detailBean
      */
     public void startProcessing(View view, DetailBean detailBean) {
-
-
         EventBus.getDefault().post(new MessageEvent(10065, "3"));
-        CustomApplaction.RICE_TYPE=detailBean.getId();
-        CustomApplaction.PRODUCT_ID=detailBean.getProduct_id();
+        CustomApplaction.RICE_TYPE = detailBean.getId();
+        CustomApplaction.PRODUCT_ID = detailBean.getProduct_id();
     }
 
 
     public void fragmentReturn(View view) {
-        int position = CustomApplaction.POSITION-1;
+        int position = CustomApplaction.POSITION - 1;
         if (CustomApplaction.last_position != -1) {
             CustomApplaction.last_position = CustomApplaction.POSITION - 1;
         }
         EventBus.getDefault().post(new MessageEvent(10065, (position) + ""));
+    }
+
+    /**
+     * 单选
+     *
+     * @param view
+     * @param moneyBean
+     */
+    public void singleItemClick(View view, MoneyBean moneyBean) {
+        EventBus.getDefault().post(new MessageEvent(10099,moneyBean.getMoney_price()));
+    }
+
+    public void  confirm_recharge(View view){
+        UIUtils.showToast("点击事件");
+        EventBus.getDefault().post(new MessageEvent(10098,""));
+    }
+
+
+    public void returnMain(View view){
+        UIUtils.showToast("点击出发");
+        EventBus.getDefault().post(new MessageEvent(10065,"0"));
     }
 
 }

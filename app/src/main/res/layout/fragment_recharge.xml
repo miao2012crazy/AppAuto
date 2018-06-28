@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <data>
+        <variable
+            name="handler"
+            type="com.fresh.app.handlerevent.HandlerEvent" />
+    </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,6 +35,7 @@
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10"
                 android:layout_marginTop="@dimen/dp_30"
                 android:src="@drawable/icon_chongzhi" />
 
@@ -45,8 +50,8 @@
         <TextView
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/dp_30"
-            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginBottom="@dimen/dp_60"
+            android:layout_marginTop="@dimen/dp_60"
             android:background="#999" />
 
         <LinearLayout
@@ -55,17 +60,33 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="300dp"
                 android:orientation="horizontal">
 
-               <include layout="@layout/layout_recharge_tab"/>
+                <include
+                    android:id="@+id/layout_recharge"
+                    layout="@layout/layout_recharge_tab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
 
+            <RelativeLayout
 
-            </LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+                <include
+                    android:id="@+id/recycler_list"
+                    layout="@layout/layout_select" />
 
+                <include
+                    android:id="@+id/qr_layout"
+                    layout="@layout/layout_qr_code"
+                    android:visibility="gone" />
+            </RelativeLayout>
         </LinearLayout>
 
 

@@ -11,6 +11,7 @@ import com.fresh.app.bean.QueryCardBean;
 
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -58,10 +59,11 @@ public class HttpUtils {
     }
 
 
- /**
+    /**
      * 创建订单
+     *
      * @param card_id 会员卡id
-     * @return  会员卡信息 QueryCardBean
+     * @return 会员卡信息 QueryCardBean
      */
     public static Observable<QueryCardBean> getCardInfo(String card_id) {
         return getRetrofit().getCardInfo(card_id);
@@ -77,9 +79,12 @@ public class HttpUtils {
     }
 
 
-    public static Observable<QRBean> creatOrder(String product_id,String device_id){
-        return getRetrofit().getQRUrl(product_id,device_id);
+    public static Observable<QRBean> creatOrder(String product_id, String device_id) {
+        return getRetrofit().getQRUrl(product_id, device_id);
 
     }
 
+    public static Observable<QRBean> setRecharge(String memberid, String tel, String money_num) {
+        return getRetrofit().getRechargeQRUrl(memberid, tel,money_num);
+    }
 }

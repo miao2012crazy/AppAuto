@@ -45,4 +45,8 @@ public interface RetrofitInterface {
     @FormUrlEncoded
     @POST("createQRCode")
     Observable<QRBean> getQRUrl(@Field("product_id") String product_id,@Field("deviceid") String device_id);
+
+    @FormUrlEncoded
+    @POST("card_recharge")
+    Observable<QRBean> getRechargeQRUrl(@Field("member_id")String memberid,@Field("tel") String tel, @Field("money_num")String money_num);
 }
