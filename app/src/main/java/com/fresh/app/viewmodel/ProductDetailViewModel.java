@@ -19,6 +19,7 @@ import com.fresh.app.databinding.FragmentDetailBinding;
 import com.fresh.app.gen.ProductItemBeanDao;
 import com.fresh.app.listener.OnCreatOrderListener;
 import com.fresh.app.model.modelimpl.DetailModelImpl;
+import com.fresh.app.model.modelimpl.PayeeModelImpl;
 import com.fresh.app.view.IDetailView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -33,6 +34,7 @@ import java.util.List;
  */
 
 public class ProductDetailViewModel implements BaseLoadListener<ProductItemBean>,OnCreatOrderListener {
+    private final PayeeModelImpl payeeModelImpl;
     private ProductItemBeanDao productItemBeanDao = CustomApplaction.getInstances().getDaoSession().getProductItemBeanDao();
 
     public  IDetailView mDetailView;
@@ -47,6 +49,8 @@ public class ProductDetailViewModel implements BaseLoadListener<ProductItemBean>
         EventBus.getDefault().register(this);
         this.mDetailView=detailView;
         this.mActivityDetailBinding=fragmentDetailBinding;
+        payeeModelImpl = new PayeeModelImpl();
+
         detailModel = new DetailModelImpl();
 //        EventBus.getDefault().register(this);
     }
@@ -140,6 +144,10 @@ public class ProductDetailViewModel implements BaseLoadListener<ProductItemBean>
                 break;
             case 10066:
                 String message = messageEvent.getMessage();
+                //创建订单
+
+                payeeModelImpl.creatOrder(message,"20180515_01",this);
+
 //                UIUtils.showToast(message);
                 //下单
                 break;
@@ -150,6 +158,9 @@ public class ProductDetailViewModel implements BaseLoadListener<ProductItemBean>
     @Override
     public void onCreatOrderSuccessed(QRBean qrBean) {
         UIUtils.showToast(qrBean.getWechat_url());
+        CustomApplaction.QR_BEAN=qrBean;
+        //打开支付页面
+        EventBus.getDefault().post(new MessageEvent(10065, "3"));
     }
 
     @Override

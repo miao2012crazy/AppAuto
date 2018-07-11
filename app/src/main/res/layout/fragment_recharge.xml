@@ -86,6 +86,45 @@
                     android:id="@+id/qr_layout"
                     layout="@layout/layout_qr_code"
                     android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/ll_pay_success"
+                    android:visibility="gone"
+                    android:gravity="center_horizontal"
+                    android:background="#fff"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_marginTop="@dimen/dp_30"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_pay_successed"
+                        android:id="@+id/imageView4" />
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/dp_40"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <Button
+                            android:onClick="@{handler.fragmentReturnMain}"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="返回首页"
+                            android:id="@+id/button2" />
+
+                        <Button
+                            android:onClick="@{handler.fragmentReturnRecharge}"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="继续充值" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
             </RelativeLayout>
         </LinearLayout>
 

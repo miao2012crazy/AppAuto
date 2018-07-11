@@ -49,19 +49,23 @@ public class PayeeViewModel implements OnCreatOrderListener {
         this.payeeBinding = payeeBinding;
         payeeModelImpl = new PayeeModelImpl();
         initRecyclerList();
-        initQRCode(CustomApplaction.PRODUCT_ID);
+//        initQRCode(CustomApplaction.PRODUCT_ID);
+        initQRCode(CustomApplaction.QR_BEAN);
     }
 
     /**
      * 初始化二维码
      *
-     * @param productId
      */
-    private void initQRCode(String productId) {
-
-
-
-        payeeModelImpl.creatOrder(productId, "20180515_01", this);
+    private void initQRCode(QRBean qrBean) {
+//        payeeModelImpl.creatOrder(productId, "20180515_01", this);
+        CustomApplaction.ORDER_ID = qrBean.getOrder_id();
+        CustomApplaction.ISRESULT = true;
+        CustomApplaction.RESULT_CODE=0;
+        UIUtils.getContext().startService(new Intent(UIUtils.getContext(), PayResultService.class));
+        PayeeBean bindingAdapterItem = (PayeeBean) mainList.get(1);
+        Bitmap qrImage = ZXingUtils.createQRImage(qrBean.getWechat_url(), 400, 400);
+        bindingAdapterItem.setPay_image(qrImage);
     }
 
     /**
@@ -83,17 +87,18 @@ public class PayeeViewModel implements OnCreatOrderListener {
         homeBeans.add(payeeBean2);
         mainList.addAll(homeBeans);
         adapter.setItems(mainList);
+
     }
 
 
     @Override
     public void onCreatOrderSuccessed(QRBean qrBean) {
-        CustomApplaction.ORDER_ID = qrBean.getOrder_id();
-        CustomApplaction.ISRESULT = true;
-        UIUtils.getContext().startService(new Intent(UIUtils.getContext(), PayResultService.class));
-        PayeeBean bindingAdapterItem = (PayeeBean) mainList.get(1);
-        Bitmap qrImage = ZXingUtils.createQRImage(qrBean.getWechat_url(), 400, 400);
-        bindingAdapterItem.setPay_image(qrImage);
+//        CustomApplaction.ORDER_ID = qrBean.getOrder_id();
+//        CustomApplaction.ISRESULT = true;
+//        UIUtils.getContext().startService(new Intent(UIUtils.getContext(), PayResultService.class));
+//        PayeeBean bindingAdapterItem = (PayeeBean) mainList.get(1);
+//        Bitmap qrImage = ZXingUtils.createQRImage(qrBean.getWechat_url(), 400, 400);
+//        bindingAdapterItem.setPay_image(qrImage);
     }
 
     @Override

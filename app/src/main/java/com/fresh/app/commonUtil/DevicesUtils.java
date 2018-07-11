@@ -120,21 +120,21 @@ public class DevicesUtils {
          *
          * @param receviceStr
          */
-        public abstract void onReceived(String receviceStr);
+        void onReceived(String receviceStr);
 
         /**
          * 出错
          *
          * @param fialStr
          */
-        public abstract void onFail(String fialStr);
+        void onFail(String fialStr);
 
         /**
          * 出现异常
          *
          * @param e
          */
-        public abstract void onErr(Exception e);
+        void onErr(Exception e);
 
     }
 

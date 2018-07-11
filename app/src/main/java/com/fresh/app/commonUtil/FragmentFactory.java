@@ -46,6 +46,7 @@ public class FragmentFactory {
                     break;
                 case 6:
                     fragment = new ReserveFragment();
+                    break;
             }
         }
         return fragment;

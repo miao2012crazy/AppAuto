@@ -20,6 +20,8 @@ import com.fresh.app.bean.HomeBean;
 import com.fresh.app.bean.MoneyBean;
 import com.fresh.app.bean.PayeeBean;
 import com.fresh.app.bean.ProductItemBean;
+import com.fresh.app.bean.ReserveBean;
+import com.fresh.app.bean.ReserveItemBean;
 import com.fresh.app.bean.SocketBean;
 import com.fresh.app.commonUtil.LogUtils;
 import com.fresh.app.commonUtil.SocketUtil;
@@ -166,13 +168,13 @@ public class HandlerEvent {
 
             case 2:
                 //预定
-                EventBus.getDefault().post(new MessageEvent(10065,"6"));
+                EventBus.getDefault().post(new MessageEvent(10065, "6"));
 
                 break;
 
             case 3:
                 //自提
-
+                EventBus.getDefault().post(new MessageEvent(10088, ""));
                 break;
 
         }
@@ -229,9 +231,13 @@ public class HandlerEvent {
      * @param detailBean
      */
     public void startProcessing(View view, DetailBean detailBean) {
-        EventBus.getDefault().post(new MessageEvent(10065, "3"));
+        //此处直接生成订单
         CustomApplaction.RICE_TYPE = detailBean.getId();
         CustomApplaction.PRODUCT_ID = detailBean.getProduct_id();
+        //创建订单 返回支付二维码
+        EventBus.getDefault().post(new MessageEvent(10066, detailBean.getProduct_id()));
+
+
     }
 
 
@@ -243,6 +249,15 @@ public class HandlerEvent {
         EventBus.getDefault().post(new MessageEvent(10065, (position) + ""));
     }
 
+
+    public void fragmentReturnMain(View view) {
+        EventBus.getDefault().post(new MessageEvent(10065, 0 + ""));
+    }
+
+    public void fragmentReturnRecharge(View view) {
+        EventBus.getDefault().post(new MessageEvent(10065, 5 + ""));
+    }
+
     /**
      * 单选
      *
@@ -250,18 +265,26 @@ public class HandlerEvent {
      * @param moneyBean
      */
     public void singleItemClick(View view, MoneyBean moneyBean) {
-        EventBus.getDefault().post(new MessageEvent(10099,moneyBean.getMoney_price()));
+        EventBus.getDefault().post(new MessageEvent(10099, moneyBean.getMoney_price()));
     }
 
-    public void  confirm_recharge(View view){
+    public void confirm_recharge(View view) {
         UIUtils.showToast("点击事件");
-        EventBus.getDefault().post(new MessageEvent(10098,""));
+        EventBus.getDefault().post(new MessageEvent(10098, ""));
     }
 
 
-    public void returnMain(View view){
+    public void returnMain(View view) {
         UIUtils.showToast("点击出发");
-        EventBus.getDefault().post(new MessageEvent(10065,"0"));
+        EventBus.getDefault().post(new MessageEvent(10065, "0"));
     }
 
+
+    public void reserveItem(View view, ReserveItemBean reserveItemBean) {
+        UIUtils.showToast("点击了" + reserveItemBean.getProductName());
+        //选择数量提交数据到服务器
+        EventBus.getDefault().post(new MessageEvent(10097, reserveItemBean.getProductId()));
+
+
+    }
 }

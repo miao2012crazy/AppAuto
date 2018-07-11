@@ -166,11 +166,7 @@ public class UIUtils {
      * 验证输入的身份证号是否合法
      */
     public static boolean isLegalId(String id) {
-        if (id.toUpperCase().matches("(^\\d{15}$)|(^\\d{17}([0-9]|X)$)")) {
-            return true;
-        } else {
-            return false;
-        }
+        return id.toUpperCase().matches("(^\\d{15}$)|(^\\d{17}([0-9]|X)$)");
     }
 
     /**
@@ -606,11 +602,7 @@ public class UIUtils {
         int minuteOfDay = hour * 60 + minute;// 从0:00分开是到目前为止的分钟数
         final int start = 0;// 起始时间 00:00的分钟数
         final int end = 60*12;// 结束时间 1:00的分钟数
-        if (minuteOfDay >= start && minuteOfDay <= end) {
-           return true;
-        } else {
-           return false;
-        }
+        return minuteOfDay >= start && minuteOfDay <= end;
     }
 
 }

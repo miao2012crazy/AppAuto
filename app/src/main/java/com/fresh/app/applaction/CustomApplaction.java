@@ -11,6 +11,8 @@ import android.util.Log;
 import com.fresh.app.bean.PayeeBean;
 import com.fresh.app.bean.ProductDetailBean;
 import com.fresh.app.bean.ProductItemBean;
+import com.fresh.app.bean.QRBean;
+import com.fresh.app.bean.ReserOrderBean;
 import com.fresh.app.bean.SocketBean;
 import com.fresh.app.commonUtil.SerialPortUtil;
 import com.fresh.app.commonUtil.SocketUtil;
@@ -34,16 +36,18 @@ import java.util.concurrent.Executors;
  */
 
 public class CustomApplaction extends Application {
-    public static  int  MONEY_CHECK_POSITION = -1;
-    public static  boolean ISRESULT = false;
+    public static int RESULT_CODE = 0;
+    public static QRBean QR_BEAN = null;
+    public static int MONEY_CHECK_POSITION = -1;
+    public static boolean ISRESULT = false;
     public static int RICE_TYPE = -1;
     public static int POSITION = -1;
     //订单id
     public static String ORDER_ID = "";
     //读卡器默认状态 默认状态 查询  state==1 支付
-    public static int state=0;
+    public static int state = 0;
     public static String PRODUCT_ID = "";
-    public static String MEMBER_ID="";
+    public static String MEMBER_ID = "";
     private static Context context;
     private static Handler handler;
     private static Thread mainThread;
@@ -52,8 +56,8 @@ public class CustomApplaction extends Application {
     public static PayeeBean lastItem;
     private static ExecutorService executorService = Executors.newFixedThreadPool(3);
     public static ProductItemBean product_detail_bean;
-    public static SocketBean socketbean=null;
-    public static int last_position=-1;
+    public static SocketBean socketbean = null;
+    public static int last_position = -1;
     //数据库相关
     private DaoMaster.DevOpenHelper mHelper;
     private SQLiteDatabase db;
@@ -119,22 +123,24 @@ public class CustomApplaction extends Application {
         mDaoMaster = new DaoMaster(db);
         mDaoSession = mDaoMaster.newSession();
     }
+
     public DaoSession getDaoSession() {
         return mDaoSession;
     }
+
     public SQLiteDatabase getDb() {
         return db;
     }
 
 
-    public static CustomApplaction getInstances(){
+    public static CustomApplaction getInstances() {
         return app;
     }
 
 
-
     /**
-     *  获取上下文对象
+     * 获取上下文对象
+     *
      * @return
      */
     public static Context getContext() {
@@ -143,6 +149,7 @@ public class CustomApplaction extends Application {
 
     /**
      * 获取handler对象
+     *
      * @return
      */
     public static Handler getHandler() {
@@ -151,6 +158,7 @@ public class CustomApplaction extends Application {
 
     /**
      * 获取主线程
+     *
      * @return
      */
     public static Thread getMainThread() {
@@ -159,6 +167,7 @@ public class CustomApplaction extends Application {
 
     /**
      * 获取主线程id
+     *
      * @return
      */
     public static int getMainThreadId() {
@@ -169,6 +178,7 @@ public class CustomApplaction extends Application {
 
     /**
      * 获取主线程handler对象
+     *
      * @return
      */
     public static Handler getMainThreadHandler() {
@@ -177,9 +187,10 @@ public class CustomApplaction extends Application {
 
     /**
      * 获取线程池  三线程
+     *
      * @return
      */
-    public static ExecutorService getExecutorService(){
+    public static ExecutorService getExecutorService() {
         return executorService;
     }
 

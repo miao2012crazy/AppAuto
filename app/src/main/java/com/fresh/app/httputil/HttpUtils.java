@@ -1,17 +1,14 @@
 package com.fresh.app.httputil;
 
-import com.fresh.app.base.BindingAdapterItem;
 import com.fresh.app.bean.CardHistoryBean;
-import com.fresh.app.bean.FreshOrderBean;
 import com.fresh.app.bean.ProductBean;
-import com.fresh.app.bean.ProductDetailBean;
 import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.QRBean;
 import com.fresh.app.bean.QueryCardBean;
+import com.fresh.app.bean.ReserveBean;
 
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -86,5 +83,35 @@ public class HttpUtils {
 
     public static Observable<QRBean> setRecharge(String memberid, String tel, String money_num) {
         return getRetrofit().getRechargeQRUrl(memberid, tel,money_num);
+    }
+
+    /**
+     *
+     * @param deviceId
+     * @return
+     */
+    public static Observable<ReserveBean> getAllProduct(String deviceId) {
+        return getRetrofit().getAllProduct(deviceId);
+    }
+
+    /**
+     *
+     * @param product_id    商品id
+     * @param user_tel      预留手机号
+     * @param product_num   商品数量
+     * @return
+     */
+    public static Observable<QRBean> creatReserveOrder(String device_id, String product_id, String user_tel, String product_num) {
+        return getRetrofit().creatReserOrder(device_id,product_id,user_tel,product_num);
+    }
+
+
+    /**
+     *
+     * @param order_id
+     * @return
+     */
+    public static Observable<String> getRechargeOrderState(String order_id) {
+        return getRetrofit().getRechargeResultFromNet(order_id);
     }
 }

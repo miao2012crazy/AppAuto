@@ -31,7 +31,15 @@ public class BaseFragment extends Fragment implements IBaseView{
     }
 
 
-
+    /**
+     * 不带参数启动
+     * @param context
+     * @param clazz
+     */
+    protected void startActivityBase(Context context, Class clazz) {
+        Intent intent = new Intent(context, clazz);
+        context.startActivity(intent);
+    }
 
     /**
      * 带参数启动
@@ -39,7 +47,7 @@ public class BaseFragment extends Fragment implements IBaseView{
      * @param clazz
      * @param bundle
      */
-    private void startActivityBase(Context context, Class clazz, Bundle bundle) {
+    protected void startActivityBase(Context context, Class clazz, Bundle bundle) {
         Intent intent = new Intent(context, clazz);
         intent.putExtras(bundle);
         context.startActivity(intent);

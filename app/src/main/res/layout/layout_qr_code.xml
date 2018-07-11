@@ -32,6 +32,7 @@
             android:id="@+id/imageView3" />
 
         <Button
+            android:id="@+id/btn_return"
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/dp_30"
             android:layout_width="wrap_content"

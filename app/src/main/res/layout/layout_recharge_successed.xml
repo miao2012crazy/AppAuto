@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@drawable/shape_pay_dialog"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_margin="@dimen/dp_30"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="充值成功"
+            android:textColor="#333"
+            android:textSize="40sp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#999"/>
+        <ImageView
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_pay_successed" />
+        <TextView
+            android:id="@+id/tv_timer"
+            android:layout_margin="@dimen/dp_30"
+            android:textSize="@dimen/sp_30"
+            android:gravity="center"
+            android:textColor="#999"
+            android:text="提货码稍后将会发送到您预留的手机上，补货完成后会以短信的形式提醒您！"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+
+    </LinearLayout>
+</layout>

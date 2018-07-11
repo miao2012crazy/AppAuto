@@ -6,4 +6,5 @@ package com.fresh.app.view;
 
 public interface IRechargeView {
 
+    void getPayResult(String order_id);
 }

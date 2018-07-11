@@ -3,6 +3,7 @@ package com.fresh.app.viewmodel;
 import android.graphics.Bitmap;
 import android.view.View;
 
+import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.bean.QRBean;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.commonUtil.ZXingUtils;
@@ -38,11 +39,16 @@ public class RechargeViewModel implements OnCreatOrderListener {
 
     @Override
     public void onCreatOrderSuccessed(QRBean qrBean) {
-        //二维码生成成功
+        //二维码生成成功   启动service 获取支付结果
+        mRechargeView.getPayResult(qrBean.getOrder_id());
         Bitmap qrImage = ZXingUtils.createQRImage(qrBean.getWechat_url(), 400, 400);
         mBind.qrLayout.imageView2.setImageBitmap(qrImage);
         mBind.qrLayout.rlQrLayout.setVisibility(View.VISIBLE);
         mBind.recyclerList.llSelect.setVisibility(View.GONE);
+        mBind.qrLayout.btnReturn.setOnClickListener(v -> {
+            mBind.qrLayout.rlQrLayout.setVisibility(View.GONE);
+            mBind.recyclerList.llSelect.setVisibility(View.VISIBLE);
+        });
     }
 
     @Override

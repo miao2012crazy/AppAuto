@@ -52,15 +52,81 @@ public class PayResultService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         return super.onStartCommand(intent, flags, startId);
     }
 
     private void getResultFromNet() {
+        switch (CustomApplaction.RESULT_CODE){
+            case 0:
+                //普通支付
+                getData();
+
+                break;
+            case 1:
+                getWechatRechargeResult();
+
+
+                //充值
+                break;
+            case 2:
+                //预定支付
+                getReserveResult();
+
+
+                break;
+        }
+
+
+
+
+
+    }
+
+    private void getReserveResult() {
+
+
+
+
+
+
+    }
+
+    /**
+     * 充值
+     */
+    private void getWechatRechargeResult() {
+        HttpUtils.getRechargeOrderState(CustomApplaction.ORDER_ID)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableObserver<String>() {
+                    @Override
+                    public void onNext(String s) {
+                        Log.e("miao","支付查询"+CustomApplaction.ORDER_ID+"支付结果："+s);
+                        if (s.equals("1")){
+                            CustomApplaction.ISRESULT=false;
+                            CustomApplaction.ORDER_ID="";
+                            EventBus.getDefault().post(new MessageEvent(10100,"充值成功！"));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.e("服务器一场"+e.getMessage());
+                    }
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+    }
+
+    private void getData() {
         if (CustomApplaction.ORDER_ID.equals("")){
             LogUtils.e("订单id为\"\"");
             return;
         }
+
 
         HttpUtils.getPayResult(CustomApplaction.ORDER_ID)
                 .subscribeOn(Schedulers.io())
@@ -73,7 +139,6 @@ public class PayResultService extends Service {
                             CustomApplaction.ISRESULT=false;
                             CustomApplaction.ORDER_ID="";
                             EventBus.getDefault().post(new MessageEvent(1009,"支付成功！"));
-
                         }
                     }
 
@@ -87,6 +152,7 @@ public class PayResultService extends Service {
                     }
                 });
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

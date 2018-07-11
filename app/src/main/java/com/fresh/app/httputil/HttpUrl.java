@@ -12,8 +12,10 @@ public class HttpUrl {
     private static String baseUrl="";
     public static String getBaseUrl() {
         if (AppConstant.isDebug){
-            return "http://192.168.1.102:8080/";
-//            return "http://39.105.77.235/";
+//            return "http://192.168.1.100:8080/";
+            //手机热点
+//            return "172.20.10.3:8080/";
+            return "http://39.105.77.235/";
         }
         return baseUrl;
     }
