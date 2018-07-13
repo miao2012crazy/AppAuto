@@ -20,7 +20,7 @@
             android:background="#666"/>
         <fragment
             android:id="@+id/fragment_query"
-            android:name="com.fresh.app.view.viewimpl.QueryFragment"
+            android:name="com.fresh.app.view.fragment.QueryFragment"
             android:layout_width="0dp"
             android:layout_weight="0.4"
             android:layout_height="match_parent"

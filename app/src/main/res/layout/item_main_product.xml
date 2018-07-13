@@ -35,7 +35,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_300"
+            android:layout_marginTop="@dimen/dp_200"
             android:orientation="vertical">
 
             <TextView
@@ -43,11 +43,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:paddingLeft="@dimen/dp_65"
-                android:paddingRight="@dimen/dp_65"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10"
                 android:text="@{item.productName}"
                 android:textColor="#fff"
-                android:textSize="@dimen/sp_60" />
+                android:textSize="@dimen/sp_30" />
 
             <TextView
                 android:id="@+id/tv_desc"
@@ -56,11 +56,11 @@
                 android:gravity="left"
                 android:lineSpacingExtra="@dimen/dp_10"
                 android:maxLines="3"
-                android:paddingLeft="@dimen/dp_65"
-                android:paddingRight="@dimen/dp_65"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10"
                 android:text="@{item.productDesc}"
                 android:textColor="#fff"
-                android:textSize="30sp" />
+                android:textSize="26sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -73,11 +73,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7"
                     android:gravity="left"
-                    android:paddingLeft="@dimen/dp_65"
-                    android:paddingRight="@dimen/dp_65"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10"
                     android:text="重量:"
                     android:textColor="#fff"
-                    android:textSize="30sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -86,7 +86,7 @@
                     android:gravity="left"
                     android:text="重量:"
                     android:textColor="#fff"
-                    android:textSize="30sp" />
+                    android:textSize="26sp" />
 
             </LinearLayout>
 
@@ -102,11 +102,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="left"
-                    android:paddingLeft="@dimen/dp_65"
-                    android:paddingRight="@dimen/dp_65"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10"
                     android:text="价格:"
                     android:textColor="#fff"
-                    android:textSize="30sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -115,7 +115,7 @@
                     android:gravity="left"
                     android:text="@{'¥'+String.valueOf(item.productPrice)+'/'+'每'+'桶'}"
                     android:textColor="#fff"
-                    android:textSize="30sp" />
+                    android:textSize="26sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -130,11 +130,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7"
                     android:gravity="left"
-                    android:paddingLeft="@dimen/dp_65"
-                    android:paddingRight="@dimen/dp_65"
+                    android:paddingLeft="@dimen/dp_10"
+                    android:paddingRight="@dimen/dp_10"
                     android:text="库存:"
                     android:textColor="#fff"
-                    android:textSize="30sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -143,7 +143,7 @@
                     android:gravity="left"
                     android:text="@{String.valueOf(item.deviceProductStock)}"
                     android:textColor="#fff"
-                    android:textSize="30sp" />
+                    android:textSize="26sp" />
 
 
             </LinearLayout>
@@ -178,11 +178,11 @@
         <ImageView
             app:imageUrl="@{item.productImg03}"
             android:onClick="@{(view)->handler.itemClick(view,item)}"
-            android:layout_width="300dp"
-            android:layout_height="120dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dp_200" />
+            android:layout_marginBottom="@dimen/dp_70" />
     </RelativeLayout>
 
 </layout>

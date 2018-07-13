@@ -1,11 +1,14 @@
 package com.fresh.app.model.modelimpl;
 
+import android.util.Log;
+
 import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BaseLoadListener;
 import com.fresh.app.bean.FreshOrderBean;
 import com.fresh.app.bean.ProductDetailBean;
 import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.QRBean;
+import com.fresh.app.commonUtil.LogUtils;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.gen.ProductDetailBeanDao;
 import com.fresh.app.gen.ProductItemBeanDao;
@@ -50,7 +53,7 @@ public class PayeeModelImpl implements IPayeeModel {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        LogUtils.e("服务器bug"+e.getMessage());
                     }
 
                     @Override

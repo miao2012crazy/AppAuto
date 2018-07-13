@@ -1,6 +1,7 @@
 package com.fresh.app.listener;
 
 import com.fresh.app.bean.CardHistoryBean;
+import com.fresh.app.bean.CardHistoryItemBean;
 
 import java.util.List;
 
@@ -9,5 +10,5 @@ import java.util.List;
  */
 
 public interface OnCardHistoryListener {
-    void getCardHistorySuccess(List<CardHistoryBean.DataBean> cardHistoryBeans);
+    void getCardHistorySuccess(List<CardHistoryItemBean> cardHistoryBeans);
 }

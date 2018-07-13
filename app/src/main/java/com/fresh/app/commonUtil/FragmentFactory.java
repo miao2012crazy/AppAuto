@@ -10,6 +10,7 @@ import com.fresh.app.view.fragment.ProductFragment;
 import com.fresh.app.view.fragment.ProgressingFragment;
 import com.fresh.app.view.fragment.RechargeFragment;
 import com.fresh.app.view.fragment.ReserveFragment;
+import com.fresh.app.view.fragment.QueryFragment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,6 +47,9 @@ public class FragmentFactory {
                     break;
                 case 6:
                     fragment = new ReserveFragment();
+                    break;
+                case 7:
+                    fragment=new QueryFragment();
                     break;
             }
         }

@@ -160,16 +160,13 @@ public class SerialPortUtil {
             case 0:
                 //已经获取到序列号
 
-
-
-
 //                //查询
 //                String cmd = IConstant.read_walte + StringUtils.xor(IConstant.read_walte);
 //                SerialPortUtil.sendSerialPort(cmd);
 //                //修改状态不做任何操作
-                CustomApplaction.state=999;
-                CustomApplaction.MEMBER_ID=s;
-                EventBus.getDefault().post(new MessageEvent(1004,s));
+                CustomApplaction.state = 999;
+                CustomApplaction.MEMBER_ID = s;
+                EventBus.getDefault().post(new MessageEvent(1004, s));
 //                //临时关闭
 ////                sendSerialPort(IConstant.close_find + StringUtils.xor(IConstant.close_find));
 
@@ -178,7 +175,6 @@ public class SerialPortUtil {
             default:
 
                 break;
-
 
 
         }

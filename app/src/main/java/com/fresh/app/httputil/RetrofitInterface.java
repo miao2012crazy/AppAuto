@@ -10,6 +10,7 @@ import com.fresh.app.bean.QueryCardBean;
 import com.fresh.app.bean.ReserOrderBean;
 import com.fresh.app.bean.ReserveBean;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -64,4 +65,14 @@ public interface RetrofitInterface {
     @POST("getCardState")
     Observable<String> getRechargeResultFromNet(@Field("order_id") String orderId);
 
+    @FormUrlEncoded
+    @POST("takeGoods")
+    Observable<ReserOrderBean> getGoodsForCode(@Field("device_id") String device_id,@Field("sms_code") String code);
+    @FormUrlEncoded
+    @POST("getCode")
+    Observable<String> getCode(@Field("tel")String tel);
+
+    @FormUrlEncoded
+    @POST("update_card_info")
+    Observable<String> updateCardInfo(@Field("code") String code, @Field("tel") String tel, @Field("msg_id") String msg_id,@Field("member_id")  String member_id, @Field("device_id") String device_id);
 }

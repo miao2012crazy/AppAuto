@@ -14,4 +14,7 @@ public interface IQueryView extends IBaseView{
      */
     void getCardDataSuccessed(QueryCardBean cardBean);
 
+    void startTimer();
+
+    void setlayout(int position);
 }

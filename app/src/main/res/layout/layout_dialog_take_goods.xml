@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <variable
             name="handler"
-            type="com.fresh.app.handlerevent.HandlerEvent"/>
+            type="com.fresh.app.handlerevent.HandlerEvent" />
     </data>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="700dp"
         android:layout_height="wrap_content"
@@ -27,29 +30,55 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="#999" />
+
         <LinearLayout
 
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            >
+            android:layout_height="300dp">
+
             <TextView
-                android:layout_gravity="center"
                 android:id="@+id/tv_option_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:gravity="center"
                 android:text="提货码"
                 android:textColor="#666"
                 android:textSize="40sp" />
+
             <EditText
-                android:layout_gravity="center"
+                android:id="@+id/et_code"
                 android:layout_width="300dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
         </LinearLayout>
+
         <TextView
-            android:text="如未收到提货吗请拨打客服电话"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_80" />
+            android:layout_height="@dimen/dp_80"
+            android:text="如未收到提货吗请拨打客服电话" />
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="确认" />
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="取消" />
+        </LinearLayout>
+
+
     </LinearLayout>
 </layout>

@@ -15,7 +15,7 @@
 
         <fragment
             android:id="@+id/fragment_query"
-            android:name="com.fresh.app.view.viewimpl.QueryFragment"
+            android:name="com.fresh.app.view.fragment.QueryFragment"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"

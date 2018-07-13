@@ -21,7 +21,7 @@
         android:onClick="@{(view)->handler.reserveItem(view,item)}"
         android:layout_margin="@dimen/dp_10"
         android:background="#666"
-        android:layout_width="500dp"
+        android:layout_width="400dp"
         android:layout_height="match_parent"
         >
 
@@ -49,11 +49,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:paddingLeft="@dimen/dp_65"
-                android:paddingRight="@dimen/dp_65"
+                android:paddingLeft="@dimen/dp_20"
                 android:text="@{item.productName}"
                 android:textColor="#fff"
-                android:textSize="@dimen/sp_60" />
+                android:textSize="@dimen/sp_40"
+                android:paddingStart="@dimen/dp_20" />
 
             <TextView
                 android:id="@+id/tv_desc"
@@ -62,8 +62,8 @@
                 android:gravity="left"
                 android:lineSpacingExtra="@dimen/dp_10"
                 android:maxLines="3"
-                android:paddingLeft="@dimen/dp_65"
-                android:paddingRight="@dimen/dp_65"
+                android:paddingLeft="@dimen/dp_20"
+                android:paddingRight="@dimen/dp_20"
                 android:text="@{item.productDesc}"
                 android:textColor="#fff"
                 android:textSize="30sp" />
@@ -79,11 +79,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7"
                     android:gravity="left"
-                    android:paddingLeft="@dimen/dp_65"
-                    android:paddingRight="@dimen/dp_65"
+                    android:paddingLeft="@dimen/dp_20"
+                    android:paddingRight="@dimen/dp_20"
                     android:text="重量:"
                     android:textColor="#fff"
-                    android:textSize="30sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -92,7 +92,7 @@
                     android:gravity="left"
                     android:text="重量:"
                     android:textColor="#fff"
-                    android:textSize="30sp" />
+                    android:textSize="26sp" />
 
             </LinearLayout>
 
@@ -108,11 +108,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="left"
-                    android:paddingLeft="@dimen/dp_65"
-                    android:paddingRight="@dimen/dp_65"
+                    android:paddingLeft="@dimen/dp_20"
+                    android:paddingRight="@dimen/dp_20"
                     android:text="价格:"
                     android:textColor="#fff"
-                    android:textSize="30sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -121,7 +121,7 @@
                     android:gravity="left"
                     android:text="@{'¥'+String.valueOf(item.productPrice)+'/'+'每'+'桶'}"
                     android:textColor="#fff"
-                    android:textSize="30sp" />
+                    android:textSize="26sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -136,12 +136,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7"
                     android:gravity="left"
-                    android:paddingLeft="@dimen/dp_65"
-                    android:paddingRight="@dimen/dp_65"
+                    android:paddingLeft="@dimen/dp_20"
+                    android:paddingRight="@dimen/dp_20"
                     android:text="库存:"
                     android:visibility="gone"
                     android:textColor="#fff"
-                    android:textSize="30sp" />
+                    android:textSize="26sp" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -150,7 +150,7 @@
                     android:gravity="left"
                     android:text="@{String.valueOf(item.deviceProductStock)}"
                     android:textColor="#fff"
-                    android:textSize="30sp" />
+                    android:textSize="26sp" />
 
 
             </LinearLayout>
@@ -184,7 +184,6 @@
             android:id="@+id/textView2" />
 
         <ImageView
-
             app:imageUrl="@{item.productImg03}"
             android:layout_width="300dp"
             android:layout_height="120dp"

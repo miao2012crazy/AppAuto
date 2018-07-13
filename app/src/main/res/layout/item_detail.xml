@@ -28,11 +28,18 @@
             android:id="@+id/iv_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:scaleType="fitXY"
-            app:imageUrlLocal="@{item.imagebg}" />
+            app:imageUrlLocal="@{item.icon_bg}" />
+
+        <ImageView
+            android:layout_width="193dp"
+            android:layout_height="295dp"
+            android:layout_marginTop="200dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_caomi" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,34 +53,35 @@
                 android:gravity="center"
                 android:padding="@dimen/dp_20"
                 android:text="@{item.poroduct_name}"
-                android:textSize="@dimen/sp_50" />
+                android:textSize="@dimen/sp_40" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginTop="500dp"
-                android:paddingLeft="120dp"
-                android:paddingRight="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="400dp"
+                android:paddingLeft="10dp"
+                android:maxLines="3"
+                android:paddingRight="10dp"
                 android:text="@{item.product_desc}"
                 android:textColor="#fff"
-                android:textSize="@dimen/sp_28" />
+                android:textSize="@dimen/sp_26" />
 
-            <FrameLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
 
                 <ImageView
-                    app:imageUrlLocal="@{item.btn_bg}"
                     android:id="@+id/button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/dp_40"
+                    android:layout_marginBottom="122dp"
                     android:background="#fef"
-                    android:gravity="center"
                     android:onClick="@{(view)->handler.startProcessing(view,item)}"
-                     />
+                    app:imageUrlLocal="@{item.btn_bg}" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -84,7 +92,7 @@
                     android:adjustViewBounds="false"
                     android:src="@drawable/yundaolijian"
                     android:visibility="@{item.visiable ? View.VISIBLE : View.GONE}" />
-            </FrameLayout>
+            </RelativeLayout>
 
 
         </LinearLayout>

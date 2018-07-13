@@ -5,10 +5,12 @@ import com.fresh.app.bean.ProductBean;
 import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.QRBean;
 import com.fresh.app.bean.QueryCardBean;
+import com.fresh.app.bean.ReserOrderBean;
 import com.fresh.app.bean.ReserveBean;
 
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -113,5 +115,19 @@ public class HttpUtils {
      */
     public static Observable<String> getRechargeOrderState(String order_id) {
         return getRetrofit().getRechargeResultFromNet(order_id);
+    }
+
+    public static Observable<ReserOrderBean> getGoods(String device_id, String code) {
+        return getRetrofit().getGoodsForCode(device_id,code);
+    }
+
+    public static Observable<String>  getSmsCode(String tel) {
+        return getRetrofit().getCode(tel);
+
+    }
+
+    public static Observable<String> updateCard(String code, String tel, String msg_id, String member_id, String device_id) {
+        return getRetrofit().updateCardInfo(code,tel,msg_id,member_id,device_id);
+
     }
 }

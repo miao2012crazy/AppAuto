@@ -29,6 +29,17 @@ public class DetailBean extends  BaseObservable implements BindingAdapterItem {
 
     private int btn_bg;
 
+    private int icon_bg;
+    @Bindable
+    public int getIcon_bg() {
+        return icon_bg;
+    }
+
+    public void setIcon_bg(int icon_bg) {
+        this.icon_bg = icon_bg;
+        notifyPropertyChanged(BR.icon_bg);
+    }
+
     private boolean visiable=false;
     @Bindable
     public boolean isVisiable() {
@@ -48,7 +59,8 @@ public class DetailBean extends  BaseObservable implements BindingAdapterItem {
         this.product_id = product_id;
     }
 
-    public DetailBean(String product_id, int id, String poroduct_name, int imagebg, String product_desc, String btn_name, int btn_bg, boolean visiable) {
+
+    public DetailBean(String product_id, int id, String poroduct_name, int imagebg, String product_desc, String btn_name, int btn_bg, int icon_bg, boolean visiable) {
         this.product_id = product_id;
         this.id = id;
         this.poroduct_name = poroduct_name;
@@ -56,6 +68,7 @@ public class DetailBean extends  BaseObservable implements BindingAdapterItem {
         this.product_desc = product_desc;
         this.btn_name = btn_name;
         this.btn_bg = btn_bg;
+        this.icon_bg = icon_bg;
         this.visiable = visiable;
     }
 

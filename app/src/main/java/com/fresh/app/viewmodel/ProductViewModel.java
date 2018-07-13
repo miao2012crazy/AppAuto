@@ -77,7 +77,6 @@ public class ProductViewModel  implements BaseLoadListener<ProductBean>{
     }
 
     private void initList(ProductBean productBean) {
-
         mainList = new ArrayList<>();
         recyclerList = viewDataBinding.recyclerList.recyclerList;
         GridLayoutManager gridLayoutManager = new GridLayoutManager(UIUtils.getContext(), 4);
@@ -86,7 +85,6 @@ public class ProductViewModel  implements BaseLoadListener<ProductBean>{
         recyclerList.setAdapter(adapter);
         mainList.addAll(productBean.getData());
         adapter.setItems(mainList);
-
     }
 
     @Override

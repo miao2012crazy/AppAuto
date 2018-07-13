@@ -231,6 +231,12 @@ public class HandlerEvent {
      * @param detailBean
      */
     public void startProcessing(View view, DetailBean detailBean) {
+        UIUtils.showToast(detailBean.getBtn_name());
+        if (AppConstant.RESERORDERBEAN != null) {
+            EventBus.getDefault().post(new MessageEvent(10065, "4"));
+            return;
+        }
+
         //此处直接生成订单
         CustomApplaction.RICE_TYPE = detailBean.getId();
         CustomApplaction.PRODUCT_ID = detailBean.getProduct_id();
@@ -287,4 +293,9 @@ public class HandlerEvent {
 
 
     }
+
+    public void queryHistory(View view){
+        UIUtils.showToast("ceshiyixai");
+    }
+
 }
