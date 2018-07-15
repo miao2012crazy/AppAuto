@@ -36,7 +36,6 @@
         </activity>
         <activity android:name=".view.viewimpl.DebugActivity"/>
         <activity android:name=".view.viewimpl.DebugControlActivity"/>
-        <activity android:name=".view.PayeeActivity"/>
         <!--<activity android:name=".view.fragment.ProductFragment"/>-->
         <!--<receiver android:name=".receiver.BootReceiver" android:enabled="true" android:exported="true">-->
             <!--<intent-filter>-->

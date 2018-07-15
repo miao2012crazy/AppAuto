@@ -15,7 +15,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class DetailBean extends  BaseObservable implements BindingAdapterItem {
 
-    private String product_id;
+    private String PRODUCT_ID;
 
     private int id;
 
@@ -52,16 +52,16 @@ public class DetailBean extends  BaseObservable implements BindingAdapterItem {
     }
 
     public String getProduct_id() {
-        return product_id;
+        return PRODUCT_ID;
     }
 
     public void setProduct_id(String product_id) {
-        this.product_id = product_id;
+        this.PRODUCT_ID = product_id;
     }
 
 
     public DetailBean(String product_id, int id, String poroduct_name, int imagebg, String product_desc, String btn_name, int btn_bg, int icon_bg, boolean visiable) {
-        this.product_id = product_id;
+        this.PRODUCT_ID = product_id;
         this.id = id;
         this.poroduct_name = poroduct_name;
         this.imagebg = imagebg;

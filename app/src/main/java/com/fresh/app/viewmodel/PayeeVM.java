@@ -14,11 +14,11 @@ import com.fresh.app.bean.PayeeBean;
 import com.fresh.app.bean.QRBean;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.commonUtil.ZXingUtils;
-import com.fresh.app.databinding.ActivityPayeeBinding;
+import com.fresh.app.databinding.FragmentReserveBinding;
 import com.fresh.app.model.modelimpl.PayeeModelImpl;
 import com.fresh.app.service.PayResultService;
 import com.fresh.app.view.IPayeeView;
-import com.fresh.app.view.PayeeActivity;
+import com.fresh.app.view.IReserveView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,15 +30,15 @@ import static com.fresh.app.commonUtil.UIUtils.getResources;
  */
 
 public class PayeeVM {
-    private ActivityPayeeBinding mActivityPayeeBinding;
-    private IPayeeView IPayeeView;
+    private FragmentReserveBinding mActivityPayeeBinding;
+    private IReserveView IPayeeView;
     private RecyclerView recyclerList;
     private List<BindingAdapterItem> mainList;
     private List<PayeeBean> homeBeans;
     private BindingAdapter adapter;
 
 
-    public PayeeVM(ActivityPayeeBinding activityPayeeBinding, IPayeeView payeeView) {
+    public PayeeVM(FragmentReserveBinding activityPayeeBinding, IReserveView payeeView) {
         this.mActivityPayeeBinding = activityPayeeBinding;
         this.IPayeeView = payeeView;
         PayeeModelImpl payeeModel = new PayeeModelImpl();
@@ -49,9 +49,10 @@ public class PayeeVM {
      * 初始化列表
      */
     public void initRecyclerList() {
+
         mainList = new ArrayList<>();
         homeBeans = new ArrayList<>();
-        recyclerList = mActivityPayeeBinding.recyclerList.recyclerList;
+        recyclerList = mActivityPayeeBinding.fragmentPayee.recyclerList;
         GridLayoutManager gridLayoutManager = new GridLayoutManager(UIUtils.getContext(), 3);
         adapter = new BindingAdapter();
         recyclerList.setLayoutManager(gridLayoutManager);
@@ -64,20 +65,20 @@ public class PayeeVM {
         homeBeans.add(payeeBean2);
         mainList.addAll(homeBeans);
         adapter.setItems(mainList);
-        initQRCode(CustomApplaction.QR_BEAN);
+
     }
     /**
      * 初始化二维码
      *
      */
-    private void initQRCode(QRBean qrBean) {
-//        payeeModelImpl.creatOrder(productId, "20180515_01", this);
+    public void initQRCode(QRBean qrBean) {
         CustomApplaction.ORDER_ID = qrBean.getOrder_id();
         CustomApplaction.ISRESULT = true;
         UIUtils.getContext().startService(new Intent(UIUtils.getContext(), PayResultService.class));
         PayeeBean bindingAdapterItem = (PayeeBean) mainList.get(1);
         Bitmap qrImage = ZXingUtils.createQRImage(qrBean.getWechat_url(), 400, 400);
         bindingAdapterItem.setPay_image(qrImage);
+        IPayeeView.getPayResult(qrBean.getOrder_id());
     }
 
 }

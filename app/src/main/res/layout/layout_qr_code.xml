@@ -1,44 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
-        android:id="@+id/rl_qr_layout"
-        android:layout_width="800dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        <RelativeLayout
+            android:id="@+id/rl_qr_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/linearLayout">
+                <ImageView
+                    android:layout_margin="@dimen/dp_20"
+                    android:id="@+id/imageView2"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:background="#f00"
+                    android:scaleType="fitXY" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="350dp"
-            android:layout_height="350dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="65dp"
-            android:layout_marginStart="65dp"
-            android:layout_toEndOf="@+id/imageView3"
-            android:layout_toRightOf="@+id/imageView3"
-            android:background="#f00"
-            android:scaleType="fitXY" />
+                <ImageView
+                    android:layout_margin="@dimen/dp_20"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:background="#f00"
+                    android:scaleType="fitXY"
+                    android:id="@+id/imageView3" />
+            </LinearLayout>
 
-        <ImageView
-            android:layout_width="350dp"
-            android:layout_height="350dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="50dp"
-            android:layout_marginStart="50dp"
-            android:background="#f00"
-            android:scaleType="fitXY"
-            android:id="@+id/imageView3" />
 
-        <Button
-            android:id="@+id/btn_return"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/dp_30"
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:layout_below="@+id/imageView2"
-            android:text="返回"
-            android:textSize="@dimen/sp_40" />
+            <Button
+                android:id="@+id/btn_return"
+                android:layout_width="200dp"
+                android:layout_height="80dp"
+                android:layout_below="@+id/linearLayout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="54dp"
+                android:background="@drawable/shape_btn_return_2"
+                android:text="返回"
+                android:textColor="#fff"
+                android:textSize="@dimen/sp_40" />
     </RelativeLayout>
+
 </layout>

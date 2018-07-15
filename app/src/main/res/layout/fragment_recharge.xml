@@ -22,8 +22,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/imageView"
-                android:layout_marginLeft="82dp"
-                android:layout_marginStart="82dp"
                 android:layout_marginTop="26dp"
                 android:layout_toEndOf="@+id/imageView"
                 android:layout_toRightOf="@+id/imageView"
@@ -33,17 +31,14 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginTop="@dimen/dp_30"
+                android:layout_width="245dp"
+                android:layout_height="93dp"
                 android:src="@drawable/icon_chongzhi" />
 
             <ImageView
+                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center"
                 android:src="@drawable/ic_chongzhi" />
         </RelativeLayout>
 
@@ -62,7 +57,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="200dp"
                 android:orientation="horizontal">
 
                 <include
@@ -83,13 +78,16 @@
                     layout="@layout/layout_select" />
 
                 <include
+                    android:layout_centerInParent="true"
                     android:id="@+id/qr_layout"
                     layout="@layout/layout_qr_code"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent" />
 
                 <LinearLayout
-                    android:id="@+id/ll_pay_success"
                     android:visibility="gone"
+                    android:id="@+id/ll_pay_success"
                     android:gravity="center_horizontal"
                     android:background="#fff"
                     android:orientation="vertical"
@@ -108,14 +106,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <Button
+                            android:padding="@dimen/dp_10"
+                            android:background="@drawable/shape_btn_return_2"
+                            android:layout_margin="@dimen/dp_20"
                             android:onClick="@{handler.fragmentReturnMain}"
                             android:layout_width="0dp"
+                            android:textColor="#fff"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:text="返回首页"
+                            android:textSize="@dimen/sp_30"
                             android:id="@+id/button2" />
 
                         <Button
+                            android:padding="@dimen/dp_10"
+                            android:textColor="#fff"
+                            android:background="@drawable/shape_btn_get"
+                            android:layout_margin="@dimen/dp_20"
+                            android:textSize="@dimen/sp_30"
                             android:onClick="@{handler.fragmentReturnRecharge}"
                             android:layout_width="0dp"
                             android:layout_weight="1"

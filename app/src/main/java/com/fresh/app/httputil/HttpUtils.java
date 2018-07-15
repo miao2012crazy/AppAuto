@@ -130,4 +130,9 @@ public class HttpUtils {
         return getRetrofit().updateCardInfo(code,tel,msg_id,member_id,device_id);
 
     }
+
+    public static Observable<String> getReserveOrderState(String orderId) {
+        return getRetrofit().getReserveState(orderId);
+
+    }
 }

@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,13 +17,16 @@ import android.widget.LinearLayout;
 import com.fresh.app.R;
 import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BaseFragment;
+import com.fresh.app.bean.QRBean;
+import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.databinding.FragmentReserveBinding;
 import com.fresh.app.databinding.LayoutInputReserveBinding;
+import com.fresh.app.databinding.LayoutPaySuccessedBinding;
 import com.fresh.app.handlerevent.HandlerEvent;
 import com.fresh.app.service.PayResultService;
 import com.fresh.app.view.IReserveView;
-import com.fresh.app.view.PayeeActivity;
+import com.fresh.app.viewmodel.PayeeVM;
 import com.fresh.app.viewmodel.ReserveViewModel;
 
 import org.greenrobot.eventbus.EventBus;
@@ -38,6 +42,7 @@ public class ReserveFragment extends BaseFragment implements IReserveView {
     private AlertDialog dialog;
     private int num = 1;
     private ReserveViewModel reserveViewModel;
+    private PayeeVM payeeVM;
 
     @Nullable
     @Override
@@ -52,6 +57,9 @@ public class ReserveFragment extends BaseFragment implements IReserveView {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         reserveViewModel = new ReserveViewModel(bind, this);
+        payeeVM = new PayeeVM(bind,this);
+        payeeVM.initRecyclerList();
+
     }
 
     @Subscribe
@@ -59,6 +67,11 @@ public class ReserveFragment extends BaseFragment implements IReserveView {
         if (messageEvent.getCode() == 10097) {
             showDialog(messageEvent.getMessage());
         }
+
+        if (messageEvent.getCode()==10102){
+            showDialogForPay(0);
+        }
+
     }
 
     /**
@@ -87,9 +100,14 @@ public class ReserveFragment extends BaseFragment implements IReserveView {
     }
 
     @Override
-    public void openPayActivity() {
-        startActivityBase(getActivity(),PayeeActivity.class);
+    public void initPayee(QRBean qrBean) {
+        dialog.dismiss();
+//        startActivityBase(getActivity(),PayeeActivity.class);
+        bind.rlPayee.setVisibility(View.VISIBLE);
+        bind.rlReserve.setVisibility(View.GONE);
+        payeeVM.initQRCode(qrBean);
     }
+
 
     @Override
     public void getPayResult(String order_id) {
@@ -97,5 +115,34 @@ public class ReserveFragment extends BaseFragment implements IReserveView {
         CustomApplaction.ORDER_ID=order_id;
         CustomApplaction.ISRESULT=true;
         getActivity().startService(new Intent(getActivity(), PayResultService.class));
+    }
+
+
+    @Override
+    public void showDialogForPay(int last_position) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutPaySuccessedBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), R.layout.layout_reserve_successed, null, false);
+        builder.setView(binding.getRoot());
+        dialog = builder.create();
+        dialog.show();
+        dialog.setCanceledOnTouchOutside(false);
+        Window window = dialog.getWindow();
+        assert window != null;
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setLayout(UIUtils.dip2px(600), LinearLayout.LayoutParams.WRAP_CONTENT);
+        if (last_position == 0) {
+//            startProgress();
+
+        }
+        startProgress();
+    }
+
+    public void startProgress(){
+        new Handler().postDelayed(() -> {
+            if (dialog!=null){
+                dialog.dismiss();
+                EventBus.getDefault().post(new MessageEvent(10065, "0"));
+            }
+        }, 3000);
     }
 }

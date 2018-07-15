@@ -7,4 +7,5 @@ import com.fresh.app.base.IBaseView;
  */
 public interface IPayeeView extends IBaseView{
     void showDialogForPay(int position);
+
 }

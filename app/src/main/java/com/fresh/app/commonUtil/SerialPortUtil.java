@@ -3,6 +3,7 @@ package com.fresh.app.commonUtil;
 import android.util.Log;
 
 import com.fresh.app.applaction.CustomApplaction;
+import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.IConstant;
 import com.fresh.app.constant.MessageEvent;
 
@@ -36,10 +37,10 @@ public class SerialPortUtil {
     /**
      * 打开串口的方法
      */
-    public static void openSrialPort() {
+    public static void openSrialPort(String port_name) {
         Log.i("miao", "打开串口");
         try {
-            File device = new File("/dev/ttymxc1");
+            File device = new File(port_name);
             Log.e("device", device.getAbsolutePath());
             serialPort = new SerialPort(device, IConstant.BAUDRATE, 0);
             //获取打开的串口中的输入输出流，以便于串口数据的收发
@@ -150,29 +151,53 @@ public class SerialPortUtil {
         receiveThread.start();
     }
 
+
     /**
      * 判断当前数据内容 为支付状态 还是查询状态
+     * 读卡器状态     读卡器默认状态 默认状态
+     * 查询0
+     * 支付 1
+     * 读取会员卡号 2
+     * 装货 3
+     * 扫描米桶 4
+     * 检修卡调试页面 5
+     * 配送卡  6
      *
      * @param s
      */
     private static void parseData(String s) {
-        switch (CustomApplaction.state) {
+        CustomApplaction.MEMBER_ID = s;
+        switch (AppConstant.CARD_READER_STATE) {
             case 0:
-                //已经获取到序列号
-
-//                //查询
-//                String cmd = IConstant.read_walte + StringUtils.xor(IConstant.read_walte);
-//                SerialPortUtil.sendSerialPort(cmd);
-//                //修改状态不做任何操作
-                CustomApplaction.state = 999;
-                CustomApplaction.MEMBER_ID = s;
+                AppConstant.CARD_READER_STATE = 999;
                 EventBus.getDefault().post(new MessageEvent(1004, s));
-//                //临时关闭
-////                sendSerialPort(IConstant.close_find + StringUtils.xor(IConstant.close_find));
+                break;
+            case 1:
+                AppConstant.CARD_READER_STATE = 999;
+
 
                 break;
+            case 2:
+                AppConstant.CARD_READER_STATE = 999;
 
+
+                break;
+            case 3:
+
+
+
+                break;
+            case 4:
+
+
+
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
             default:
+
 
                 break;
 

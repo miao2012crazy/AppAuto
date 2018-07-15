@@ -75,4 +75,8 @@ public interface RetrofitInterface {
     @FormUrlEncoded
     @POST("update_card_info")
     Observable<String> updateCardInfo(@Field("code") String code, @Field("tel") String tel, @Field("msg_id") String msg_id,@Field("member_id")  String member_id, @Field("device_id") String device_id);
+
+    @FormUrlEncoded
+    @POST("reserve_order_state")
+    Observable<String> getReserveState(@Field("order_id") String orderId);
 }

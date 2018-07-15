@@ -1,31 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
+
         <variable
             name="handler"
-            type="com.fresh.app.handlerevent.HandlerEvent"/>
+            type="com.fresh.app.handlerevent.HandlerEvent" />
     </data>
+
     <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
-            android:textSize="@dimen/sp_60"
-            android:gravity="center"
-            android:text="选择要预定的大米"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView3" />
 
-        <include
-
-            android:id="@+id/recycler_list"
-            layout="@layout/layout_list"
+        <RelativeLayout
+            android:id="@+id/rl_reserve"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView3" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="选择要预定的大米"
+                android:textSize="@dimen/sp_60" />
+
+            <include
+                android:id="@+id/recycler_list"
+                layout="@layout/layout_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView3" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_payee"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <include
+                android:id="@+id/fragment_payee"
+                layout="@layout/layout_list"
+                android:layout_width="match_parent"
+                android:layout_height="800dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="95dp" />
+        </RelativeLayout>
 
         <Button
-            android:onClick="@{(view)->handler.fragmentReturnMain(view)}"
             android:id="@+id/btn_return"
             android:layout_width="@dimen/dp_180"
             android:layout_height="100dp"
@@ -34,6 +61,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginBottom="60dp"
             android:background="@drawable/shape_btn_return"
+            android:onClick="@{(view)->handler.fragmentReturnMain(view)}"
             android:text="返回"
             android:textColor="#f0f0f0"
             android:textSize="@dimen/sp_40" />

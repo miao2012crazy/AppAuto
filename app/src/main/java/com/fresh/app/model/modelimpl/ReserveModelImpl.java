@@ -61,7 +61,7 @@ public class ReserveModelImpl implements IReserveModel {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        LogUtils.e("1111"+e.getMessage());
                     }
 
                     @Override

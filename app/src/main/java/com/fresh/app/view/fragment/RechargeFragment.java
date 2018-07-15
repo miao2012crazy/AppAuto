@@ -27,6 +27,7 @@ import com.fresh.app.bean.PayeeBean;
 import com.fresh.app.commonUtil.LogUtils;
 import com.fresh.app.commonUtil.StringUtils;
 import com.fresh.app.commonUtil.UIUtils;
+import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.databinding.FragmentRechargeBinding;
 import com.fresh.app.databinding.LayoutPaySuccessedBinding;
@@ -57,6 +58,7 @@ public class RechargeFragment extends BaseFragment implements IRechargeView {
     private BindingAdapter adapter;
     private RechargeViewModel rechargeViewModel;
     private AlertDialog dialog;
+    private String tel="";
 
     @Nullable
     @Override
@@ -70,6 +72,7 @@ public class RechargeFragment extends BaseFragment implements IRechargeView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        AppConstant.CARD_READER_STATE=2;
         rechargeViewModel = new RechargeViewModel(this, bind);
         initRecyclerList();
         //TODO 由于按钮的点击事件不触发 先放这里用用
@@ -113,7 +116,7 @@ public class RechargeFragment extends BaseFragment implements IRechargeView {
     public void onrecieve(MessageEvent messageEvent) {
         switch (messageEvent.getCode()) {
             case 10098:
-                String tel = bind.recyclerList.etTel.getText().toString();
+                tel = bind.recyclerList.etTel.getText().toString();
                 String memberId = CustomApplaction.MEMBER_ID;
                 String money = messageEvent.getMessage();
                 if (tel.equals("") && memberId.equals("")) {
@@ -145,7 +148,15 @@ public class RechargeFragment extends BaseFragment implements IRechargeView {
 //                returnHome();
                 bind.llPaySuccess.setVisibility(View.VISIBLE);
                 break;
-
+            case 10103:
+                //读取到会员卡
+                String money1 = messageEvent.getMessage();
+                if (money1.equals("")) {
+                    UIUtils.showToast("请输入或选择充值金额");
+                    return;
+                }
+                rechargeViewModel.setRecharge(tel, memberId, money);
+                break;
         }
 
 

@@ -18,12 +18,11 @@
     </data>
 
     <RelativeLayout
-        android:onClick="@{(view)->handler.reserveItem(view,item)}"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
         android:layout_margin="@dimen/dp_10"
         android:background="#666"
-        android:layout_width="400dp"
-        android:layout_height="match_parent"
-        >
+        android:onClick="@{(view)->handler.reserveItem(view,item)}">
 
         <ImageView
             android:id="@+id/iv_image"
@@ -40,8 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/textView2"
-            android:layout_marginTop="154dp"
+            android:layout_marginTop="@dimen/dp_200"
             android:orientation="vertical">
 
             <TextView
@@ -50,15 +48,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:paddingLeft="@dimen/dp_20"
+                android:paddingStart="@dimen/dp_20"
                 android:text="@{item.productName}"
                 android:textColor="#fff"
-                android:textSize="@dimen/sp_40"
-                android:paddingStart="@dimen/dp_20" />
+                android:textSize="@dimen/sp_30" />
 
             <TextView
                 android:id="@+id/tv_desc"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="180dp"
+                android:layout_marginTop="@dimen/dp_40"
                 android:gravity="left"
                 android:lineSpacingExtra="@dimen/dp_10"
                 android:maxLines="3"
@@ -66,7 +65,7 @@
                 android:paddingRight="@dimen/dp_20"
                 android:text="@{item.productDesc}"
                 android:textColor="#fff"
-                android:textSize="30sp" />
+                android:textSize="26sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -123,40 +122,7 @@
                     android:textColor="#fff"
                     android:textSize="26sp" />
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_20"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.7"
-                    android:gravity="left"
-                    android:paddingLeft="@dimen/dp_20"
-                    android:paddingRight="@dimen/dp_20"
-                    android:text="库存:"
-                    android:visibility="gone"
-                    android:textColor="#fff"
-                    android:textSize="26sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.7"
-                    android:gravity="left"
-                    android:text="@{String.valueOf(item.deviceProductStock)}"
-                    android:textColor="#fff"
-                    android:textSize="26sp" />
-
-
-            </LinearLayout>
-
         </LinearLayout>
-
 
         <TextView
             android:id="@+id/textView"
@@ -172,6 +138,7 @@
             android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/textView"
@@ -180,16 +147,15 @@
             android:gravity="left|center_vertical"
             android:text="1kg/每桶"
             android:textColor="#666"
-            android:textSize="20sp"
-            android:id="@+id/textView2" />
+            android:textSize="26sp" />
 
         <ImageView
-            app:imageUrl="@{item.productImg03}"
             android:layout_width="300dp"
             android:layout_height="120dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dp_200" />
+            android:layout_marginBottom="@dimen/dp_200"
+            app:imageUrl="@{item.productImg03}" />
     </RelativeLayout>
 
 </layout>

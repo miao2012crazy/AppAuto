@@ -83,12 +83,29 @@ public class PayResultService extends Service {
     }
 
     private void getReserveResult() {
+        HttpUtils.getReserveOrderState(CustomApplaction.ORDER_ID)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableObserver<String>() {
+                    @Override
+                    public void onNext(String s) {
+                        Log.e("miao","支付查询"+CustomApplaction.ORDER_ID+"支付结果："+s);
+                        if (s.equals("1")){
+                            CustomApplaction.ISRESULT=false;
+                            CustomApplaction.ORDER_ID="";
+                            EventBus.getDefault().post(new MessageEvent(10102,"支付成功！"));
+                        }
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.e("服务器一场"+e.getMessage());
+                    }
+                    @Override
+                    public void onComplete() {
 
-
-
-
-
+                    }
+                });
     }
 
     /**

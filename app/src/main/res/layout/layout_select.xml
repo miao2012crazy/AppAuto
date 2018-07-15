@@ -14,27 +14,39 @@
         android:orientation="vertical">
 
         <EditText
+            android:paddingLeft="@dimen/dp_10"
+            android:background="@drawable/shape_et_input_2"
+            android:layout_margin="@dimen/dp_10"
             android:id="@+id/et_money"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_80"
+            android:layout_height="@dimen/dp_60"
+            android:textSize="@dimen/sp_26"
             android:hint="输入重置金额或选择（只能整存）" />
 
         <include
+            android:layout_marginTop="@dimen/dp_10"
             android:id="@+id/money_list"
-            layout="@layout/layout_list" />
+            layout="@layout/layout_list"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" />
 
         <EditText
+            android:paddingLeft="@dimen/dp_10"
+            android:background="@drawable/shape_et_input_2"
+            android:layout_margin="@dimen/dp_20"
             android:id="@+id/et_tel"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="60dp"
             android:hint="您可以直接输入手机号码，进行充值"
-            android:textSize="@dimen/sp_40" />
+            android:textSize="@dimen/sp_26" />
 
         <TextView
+            android:textColor="#17e643"
+            android:layout_margin="@dimen/dp_20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="声明：同时存在会员卡和手机号，将按照会员卡ID进行充值"
-            android:textSize="@dimen/sp_30" />
+            android:text="@string/tv_tip"
+            android:textSize="@dimen/sp_20" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,22 +54,29 @@
             android:orientation="horizontal">
 
             <Button
+                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_marginRight="@dimen/dp_40"
                 android:id="@+id/btn_confirm"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#f00"
+                android:background="@drawable/shape_btn_get"
                 android:gravity="center"
-
+                android:textColor="#fff"
+                android:textSize="@dimen/sp_30"
                 android:text="确认" />
 
             <Button
+                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_marginRight="@dimen/dp_40"
                 android:id="@+id/btn_return"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#f0f"
+                android:background="@drawable/shape_btn_return_2"
                 android:gravity="center"
+                android:textSize="@dimen/sp_30"
+                android:textColor="#fff"
                 android:text="返回" />
 
         </LinearLayout>

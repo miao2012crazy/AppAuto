@@ -75,6 +75,7 @@ public class MainActivity extends BaseActivity implements IBaseView, IMainView {
 //        startActivityBase(DebugActivity.class);
 //        //定时器服务
         startService(new Intent(MainActivity.this, TimeService.class));
+//        openFragment(new MessageEvent(10065,"4"));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -193,7 +194,8 @@ public class MainActivity extends BaseActivity implements IBaseView, IMainView {
         Window window = dialog.getWindow();
         assert window != null;
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().setLayout(UIUtils.dip2px(700), UIUtils.dip2px(500));
+
+        dialog.getWindow().setLayout(UIUtils.dip2px(800), UIUtils.dip2px(800));
         binding.btnConfirm.setOnClickListener(v -> {
             String code = binding.etCode.getText().toString();
             if (!TextUtils.isEmpty(code)) {

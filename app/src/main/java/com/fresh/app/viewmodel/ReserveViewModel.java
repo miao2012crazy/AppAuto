@@ -7,17 +7,13 @@ import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BindingAdapter;
 import com.fresh.app.base.BindingAdapterItem;
 import com.fresh.app.bean.QRBean;
-import com.fresh.app.bean.ReserOrderBean;
 import com.fresh.app.bean.ReserveBean;
 import com.fresh.app.commonUtil.UIUtils;
-import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.databinding.FragmentReserveBinding;
 import com.fresh.app.listener.OnAllProductListener;
 import com.fresh.app.listener.OnCreatReserveListener;
 import com.fresh.app.model.modelimpl.ReserveModelImpl;
 import com.fresh.app.view.IReserveView;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,12 +65,11 @@ public class ReserveViewModel implements OnAllProductListener, OnCreatReserveLis
 
     @Override
     public void onCreatSuccessed(QRBean qrBean) {
-        mReserveView.getPayResult(qrBean.getOrder_id());
         //已获取到二维码  打开支付页 准备支付
         UIUtils.showToast("微信支付"+qrBean.getWechat_url());
-        CustomApplaction.QR_BEAN=qrBean;
-        mReserveView.openPayActivity();
+        mReserveView.initPayee(qrBean);
     }
+
 
     @Override
     public void onCreatFailed(String err_msg) {

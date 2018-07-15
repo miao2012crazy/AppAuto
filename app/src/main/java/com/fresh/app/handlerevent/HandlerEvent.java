@@ -261,6 +261,7 @@ public class HandlerEvent {
     }
 
     public void fragmentReturnRecharge(View view) {
+        CustomApplaction.POSITION=111;
         EventBus.getDefault().post(new MessageEvent(10065, 5 + ""));
     }
 

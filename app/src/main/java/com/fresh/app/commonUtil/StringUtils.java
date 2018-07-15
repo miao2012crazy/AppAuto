@@ -4,11 +4,17 @@ import android.util.Log;
 
 import org.greenrobot.greendao.annotation.Convert;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.net.URLEncoder;
+import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by mr.miao on 2018/5/20.
@@ -109,7 +115,7 @@ public class StringUtils {
 
     /**
      * 10进制字符串 转为16进制字符串
-     * @return
+     * @ return
      */
     public static String convertDecToHexString(String s) {
         Log.i("", s);
@@ -239,6 +245,68 @@ public class StringUtils {
         }
         return String.valueOf(s1);
     }
+
+
+
+    /**
+     * 判断给定的字符串是否为null或者是空的
+     *
+     * @param string 给定的字符串
+     */
+    public static boolean isEmpty(String string) {
+        return string == null || "".equals(string.trim());
+    }
+
+
+
+
+    /**
+     * 把给定的字符串用给定的字符分割
+     *
+     * @param string 给定的字符串
+     * @param ch     给定的字符
+     * @return 分割后的字符串数组
+     */
+    public static String[] split(String string, char ch) {
+        ArrayList<String> stringList = new ArrayList<String>();
+        char chars[] = string.toCharArray();
+        int nextStart = 0;
+        for (int w = 0; w < chars.length; w++) {
+            if (ch == chars[w]) {
+                stringList.add(new String(chars, nextStart, w - nextStart));
+                nextStart = w + 1;
+                if (nextStart ==
+                        chars.length) {    //当最后一位是分割符的话，就再添加一个空的字符串到分割数组中去
+                    stringList.add("");
+                }
+            }
+        }
+        if (nextStart <
+                chars.length) {    //如果最后一位不是分隔符的话，就将最后一个分割符到最后一个字符中间的左右字符串作为一个字符串添加到分割数组中去
+            stringList.add(new String(chars, nextStart,
+                    chars.length - 1 - nextStart + 1));
+        }
+        return stringList.toArray(new String[stringList.size()]);
+    }
+
+
+
+
+    /**
+     * 是否全是数字
+     */
+    public static boolean isAllDigital(char[] chars) {
+        boolean result = true;
+        for (int w = 0; w < chars.length; w++) {
+            if (!Character.isDigit(chars[w])) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
+
 
 
 

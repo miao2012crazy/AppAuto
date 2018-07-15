@@ -45,4 +45,8 @@ public class IConstant {
     public  static final String reset_walte="0x0010 00 23 00 01 FF FF FF FF FF FF 04 03 02 01".replace(" ","").replace("0x","");
 
 
+
+
+
+
 }

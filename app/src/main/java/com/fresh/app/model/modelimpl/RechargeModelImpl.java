@@ -28,7 +28,7 @@ public class RechargeModelImpl implements IRechargeModel{
 
                     @Override
                     public void onError(Throwable e) {
-
+                        LogUtils.e("服务器"+e.getMessage());
                     }
 
                     @Override

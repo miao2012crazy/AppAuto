@@ -52,7 +52,11 @@ public class TimeService extends Service {
             EventBus.getDefault().post(new MessageEvent(1002,"自动获取网络数据"));
             isFirst=false;
         }
+        try{
         timer.schedule(timerTask,10000,1000*60*30);
+        }catch (Exception ex){
+
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
