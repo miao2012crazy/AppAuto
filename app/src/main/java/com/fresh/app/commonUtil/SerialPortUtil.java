@@ -1,11 +1,13 @@
 package com.fresh.app.commonUtil;
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.IConstant;
 import com.fresh.app.constant.MessageEvent;
+import com.fresh.app.view.viewimpl.DebugActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -166,15 +168,26 @@ public class SerialPortUtil {
      * @param s
      */
     private static void parseData(String s) {
+        String replace = s.replace(" ", "");
+        if (replace.equals("000d015c00e88b130e013416e0ed")){
+             EventBus.getDefault().post(new MessageEvent(10909,""));
+//            UIUtils.getContext().startActivity(new Intent(UIUtils.getContext(),DebugActivity.class));
+            return;
+        }
+
+
+
+//        if (replace.length()!=24)return;
         CustomApplaction.MEMBER_ID = s;
         switch (AppConstant.CARD_READER_STATE) {
             case 0:
+
                 AppConstant.CARD_READER_STATE = 999;
-                EventBus.getDefault().post(new MessageEvent(1004, s));
+                EventBus.getDefault().post(new MessageEvent(1004, replace));
                 break;
             case 1:
                 AppConstant.CARD_READER_STATE = 999;
-
+                EventBus.getDefault().post(new MessageEvent(10033,replace));
 
                 break;
             case 2:
@@ -188,7 +201,7 @@ public class SerialPortUtil {
 
                 break;
             case 4:
-
+                EventBus.getDefault().post(new MessageEvent(10034,replace));
 
 
                 break;

@@ -3,6 +3,8 @@ package com.fresh.app.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.fresh.app.MainActivity;
 
@@ -11,13 +13,25 @@ import com.fresh.app.MainActivity;
  */
 
 public class BootReceiver extends BroadcastReceiver {
-    static final String ACTION = "android.intent.action.BOOT_COMPLETED";
+    public static final String UPDATE_ACTION = "android.intent.action.PACKAGE_REPLACED";
+
+    // APP包名ID
+    public static final String PACKAGE_NAME = "com.fresh.app";
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals(ACTION)){
-            Intent sayHelloIntent=new Intent(context,MainActivity.class);
-            sayHelloIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(sayHelloIntent);
+
+        if (intent.getAction().equals(UPDATE_ACTION)) {
+            String packageName = intent.getData().getEncodedSchemeSpecificPart();
+            if (packageName.equals(PACKAGE_NAME)) {
+
+                Log.d("TAG", "更新安装成功....." + packageName);
+                Toast.makeText(context, "更新安装成功" + packageName, Toast.LENGTH_LONG).show();
+
+                // 重新启动APP
+                Intent intentToStart = context.getPackageManager().getLaunchIntentForPackage(packageName);
+                context.startActivity(intentToStart);
+            }
         }
     }
 }

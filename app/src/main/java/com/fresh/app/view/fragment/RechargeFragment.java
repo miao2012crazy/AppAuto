@@ -155,7 +155,8 @@ public class RechargeFragment extends BaseFragment implements IRechargeView {
                     UIUtils.showToast("请输入或选择充值金额");
                     return;
                 }
-                rechargeViewModel.setRecharge(tel, memberId, money);
+                //TODO 未完成
+//                rechargeViewModel.setRecharge(tel, memberId, money);
                 break;
         }
 

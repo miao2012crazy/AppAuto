@@ -76,7 +76,7 @@ public class HandlerEvent {
             imageView.setImageResource(R.mipmap.ic_launcher);
         } else {
             // Glide代替Volley
-            Glide.with(imageView.getContext()).load(HttpUrl.getBaseUrl() + url).into(imageView);
+            Glide.with(imageView.getContext()).load(HttpUrl.getBaseImgUrl() + url).into(imageView);
         }
 
     }

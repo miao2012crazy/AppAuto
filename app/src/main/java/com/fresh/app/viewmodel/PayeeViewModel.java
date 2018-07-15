@@ -17,6 +17,7 @@ import com.fresh.app.commonUtil.ZXingUtils;
 import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.databinding.FragmentPayeeBinding;
 import com.fresh.app.listener.OnCreatOrderListener;
+import com.fresh.app.listener.OnPayResultListener;
 import com.fresh.app.model.modelimpl.PayeeModelImpl;
 import com.fresh.app.service.PayResultService;
 import com.fresh.app.view.IPayeeView;
@@ -33,7 +34,7 @@ import static com.fresh.app.commonUtil.UIUtils.getResources;
 /**
  * Created by mr.miao on 2018/5/10.
  */
-public class PayeeViewModel implements OnCreatOrderListener {
+public class PayeeViewModel implements OnCreatOrderListener, OnPayResultListener {
     private final IPayeeView payeeView;
     private final FragmentPayeeBinding payeeBinding;
     private final PayeeModelImpl payeeModelImpl;
@@ -112,5 +113,21 @@ public class PayeeViewModel implements OnCreatOrderListener {
             //0 支付成功 1 支付失败
             payeeView.showDialogForPay(0);
         }
+    }
+
+    public void payForOrderUseCard(String card_id) {
+        CustomApplaction.ISRESULT=false;
+        payeeModelImpl.payForOrderUseCard(CustomApplaction.ORDER_ID,card_id,this);
+    }
+
+    @Override
+    public void onPaySuccessed() {
+        //支付成功
+        payeeView.showDialogForPay(0);
+    }
+
+    @Override
+    public void onPayFailed(String err_msg) {
+        UIUtils.showToast(err_msg);
     }
 }

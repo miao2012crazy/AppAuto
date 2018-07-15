@@ -337,7 +337,7 @@ public class UIUtils {
      * @return
      * @throws Exception
      */
-    public static double getVersionCode() {
+    public static int getVersionCode() {
         // 获取packagemanager的实例
         PackageManager packageManager = getContext().getPackageManager();
         // getPackageName()是你当前类的包名，0代表是获取版本信息
@@ -348,7 +348,7 @@ public class UIUtils {
             Log.e("版本信息", "获取版本信息异常");
             e.printStackTrace();
         }
-        double version = packInfo.versionCode;
+        int version = packInfo.versionCode;
         return version;
     }
 

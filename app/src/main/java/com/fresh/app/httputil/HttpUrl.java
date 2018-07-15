@@ -14,9 +14,17 @@ public class HttpUrl {
         if (AppConstant.isDebug){
 //            return "http://192.168.1.100:8080/";
             //手机热点
-            return "http://172.21.177.60:8080/";
-//            return "http://39.105.77.235/";
+//            return "http://172.21.177.60:8080/";
+            return "http://39.105.77.235/app/";
         }
         return baseUrl;
     }
+
+    public static String getBaseImgUrl() {
+        String imageBaseUrl = getBaseUrl() + "static/appImage/";
+        return imageBaseUrl;
+    }
+
+
+
 }

@@ -20,9 +20,11 @@ import android.widget.TextView;
 import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BaseActivity;
 import com.fresh.app.base.IBaseView;
+import com.fresh.app.commonUtil.ApkController;
 import com.fresh.app.commonUtil.FragmentFactory;
 import com.fresh.app.commonUtil.LogUtils;
 import com.fresh.app.commonUtil.UIUtils;
+import com.fresh.app.commonUtil.UpdateAppManager;
 import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.databinding.ActivityMainBinding;
@@ -30,6 +32,7 @@ import com.fresh.app.databinding.LayoutDialogTakeGoodsBinding;
 import com.fresh.app.handlerevent.HandlerEvent;
 import com.fresh.app.service.TimeService;
 import com.fresh.app.view.IMainView;
+import com.fresh.app.view.viewimpl.DebugActivity;
 import com.fresh.app.viewmodel.MainViewModel;
 
 import org.greenrobot.eventbus.EventBus;
@@ -50,6 +53,8 @@ public class MainActivity extends BaseActivity implements IBaseView, IMainView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setHandler(new HandlerEvent(this));
         mainViewModel = new MainViewModel(binding, this);
@@ -76,6 +81,11 @@ public class MainActivity extends BaseActivity implements IBaseView, IMainView {
 //        //定时器服务
         startService(new Intent(MainActivity.this, TimeService.class));
 //        openFragment(new MessageEvent(10065,"4"));
+//        startActivityBase(DebugActivity.class);
+
+        UpdateAppManager updateAppManager = new UpdateAppManager(this);
+        updateAppManager.checkVersion();
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -100,6 +110,9 @@ public class MainActivity extends BaseActivity implements IBaseView, IMainView {
             case 1004:
 //                startActivityBase(CardCenterActivity.class);
                 openFragment(new MessageEvent(10065,"7"));
+                break;
+            case 10909:
+                startActivityBase(DebugActivity.class);
                 break;
         }
 

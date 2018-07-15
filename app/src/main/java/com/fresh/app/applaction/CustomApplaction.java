@@ -17,6 +17,7 @@ import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.QRBean;
 import com.fresh.app.bean.ReserOrderBean;
 import com.fresh.app.bean.SocketBean;
+import com.fresh.app.commonUtil.ApkController;
 import com.fresh.app.commonUtil.CardReaderManage;
 import com.fresh.app.commonUtil.SerialPortUtil;
 import com.fresh.app.commonUtil.SocketUtil;
@@ -101,6 +102,7 @@ public class CustomApplaction extends Application {
         setDatabase();
         //初始化读卡器状态
         CardReaderManage.setCardReaderState(0);
+
     }
 
     /**
@@ -236,5 +238,7 @@ public class CustomApplaction extends Application {
     /**
      * -------------------视频缓存结束——————————————————————
      */
+
+
 
 }

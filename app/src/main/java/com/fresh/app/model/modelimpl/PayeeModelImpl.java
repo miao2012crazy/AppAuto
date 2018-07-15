@@ -8,12 +8,14 @@ import com.fresh.app.bean.FreshOrderBean;
 import com.fresh.app.bean.ProductDetailBean;
 import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.QRBean;
+import com.fresh.app.bean.ResultBean;
 import com.fresh.app.commonUtil.LogUtils;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.gen.ProductDetailBeanDao;
 import com.fresh.app.gen.ProductItemBeanDao;
 import com.fresh.app.httputil.HttpUtils;
 import com.fresh.app.listener.OnCreatOrderListener;
+import com.fresh.app.listener.OnPayResultListener;
 import com.fresh.app.model.IPayeeModel;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -62,5 +64,31 @@ public class PayeeModelImpl implements IPayeeModel {
                     }
                 });
 
+    }
+
+    @Override
+    public void payForOrderUseCard(String order_id, String card_id, OnPayResultListener onPayResultListener) {
+        HttpUtils.payOrderUseCard(order_id,card_id).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableObserver<ResultBean>() {
+                    @Override
+                    public void onNext(ResultBean resultBean) {
+                        if (resultBean.getResult().equals("Successed")){
+                            onPayResultListener.onPaySuccessed();
+                        }else {
+                            onPayResultListener.onPayFailed(resultBean.getErr_msg());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.e("服务器bug"+e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }

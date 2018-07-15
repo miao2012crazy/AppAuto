@@ -9,6 +9,9 @@ import com.fresh.app.bean.QRBean;
 import com.fresh.app.bean.QueryCardBean;
 import com.fresh.app.bean.ReserOrderBean;
 import com.fresh.app.bean.ReserveBean;
+import com.fresh.app.bean.ResultBean;
+import com.fresh.app.bean.RiceBucketBean;
+import com.fresh.app.bean.VersionBean;
 
 import io.reactivex.Completable;
 import io.reactivex.Observable;
@@ -79,4 +82,18 @@ public interface RetrofitInterface {
     @FormUrlEncoded
     @POST("reserve_order_state")
     Observable<String> getReserveState(@Field("order_id") String orderId);
+    @FormUrlEncoded
+    @POST("payForCard")
+    Observable<ResultBean> getPayResultForCard(@Field("order_id")String order_id, @Field("card_id")String card_id);
+    @FormUrlEncoded
+    @POST("getVersion")
+    Observable<VersionBean> getVersion(@Field("version_code") String s);
+
+    @FormUrlEncoded
+    @POST("getRiceBucket")
+    Observable<RiceBucketBean> getRiceBucketList(@Field("deviceid") String deviceid);
+
+    @FormUrlEncoded
+    @POST("updateRiceBucket")
+    Observable<ResultBean> updateRiceBucketState(@Field("deviceid") String deviceid,@Field("riceBucketId") String riceBucketId);
 }

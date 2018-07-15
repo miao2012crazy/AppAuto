@@ -17,7 +17,6 @@
                 android:layout_width="0dp"
                 android:layout_weight="4"
                 android:layout_height="match_parent"
-                android:background="@drawable/yundaolijian"
                 tools:ignore="NestedWeights" />
             <LinearLayout
                 android:layout_width="0dp"
@@ -93,7 +92,7 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_160"
+                        android:layout_height="@dimen/dp_140"
                         android:background="#111"
                         android:gravity="center"
                         android:padding="@dimen/dp_10"

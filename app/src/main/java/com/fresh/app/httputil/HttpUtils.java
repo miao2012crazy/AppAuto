@@ -7,6 +7,9 @@ import com.fresh.app.bean.QRBean;
 import com.fresh.app.bean.QueryCardBean;
 import com.fresh.app.bean.ReserOrderBean;
 import com.fresh.app.bean.ReserveBean;
+import com.fresh.app.bean.ResultBean;
+import com.fresh.app.bean.RiceBucketBean;
+import com.fresh.app.bean.VersionBean;
 
 import java.util.concurrent.TimeUnit;
 
@@ -134,5 +137,21 @@ public class HttpUtils {
     public static Observable<String> getReserveOrderState(String orderId) {
         return getRetrofit().getReserveState(orderId);
 
+    }
+
+    public static Observable<ResultBean> payOrderUseCard(String order_id, String card_id) {
+        return getRetrofit().getPayResultForCard(order_id,card_id);
+    }
+
+    public static Observable<VersionBean> getVersion(String s) {
+        return getRetrofit().getVersion(s);
+    }
+
+    public static Observable<RiceBucketBean> getRiceBucket(String deviceid) {
+        return getRetrofit().getRiceBucketList(deviceid);
+    }
+
+    public static Observable<ResultBean> updateRiceBucketState(String deviceid, String riceBucketId) {
+        return getRetrofit().updateRiceBucketState(deviceid,riceBucketId);
     }
 }
