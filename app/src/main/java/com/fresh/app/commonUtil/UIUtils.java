@@ -1,5 +1,7 @@
 package com.fresh.app.commonUtil;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -14,9 +16,13 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
@@ -77,7 +83,7 @@ public class UIUtils {
      * 复用线程池 开启子线程 执行
      * @param runnable
      */
-    public static void execute(Runnable runnable){
+    public static void execute(Runnable runnable) {
         CustomApplaction.getExecutorService().execute(runnable);
     }
 
@@ -561,18 +567,18 @@ public class UIUtils {
         //秒
         long l5 = l3 % 60;
         String hh = String.valueOf(l1);
-        if (hh.length()==1){
-            hh="0"+hh;
+        if (hh.length() == 1) {
+            hh = "0" + hh;
         }
         String mm = String.valueOf(l4);
-        if (mm.length()==1){
-            mm="0"+mm;
+        if (mm.length() == 1) {
+            mm = "0" + mm;
         }
         String ss = String.valueOf(l5);
-        if (ss.length()==1){
-            ss="0"+ss;
+        if (ss.length() == 1) {
+            ss = "0" + ss;
         }
-        return hh+":"+mm+":"+ss;
+        return hh + ":" + mm + ":" + ss;
     }
 
     public static long getDistanceTime(long time1, long time2) {
@@ -594,15 +600,64 @@ public class UIUtils {
     }
 
 
-
-    public  static  boolean isZero(){
+    public static boolean isZero() {
         Calendar cal = Calendar.getInstance();// 当前日期
         int hour = cal.get(Calendar.HOUR_OF_DAY);// 获取小时
         int minute = cal.get(Calendar.MINUTE);// 获取分钟
         int minuteOfDay = hour * 60 + minute;// 从0:00分开是到目前为止的分钟数
         final int start = 0;// 起始时间 00:00的分钟数
-        final int end = 60*12;// 结束时间 1:00的分钟数
+        final int end = 60 * 12;// 结束时间 1:00的分钟数
         return minuteOfDay >= start && minuteOfDay <= end;
     }
 
+
+    /**
+     * 获取经纬度
+     *
+     * @param context
+     * @return
+     */
+    public static String getLngAndLat(Context context, LocationListener locationListener) {
+        double latitude = 0.0;
+        double longitude = 0.0;
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        assert locationManager != null;
+//        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {  //从gps获取经纬度
+//            @SuppressLint("MissingPermission") Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//            if (location != null) {
+//                latitude = location.getLatitude();
+//                longitude = location.getLongitude();
+//            } else {//当GPS信号弱没获取到位置的时候又从网络获取
+//                return getLngAndLatWithNetwork(locationListener);
+//            }
+//        } else {    //从网络获取经纬度
+            if (ActivityCompat.checkSelfPermission(UIUtils.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(UIUtils.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return "";
+            }
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
+            if (ActivityCompat.checkSelfPermission(UIUtils.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(UIUtils.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return "";
+            }
+            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            if (location != null) {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+            }
+//        }
+        return longitude + "," + latitude;
+    }
 }

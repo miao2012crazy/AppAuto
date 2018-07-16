@@ -112,10 +112,6 @@ public class SocketUtil {
         String substring5 = String.valueOf(reverse).substring(40, 48);
         String substring6 = String.valueOf(reverse).substring(48, 56);
         String substring7 = String.valueOf(reverse).substring(56, 63);
-
-
-
-
         LogUtils.e("miao数据解析"+substring7+" "+substring6+" "+substring5+" "+substring4+" "+substring3+" "+substring2
         +" "+substring1+" "+ substring0);
     }
@@ -140,9 +136,8 @@ public class SocketUtil {
         }
 
         try {
-
+            
             Log.e("miao", Arrays.toString(data));
-
             OutputStream outputStream = socket.getOutputStream();
             outputStream.write(data);
             // 特别注意：数据的结尾加上换行符才可让服务器端的readline()停止阻塞

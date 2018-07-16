@@ -17,8 +17,8 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by mr.miao on 2018/7/15.
+ *
  */
-
 public class ProgressingModel implements IProgressModel {
 
 
