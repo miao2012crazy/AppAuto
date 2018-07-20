@@ -138,7 +138,6 @@ public class HandlerEvent {
             @Override
             public void onInitSuccess(Socket socket) {
                 byte[] binary = socketBean.getBinary("3", "5");
-                LogUtils.e(Arrays.toString(binary));
                 SocketUtil.sendDataToServer(socket, binary);
             }
 

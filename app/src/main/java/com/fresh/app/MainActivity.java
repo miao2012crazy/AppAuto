@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity implements IBaseView, IMainView {
 //        startActivityBase(DebugActivity.class);
 //        //定时器服务
         startService(new Intent(MainActivity.this, TimeService.class));
-//        openFragment(new MessageEvent(10065,"4"));
+        openFragment(new MessageEvent(10065,"4"));
 //        startActivityBase(DebugActivity.class);
 
         UpdateAppManager updateAppManager = new UpdateAppManager(this);

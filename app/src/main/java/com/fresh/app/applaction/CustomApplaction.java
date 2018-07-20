@@ -19,6 +19,7 @@ import com.fresh.app.bean.ReserOrderBean;
 import com.fresh.app.bean.SocketBean;
 import com.fresh.app.commonUtil.ApkController;
 import com.fresh.app.commonUtil.CardReaderManage;
+import com.fresh.app.commonUtil.LogUtils;
 import com.fresh.app.commonUtil.SerialPortUtil;
 import com.fresh.app.commonUtil.SocketUtil;
 import com.fresh.app.commonUtil.StringUtils;
@@ -96,6 +97,7 @@ public class CustomApplaction extends Application {
             @Override
             public void onInitFailed(String errStr) {
 //                UIUtils.showToast(errStr);
+                LogUtils.e("链接主机错误");
             }
         });
         //设置数据库

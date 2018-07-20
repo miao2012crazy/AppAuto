@@ -4,6 +4,9 @@ import android.util.Log;
 
 import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.bean.SocketBean;
+import com.fresh.app.constant.MessageEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -94,8 +97,9 @@ public class SocketUtil {
     }
 
     private static void parseData(byte[] bytes) {
-        LogUtils.e("miao数据解析"+Arrays.toString(bytes));
-
+        if (bytes[0]==0&&bytes[1]==0&&bytes[2]==0&&bytes[3]==0&&bytes[4]==0&&bytes[5]==0&&bytes[6]==0&&bytes[7]==0){
+            return;
+        }
         StringBuilder binary = new StringBuilder(StringUtils.binary(bytes, 2));
 
         if (binary.length()<64){
@@ -103,6 +107,10 @@ public class SocketUtil {
                 binary.insert(0, "0");
             }
         }
+
+
+
+
         StringBuilder reverse = binary.reverse();
         String substring0 = String.valueOf(reverse).substring(0, 8);
         String substring1 = String.valueOf(reverse).substring(8, 16);
@@ -111,9 +119,15 @@ public class SocketUtil {
         String substring4 = String.valueOf(reverse).substring(32, 40);
         String substring5 = String.valueOf(reverse).substring(40, 48);
         String substring6 = String.valueOf(reverse).substring(48, 56);
-        String substring7 = String.valueOf(reverse).substring(56, 63);
-        LogUtils.e("miao数据解析"+substring7+" "+substring6+" "+substring5+" "+substring4+" "+substring3+" "+substring2
+        String substring7 = String.valueOf(reverse).substring(56, 64);
+        String result=substring7+substring6+substring5+substring4+substring3+substring2+substring1+substring0;
+
+
+        Log.e("miao",Arrays.toString(bytes)+"\n"+"miao数据解析"+substring7+" "+substring6+" "+substring5+" "+substring4+" "+substring3+" "+substring2
         +" "+substring1+" "+ substring0);
+        Log.e("miao11",binary.length()+"");
+        EventBus.getDefault().post(new MessageEvent(10035,result));
+
     }
 
 
@@ -136,8 +150,8 @@ public class SocketUtil {
         }
 
         try {
-            
-            Log.e("miao", Arrays.toString(data));
+
+            Log.e("miao", "发送数据"+Arrays.toString(data));
             OutputStream outputStream = socket.getOutputStream();
             outputStream.write(data);
             // 特别注意：数据的结尾加上换行符才可让服务器端的readline()停止阻塞

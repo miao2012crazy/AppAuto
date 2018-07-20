@@ -142,7 +142,9 @@ public class DebugActivity extends BaseActivity implements IDebugView {
         mList.add(bean5_7);
 
         bindingAdapter.setItems(mList);
-
+        DebugBean bean02 = new DebugBean("34", "", "", "");
+        HandlerEvent handlerEvent = new HandlerEvent(this);
+        handlerEvent.start(new View(this),bean02);
     }
 
 
@@ -158,4 +160,11 @@ public class DebugActivity extends BaseActivity implements IDebugView {
     }
 
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        DebugBean bean02 = new DebugBean("34", "", "", "");
+        HandlerEvent handlerEvent = new HandlerEvent(this);
+        handlerEvent.stop(new View(this),bean02);
+    }
 }

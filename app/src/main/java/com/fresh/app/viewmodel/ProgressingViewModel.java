@@ -18,7 +18,7 @@ public class ProgressingViewModel {
         this.mProgressView = progressView;
         this.mBind = bind;
         progressingModel = new ProgressingModel();
-        initRiceBucket();
+//        initRiceBucket();
     }
 
     private void initRiceBucket() {

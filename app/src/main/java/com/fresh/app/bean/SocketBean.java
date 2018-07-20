@@ -39,7 +39,7 @@ public class SocketBean {
     boolean b3_1 = false;
     boolean b3_2 = false;
     boolean b3_3 = false;
-    boolean b3_4 = true;
+    boolean b3_4 = false;
     boolean b3_5 = false;
     boolean b3_6 = false;
     boolean b3_7 = false;
