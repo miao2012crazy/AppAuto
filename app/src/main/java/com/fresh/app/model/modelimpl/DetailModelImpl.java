@@ -1,34 +1,23 @@
 package com.fresh.app.model.modelimpl;
 
-import android.util.Log;
-
 import com.fresh.app.applaction.CustomApplaction;
-import com.fresh.app.base.BaseLoadListener;
-import com.fresh.app.bean.ProductDetailBean;
 import com.fresh.app.bean.ProductItemBean;
-import com.fresh.app.bean.QRBean;
-import com.fresh.app.gen.ProductDetailBeanDao;
+import com.fresh.app.constant.NetResponse;
 import com.fresh.app.gen.ProductItemBeanDao;
-import com.fresh.app.httputil.HttpUtils;
-import com.fresh.app.listener.OnCreatOrderListener;
+import com.fresh.app.httputil.HttpConstant;
+import com.fresh.app.httputil.HttpUrl;
+import com.fresh.app.model.BaseModel;
 import com.fresh.app.model.IDetailModel;
 
-import org.greenrobot.greendao.query.Query;
-
-import java.util.Arrays;
-import java.util.List;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by mr.miao on 2018/5/7.
  */
-public class DetailModelImpl implements IDetailModel {
+public class DetailModelImpl extends BaseModel implements IDetailModel {
 
     @Override
-    public void getDataForModel(String product_id, final BaseLoadListener<ProductItemBean> loadListener) {
+    public void getDataForModel(String product_id) {
 
         ProductItemBeanDao productItemBeanDao = CustomApplaction.getInstances().getDaoSession().getProductItemBeanDao();
         ProductItemBean productItemBean = productItemBeanDao.queryBuilder()
@@ -36,31 +25,11 @@ public class DetailModelImpl implements IDetailModel {
                 .unique();
 
         if (productItemBean==null){
-            HttpUtils.getProductDetail(product_id).subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new DisposableObserver<ProductItemBean>() {
-                        @Override
-                        public void onNext(ProductItemBean value) {
-                            //保存数据到数据库
-//                            saveRaw(value);
-                            loadListener.loadSuccess(value);
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
+            map.clear();
+            map.put("product_id",product_id);
+            getDataFromNet(HttpConstant.STATE_PRODUCT_DETAIL, HttpUrl.PRODUCT_DETAIL_URL,map);
         }else{
-            loadListener.loadSuccess(productItemBean);
+            EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_PRODUCT_DETAIL_2,productItemBean));
         }
     }
-
-
-
 }

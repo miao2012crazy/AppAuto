@@ -5,7 +5,7 @@
 
         <variable
             name="handler"
-            type="com.fresh.app.handlerevent.HandlerEvent" />
+            type="com.fresh.app.handler.HandlerEvent" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

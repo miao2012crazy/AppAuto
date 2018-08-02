@@ -1,7 +1,5 @@
 package com.fresh.app.bean;
 
-import java.util.List;
-
 /**
  * Created by mr.miao on 2018/7/15.
  */
@@ -9,89 +7,77 @@ import java.util.List;
 public class RiceBucketBean {
 
 
-    private List<DataBean> data;
+    /**
+     * id : 1
+     * riceBucketId : 000d015c00ac8a130e013416e0a8
+     * deviceId : 20180515_01
+     * productId : 201805151349
+     * riceDesc : 天津小站稻
+     * regDate :
+     * riceBucketState : 0
+     */
 
-    public List<DataBean> getData() {
-        return data;
+    private int id;
+    private String riceBucketId;
+    private String deviceId;
+    private String productId;
+    private String riceDesc;
+    private String regDate;
+    private int riceBucketState;
+
+    public int getId() {
+        return id;
     }
 
-    public void setData(List<DataBean> data) {
-        this.data = data;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public static class DataBean {
-        /**
-         * id : 1
-         * riceBucketId : 000d015c00ac8a130e013416e0a8
-         * deviceId : 20180515_01
-         * productId : 201805151349
-         * riceDesc : 天津小站稻
-         * regDate :
-         * riceBucketState : 0
-         */
+    public String getRiceBucketId() {
+        return riceBucketId;
+    }
 
-        private int id;
-        private String riceBucketId;
-        private String deviceId;
-        private String productId;
-        private String riceDesc;
-        private String regDate;
-        private int riceBucketState;
+    public void setRiceBucketId(String riceBucketId) {
+        this.riceBucketId = riceBucketId;
+    }
 
-        public int getId() {
-            return id;
-        }
+    public String getDeviceId() {
+        return deviceId;
+    }
 
-        public void setId(int id) {
-            this.id = id;
-        }
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
 
-        public String getRiceBucketId() {
-            return riceBucketId;
-        }
+    public String getProductId() {
+        return productId;
+    }
 
-        public void setRiceBucketId(String riceBucketId) {
-            this.riceBucketId = riceBucketId;
-        }
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
 
-        public String getDeviceId() {
-            return deviceId;
-        }
+    public String getRiceDesc() {
+        return riceDesc;
+    }
 
-        public void setDeviceId(String deviceId) {
-            this.deviceId = deviceId;
-        }
+    public void setRiceDesc(String riceDesc) {
+        this.riceDesc = riceDesc;
+    }
 
-        public String getProductId() {
-            return productId;
-        }
+    public String getRegDate() {
+        return regDate;
+    }
 
-        public void setProductId(String productId) {
-            this.productId = productId;
-        }
+    public void setRegDate(String regDate) {
+        this.regDate = regDate;
+    }
 
-        public String getRiceDesc() {
-            return riceDesc;
-        }
+    public int getRiceBucketState() {
+        return riceBucketState;
+    }
 
-        public void setRiceDesc(String riceDesc) {
-            this.riceDesc = riceDesc;
-        }
-
-        public String getRegDate() {
-            return regDate;
-        }
-
-        public void setRegDate(String regDate) {
-            this.regDate = regDate;
-        }
-
-        public int getRiceBucketState() {
-            return riceBucketState;
-        }
-
-        public void setRiceBucketState(int riceBucketState) {
-            this.riceBucketState = riceBucketState;
-        }
+    public void setRiceBucketState(int riceBucketState) {
+        this.riceBucketState = riceBucketState;
     }
 }

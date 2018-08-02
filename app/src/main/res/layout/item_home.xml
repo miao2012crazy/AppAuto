@@ -11,7 +11,7 @@
             type="java.util.List"/>
         <variable
             name="handler"
-            type="com.fresh.app.handlerevent.HandlerEvent" />
+            type="com.fresh.app.handler.HandlerEvent" />
     </data>
 
 

@@ -5,16 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
-import com.fresh.app.bean.QRBean;
-import com.fresh.app.bean.VersionBean;
-import com.fresh.app.httputil.HttpUtils;
-
 import java.io.File;
 import java.io.PrintWriter;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by mr.miao on 2018/7/15.

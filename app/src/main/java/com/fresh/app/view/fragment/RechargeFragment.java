@@ -3,19 +3,13 @@ package com.fresh.app.view.fragment;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.LinearLayout;
 
 import com.fresh.app.R;
 import com.fresh.app.applaction.CustomApplaction;
@@ -23,16 +17,11 @@ import com.fresh.app.base.BaseFragment;
 import com.fresh.app.base.BindingAdapter;
 import com.fresh.app.base.BindingAdapterItem;
 import com.fresh.app.bean.MoneyBean;
-import com.fresh.app.bean.PayeeBean;
-import com.fresh.app.commonUtil.LogUtils;
-import com.fresh.app.commonUtil.StringUtils;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.databinding.FragmentRechargeBinding;
-import com.fresh.app.databinding.LayoutPaySuccessedBinding;
-import com.fresh.app.databinding.LayoutRechargeSuccessedBinding;
-import com.fresh.app.handlerevent.HandlerEvent;
+import com.fresh.app.handler.HandlerEvent;
 import com.fresh.app.service.PayResultService;
 import com.fresh.app.view.IRechargeView;
 import com.fresh.app.viewmodel.RechargeViewModel;
@@ -42,8 +31,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.fresh.app.commonUtil.UIUtils.getResources;
 
 /**
  * Created by mr.miao on 2018/6/26.
@@ -134,20 +121,6 @@ public class RechargeFragment extends BaseFragment implements IRechargeView {
                 //设置金额
                 bind.recyclerList.etMoney.setText(messageEvent.getMessage());
                 break;
-            case 10100:
-//                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//                LayoutRechargeSuccessedBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), R.layout.layout_recharge_successed, null, false);
-//                builder.setView(binding.getRoot());
-//                dialog = builder.create();
-//                dialog.show();
-//                dialog.setCanceledOnTouchOutside(false);
-//                Window window = dialog.getWindow();
-//                assert window != null;
-//                window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                dialog.getWindow().setLayout(UIUtils.dip2px(600), LinearLayout.LayoutParams.WRAP_CONTENT);
-//                returnHome();
-                bind.llPaySuccess.setVisibility(View.VISIBLE);
-                break;
             case 10103:
                 //读取到会员卡
                 String money1 = messageEvent.getMessage();
@@ -162,27 +135,20 @@ public class RechargeFragment extends BaseFragment implements IRechargeView {
 
 
     }
-
-//    public void returnHome(){
-//        new Handler().postDelayed(() -> {
-//            if (dialog!=null){
-//                dialog.dismiss();
-//                EventBus.getDefault().post(new MessageEvent(10065, "0"));
-//            }
-//        }, 3000);
-//    }
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
 
+
+
+
     @Override
     public void getPayResult(String order_id) {
         CustomApplaction.RESULT_CODE = 1;
         CustomApplaction.ORDER_ID = order_id;
         CustomApplaction.ISRESULT = true;
-        LogUtils.e("order_id=" + order_id);
         UIUtils.getContext().startService(new Intent(getActivity(), PayResultService.class));
     }
 }

@@ -18,6 +18,7 @@ import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BaseFragment;
 import com.fresh.app.commonUtil.CardReaderManage;
 import com.fresh.app.commonUtil.UIUtils;
+import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.databinding.FragmentPayeeBinding;
 import com.fresh.app.databinding.LayoutPaySuccessedBinding;
@@ -50,7 +51,9 @@ public class PayeeFragment extends BaseFragment implements IPayeeView {
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
         payeeViewModel = new PayeeViewModel(this, bind);
-        CardReaderManage.setCardReaderState(1);
+        if (!AppConstant.isDebug) {
+            CardReaderManage.setCardReaderState(1);
+        }
     }
 
     @Override
@@ -94,7 +97,9 @@ public class PayeeFragment extends BaseFragment implements IPayeeView {
     public void onPause() {
         super.onPause();
         CustomApplaction.ISRESULT = false;
-        CardReaderManage.setCardReaderState(0);
+        if (!AppConstant.isDebug) {
+            CardReaderManage.setCardReaderState(0);
+        }
     }
 
     @Override

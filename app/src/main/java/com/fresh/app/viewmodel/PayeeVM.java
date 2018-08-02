@@ -11,13 +11,12 @@ import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BindingAdapter;
 import com.fresh.app.base.BindingAdapterItem;
 import com.fresh.app.bean.PayeeBean;
-import com.fresh.app.bean.QRBean;
+import com.fresh.app.bean.QrBean;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.commonUtil.ZXingUtils;
 import com.fresh.app.databinding.FragmentReserveBinding;
 import com.fresh.app.model.modelimpl.PayeeModelImpl;
 import com.fresh.app.service.PayResultService;
-import com.fresh.app.view.IPayeeView;
 import com.fresh.app.view.IReserveView;
 
 import java.util.ArrayList;
@@ -71,7 +70,7 @@ public class PayeeVM {
      * 初始化二维码
      *
      */
-    public void initQRCode(QRBean qrBean) {
+    public void initQRCode(QrBean qrBean) {
         CustomApplaction.ORDER_ID = qrBean.getOrder_id();
         CustomApplaction.ISRESULT = true;
         UIUtils.getContext().startService(new Intent(UIUtils.getContext(), PayResultService.class));

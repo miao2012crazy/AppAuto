@@ -343,7 +343,6 @@ public class SocketUtil {
             case "57":
                 socketBean.setB5_7(bool);
                 return socketBean;
-
             default:
                 return socketBean;
 

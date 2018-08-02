@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.fresh.app.BR;
 import com.fresh.app.commonUtil.UIUtils;
-import com.fresh.app.handlerevent.HandlerEvent;
+import com.fresh.app.handler.HandlerEvent;
 
 import java.util.ArrayList;
 import java.util.List;

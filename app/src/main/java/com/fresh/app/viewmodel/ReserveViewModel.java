@@ -3,17 +3,21 @@ package com.fresh.app.viewmodel;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BindingAdapter;
 import com.fresh.app.base.BindingAdapterItem;
-import com.fresh.app.bean.QRBean;
-import com.fresh.app.bean.ReserveBean;
+import com.fresh.app.bean.QrBean;
+import com.fresh.app.bean.ReserveItemBean;
+import com.fresh.app.commonUtil.GsonUtil;
 import com.fresh.app.commonUtil.UIUtils;
+import com.fresh.app.constant.NetResponse;
 import com.fresh.app.databinding.FragmentReserveBinding;
-import com.fresh.app.listener.OnAllProductListener;
-import com.fresh.app.listener.OnCreatReserveListener;
+import com.fresh.app.httputil.HttpConstant;
 import com.fresh.app.model.modelimpl.ReserveModelImpl;
 import com.fresh.app.view.IReserveView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +26,7 @@ import java.util.List;
  * Created by mr.miao on 2018/6/28.
  */
 
-public class ReserveViewModel implements OnAllProductListener, OnCreatReserveListener {
+public class ReserveViewModel {
     private final FragmentReserveBinding mBind;
     private final IReserveView mReserveView;
     private List<BindingAdapterItem> mainList;
@@ -31,48 +35,44 @@ public class ReserveViewModel implements OnAllProductListener, OnCreatReserveLis
     private final ReserveModelImpl reserveModelImpl;
 
     public ReserveViewModel(FragmentReserveBinding bind, IReserveView iReserveView) {
+        EventBus.getDefault().register(this);
         this.mBind = bind;
         this.mReserveView = iReserveView;
         reserveModelImpl = new ReserveModelImpl();
-        reserveModelImpl.getAllProductInfo("", this);
+        reserveModelImpl.getAllProductInfo("");
         recyclerList = bind.recyclerList.recyclerList;
+
     }
 
-    private void initList(ReserveBean reserveBean) {
+    private void initList(List<ReserveItemBean> reserveItemBeans) {
         mainList = new ArrayList<>();
         LinearLayoutManager ms= new LinearLayoutManager(UIUtils.getContext());
         ms.setOrientation(LinearLayoutManager.HORIZONTAL);
         adapter = new BindingAdapter();
         recyclerList.setLayoutManager(ms);
         recyclerList.setAdapter(adapter);
-        mainList.addAll(reserveBean.getData());
+        mainList.addAll(reserveItemBeans);
         adapter.setItems(mainList);
     }
 
-    @Override
-    public void onSuccessed(ReserveBean reserveBean) {
-        initList(reserveBean);
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void  receiveData(NetResponse netResponse){
+        switch (netResponse.getTag()){
+            case HttpConstant.RESERVE_ALL_PRODUCT:
+                List<ReserveItemBean> reserveItemBeans = GsonUtil.jsonToList((String) netResponse.getData(), ReserveItemBean.class);
+                initList(reserveItemBeans);
+                break;
+            case HttpConstant.STATE_RESERVE_CREAT:
+                QrBean qrBean = GsonUtil.GsonToBean((String) netResponse.getData(), QrBean.class);
+                mReserveView.initPayee(qrBean);
+                break;
+        }
     }
 
-    @Override
-    public void onFailed(String err_msg) {
-
-    }
 
     public void creatReserveOrder(String product_id, String user_tel, int num) {
-        reserveModelImpl.creatReserve(product_id,user_tel,num+"",this);
+        reserveModelImpl.creatReserve(product_id,user_tel,num+"");
     }
 
-    @Override
-    public void onCreatSuccessed(QRBean qrBean) {
-        //已获取到二维码  打开支付页 准备支付
-        UIUtils.showToast("微信支付"+qrBean.getWechat_url());
-        mReserveView.initPayee(qrBean);
-    }
-
-
-    @Override
-    public void onCreatFailed(String err_msg) {
-
-    }
 }

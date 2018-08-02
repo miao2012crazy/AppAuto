@@ -7,26 +7,37 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.fresh.app.applaction.CustomApplaction;
+import com.fresh.app.bean.FreshOrderBean;
+import com.fresh.app.bean.RechargeResultBean;
+import com.fresh.app.bean.ReserveResultBean;
+import com.fresh.app.commonUtil.GsonUtil;
 import com.fresh.app.commonUtil.LogUtils;
 import com.fresh.app.commonUtil.UIUtils;
-import com.fresh.app.constant.MessageEvent;
-import com.fresh.app.httputil.HttpUtils;
+import com.fresh.app.constant.NetResponse;
+import com.fresh.app.httputil.HttpConstant;
+import com.fresh.app.httputil.HttpUrl;
+import com.fresh.app.httputil.NovateUtil;
+import com.tamic.novate.BaseSubscriber;
+import com.tamic.novate.Throwable;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 
 /**
  * Created by mr.miao on 2018/6/3.
  */
 
 public class PayResultService extends Service {
-
+    /**
+     * post请求参数集合  使用前请清空
+     */
+    private HashMap<String,Object> map=new HashMap<>();
     private Timer timer = new Timer();
     @Nullable
     @Override
@@ -55,6 +66,8 @@ public class PayResultService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
+
+
     private void getResultFromNet() {
         switch (CustomApplaction.RESULT_CODE){
             case 0:
@@ -64,110 +77,47 @@ public class PayResultService extends Service {
                 break;
             case 1:
                 getWechatRechargeResult();
-
-
                 //充值
                 break;
             case 2:
                 //预定支付
                 getReserveResult();
-
-
                 break;
         }
-
-
-
-
-
     }
 
+    /**
+     * 预定
+     */
     private void getReserveResult() {
-        HttpUtils.getReserveOrderState(CustomApplaction.ORDER_ID)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableObserver<String>() {
-                    @Override
-                    public void onNext(String s) {
-                        Log.e("miao","支付查询"+CustomApplaction.ORDER_ID+"支付结果："+s);
-                        if (s.equals("1")){
-                            CustomApplaction.ISRESULT=false;
-                            CustomApplaction.ORDER_ID="";
-                            EventBus.getDefault().post(new MessageEvent(10102,"支付成功！"));
-                        }
-                    }
+        map.clear();
+        map.put("order_id",CustomApplaction.ORDER_ID);
+        getDataFromNet(HttpConstant.STATE_RESERVE_RESIULT,HttpUrl.RESERVE_RESULT_URL,map);
 
-                    @Override
-                    public void onError(Throwable e) {
-                        LogUtils.e("服务器一场"+e.getMessage());
-                    }
-                    @Override
-                    public void onComplete() {
 
-                    }
-                });
     }
 
     /**
      * 充值
      */
     private void getWechatRechargeResult() {
-        HttpUtils.getRechargeOrderState(CustomApplaction.ORDER_ID)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableObserver<String>() {
-                    @Override
-                    public void onNext(String s) {
-                        Log.e("miao","支付查询"+CustomApplaction.ORDER_ID+"支付结果："+s);
-                        if (s.equals("1")){
-                            CustomApplaction.ISRESULT=false;
-                            CustomApplaction.ORDER_ID="";
-                            EventBus.getDefault().post(new MessageEvent(10100,"充值成功！"));
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        LogUtils.e("服务器一场"+e.getMessage());
-                    }
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+        map.clear();
+        map.put("order_id",CustomApplaction.ORDER_ID);
+        getDataFromNet(HttpConstant.STATE_RECHARGE_PAY_RESULT, HttpUrl.PAY_RECHARGE_RESULT_URL,map);
 
     }
 
+    /**
+     * 购买商品
+     */
     private void getData() {
         if (CustomApplaction.ORDER_ID.equals("")){
-            LogUtils.e("订单id为\"\"");
+            LogUtils.e("订单id为null");
             return;
         }
-
-
-        HttpUtils.getPayResult(CustomApplaction.ORDER_ID)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableObserver<String>() {
-                    @Override
-                    public void onNext(String s) {
-                        Log.e("miao","支付查询"+CustomApplaction.ORDER_ID+"支付结果："+s);
-                        if (s.equals("1")){
-                            CustomApplaction.ISRESULT=false;
-                            CustomApplaction.ORDER_ID="";
-                            EventBus.getDefault().post(new MessageEvent(1009,"支付成功！"));
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+        map.clear();
+        map.put("order_id",CustomApplaction.ORDER_ID);
+        getDataFromNet(HttpConstant.STATE_PRODUCT_PAY_STATE, HttpUrl.PAY_PRODUCT_RESULT_URL,map);
     }
 
     @Override
@@ -175,5 +125,62 @@ public class PayResultService extends Service {
         super.onDestroy();
         timer.cancel();
         timerTask.cancel();
+    }
+
+
+
+    protected void getDataFromNet(String tag, String url, HashMap<String, Object> map) {
+
+        NovateUtil.getInstance().post(url, map, new BaseSubscriber<ResponseBody>() {
+            @Override
+            public void onError(Throwable e) {
+                Log.e("miao", "请求失败");
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+
+                try {
+                    switch (CustomApplaction.RESULT_CODE){
+                        case 0:
+                            FreshOrderBean freshOrderBean = GsonUtil.GsonToBean(responseBody.string(), FreshOrderBean.class);
+
+                            if (freshOrderBean.isResult()) {
+                                Log.e("新网络框架", "请求成功");
+                                EventBus.getDefault().post(new NetResponse(tag, freshOrderBean));
+                            } else {
+                                UIUtils.showToast(freshOrderBean.getMsg());
+                            }
+
+                            break;
+                        case 1:
+                            RechargeResultBean rechargeResultBean = GsonUtil.GsonToBean(responseBody.string(), RechargeResultBean.class);
+
+                            if (rechargeResultBean.isResult()) {
+                                Log.e("新网络框架", "请求成功");
+                                EventBus.getDefault().post(new NetResponse(tag, rechargeResultBean));
+                            } else {
+                                UIUtils.showToast(rechargeResultBean.getMsg());
+                            }
+                            break; case 2:
+                            ReserveResultBean reserveResultBean = GsonUtil.GsonToBean(responseBody.string(), ReserveResultBean.class);
+
+                            if (reserveResultBean.isResult()) {
+                                Log.e("新网络框架", "请求成功");
+                                EventBus.getDefault().post(new NetResponse(tag, reserveResultBean));
+                            } else {
+                                UIUtils.showToast(reserveResultBean.getMsg());
+                            }
+                            break;
+
+                    }
+
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

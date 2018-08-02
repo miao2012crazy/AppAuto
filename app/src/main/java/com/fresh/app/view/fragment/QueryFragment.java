@@ -14,10 +14,9 @@ import android.widget.RelativeLayout;
 import com.fresh.app.R;
 import com.fresh.app.base.BaseFragment;
 import com.fresh.app.bean.QueryCardBean;
-import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.databinding.FragmentQueryBinding;
-import com.fresh.app.handlerevent.HandlerEvent;
+import com.fresh.app.handler.HandlerEvent;
 import com.fresh.app.view.IQueryView;
 import com.fresh.app.viewmodel.QueryCardViewModel;
 
@@ -36,10 +35,8 @@ public class QueryFragment extends BaseFragment implements IQueryView {
     private RecyclerView recyclerView;
     private LinearLayout ll_list;
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_query, container, false);
         return bind.getRoot();
     }
@@ -47,15 +44,12 @@ public class QueryFragment extends BaseFragment implements IQueryView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        EventBus.getDefault().register(this);
         bind.setHandler(new HandlerEvent(getActivity()));
         ll_center = bind.layoutCenter.llCenter;
         rl_attach = bind.layoutAttach.rlAttach;
         recyclerView = bind.recyclerList.recyclerList;
         ll_list = bind.llList;
-//  bind = DataBindingUtil.bind(view);
         queryCardViewModel = new QueryCardViewModel(this, bind);
-//        EventBus.getDefault().post(new MessageEvent(1004,"000b01205e724ba5040008e4"));
         bind.layoutCenter.ivQueryHistory.setOnClickListener(v -> {
             setlayout(1);
         });
@@ -71,7 +65,7 @@ public class QueryFragment extends BaseFragment implements IQueryView {
         setlayout(0);
         queryCardViewModel.initHistory();
         bind.tvReturn.setOnClickListener(v -> {
-            EventBus.getDefault().post(new MessageEvent(10065,"0"));
+            EventBus.getDefault().post(new MessageEvent(10065, "0"));
         });
     }
 

@@ -9,7 +9,7 @@ import com.fresh.app.bean.ReserOrderBean;
 public class AppConstant {
     public static ReserOrderBean RESERORDERBEAN = null;
     /**
-     * 是否为调试模式
+     * 是否为调试模式 调试模式下 无法连接硬件
      */
     public static boolean isDebug = true;
     /**
@@ -32,5 +32,7 @@ public class AppConstant {
      */
     public static int CARD_READER_STATE=999;
 
+
+    public static String DEVICE_ID="20180515_01";
 
 }

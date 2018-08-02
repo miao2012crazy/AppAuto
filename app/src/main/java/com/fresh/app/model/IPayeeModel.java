@@ -1,19 +1,13 @@
 package com.fresh.app.model;
 
-import com.fresh.app.base.BaseLoadListener;
-import com.fresh.app.bean.FreshOrderBean;
-import com.fresh.app.bean.ProductDetailBean;
-import com.fresh.app.listener.OnCreatOrderListener;
-import com.fresh.app.listener.OnPayResultListener;
-
 /**
  * Created by mr.miao on 2018/5/10.
  */
 
 public interface IPayeeModel {
     boolean updateLocalData(String product_id);
-    void creatOrder(String product_id, String deviceid, OnCreatOrderListener onCreatOrderListener);
+    void creatOrder(String product_id, String deviceid );
 
-    void payForOrderUseCard(String order_id,String card_id,OnPayResultListener onPayResultListener);
+    void payForOrderUseCard(String order_id,String card_id);
 
 }

@@ -48,7 +48,8 @@
                     android:layout_marginTop="@dimen/dp_10"
                     android:padding="@dimen/dp_10"
                     android:scaleType="fitXY"
-                    app:imageUrl="@{item.productImg02}" />
+                    app:imageUrl="@{item.productImg02}"
+                    android:contentDescription="@string/app_name" />
 
 
                 <TextView

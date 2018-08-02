@@ -14,9 +14,9 @@ import com.fresh.app.view.IHomeView;
 import com.fresh.app.viewmodel.HomeViewModel;
 
 /**
+ *
  * Created by mr.miao on 2018/6/15.
  */
-
 public class HomeFragment extends BaseFragment implements IHomeView{
 
     private FragmentHomeBinding bind;
@@ -31,7 +31,6 @@ public class HomeFragment extends BaseFragment implements IHomeView{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        EventBus.getDefault().register(this);
         HomeViewModel homeViewModel = new HomeViewModel(this,bind);
     }
 }

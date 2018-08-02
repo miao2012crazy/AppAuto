@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Button;
 
 import com.fresh.app.R;
@@ -14,7 +13,7 @@ import com.fresh.app.base.BindingAdapter;
 import com.fresh.app.base.BindingAdapterItem;
 import com.fresh.app.bean.DebugBean2;
 import com.fresh.app.databinding.ActivityDebugBinding;
-import com.fresh.app.handlerevent.HandlerEvent;
+import com.fresh.app.handler.HandlerEvent;
 
 import java.util.ArrayList;
 import java.util.List;

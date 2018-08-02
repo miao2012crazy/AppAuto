@@ -1,13 +1,10 @@
 package com.fresh.app;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -23,7 +20,6 @@ import android.widget.TextView;
 import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BaseActivity;
 import com.fresh.app.base.IBaseView;
-import com.fresh.app.commonUtil.ApkController;
 import com.fresh.app.commonUtil.FragmentFactory;
 import com.fresh.app.commonUtil.LogUtils;
 import com.fresh.app.commonUtil.UIUtils;
@@ -32,7 +28,7 @@ import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.databinding.ActivityMainBinding;
 import com.fresh.app.databinding.LayoutDialogTakeGoodsBinding;
-import com.fresh.app.handlerevent.HandlerEvent;
+import com.fresh.app.handler.HandlerEvent;
 import com.fresh.app.service.TimeService;
 import com.fresh.app.view.IMainView;
 import com.fresh.app.view.viewimpl.DebugActivity;
@@ -83,7 +79,7 @@ public class MainActivity extends BaseActivity implements IBaseView, IMainView {
 //        startActivityBase(DebugActivity.class);
 //        //定时器服务
         startService(new Intent(MainActivity.this, TimeService.class));
-        openFragment(new MessageEvent(10065,"4"));
+        openFragment(new MessageEvent(10065,"7"));
 //        startActivityBase(DebugActivity.class);
 
         UpdateAppManager updateAppManager = new UpdateAppManager(this);

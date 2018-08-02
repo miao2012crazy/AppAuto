@@ -4,33 +4,27 @@ package com.fresh.app.commonUtil;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.support.v7.app.AlertDialog;
-
+import android.util.Log;
 
 import com.fresh.app.bean.VersionBean;
+import com.fresh.app.httputil.HttpConstant;
 import com.fresh.app.httputil.HttpUrl;
-import com.fresh.app.httputil.HttpUtils;
+import com.fresh.app.httputil.NovateUtil;
 import com.fresh.app.receiver.PackageUtils;
+import com.tamic.novate.BaseSubscriber;
+import com.tamic.novate.Throwable;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 
 /**
  * Created by Administrator on 2017/8/28.
@@ -46,7 +40,7 @@ public class UpdateAppManager {
     private static final String TAG = "Update_log";
     private Context context;
     //获取新版APK的默认地址
-    public static String apk_path_base = HttpUrl.getBaseUrl()+"static/version/";
+    public static String apk_path_base = HttpUrl.getBaseUrl() + "static/version/";
     public static String apk_path = "";
     // 下载应用的进度条
     private ProgressDialog progressDialog;
@@ -57,32 +51,12 @@ public class UpdateAppManager {
     }
 
 
-    public  void checkVersion(){
+    public void checkVersion() {
         int versionCode = UIUtils.getVersionCode();
-
-        HttpUtils.getVersion(versionCode+"").subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableObserver<VersionBean>() {
-                    @Override
-                    public void onNext(VersionBean versionBean) {
-                        if (versionBean.isResult()){
-                            apk_path=apk_path_base+versionBean.getFile_path();
-                            //需要升级 下载升级包
-                            showDownloadDialog();
-                        }
-                    }
-                    @Override
-                    public void onError(Throwable e) {
-                        LogUtils.e("服务器"+e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+        map.clear();
+        map.put("version_code",versionCode+"");
+        getDataFromNet(HttpConstant.STATE_GET_VERSION, HttpUrl.GET_VERSION_URL, map);
     }
-
 
 
     /**
@@ -208,10 +182,47 @@ public class UpdateAppManager {
         boolean install = ApkController.install(appFile.getPath(), UIUtils.getContext());
 
 
-        if (install){
+        if (install) {
             UIUtils.showToast("已安装！");
-        }else{
+        } else {
             UIUtils.showToast("未安装！");
         }
+    }
+
+
+    /**
+     * post请求参数集合  使用前请清空
+     */
+    protected HashMap<String, Object> map = new HashMap<>();
+
+    protected void getDataFromNet(String tag, String url, HashMap<String, Object> map) {
+
+        NovateUtil.getInstance().post(url, map, new BaseSubscriber<ResponseBody>() {
+            @Override
+            public void onError(Throwable e) {
+                Log.e("miao", "请求失败");
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+
+                try {
+                    VersionBean versionBean = GsonUtil.GsonToBean(responseBody.string(), VersionBean.class);
+                    if (versionBean.isResult()) {
+                        apk_path=apk_path_base+versionBean.getData().getFile_path();
+                        //需要升级 下载升级包
+                        showDownloadDialog();
+
+                    } else {
+                        UIUtils.showToast(versionBean.getMsg());
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
     }
 }

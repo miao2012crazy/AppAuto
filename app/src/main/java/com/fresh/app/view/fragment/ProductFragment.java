@@ -39,5 +39,4 @@ public class ProductFragment extends BaseFragment implements IProductView{
         ProductViewModel productViewModel = new ProductViewModel(this, bind);
     }
 
-
 }

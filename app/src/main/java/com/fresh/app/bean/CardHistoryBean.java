@@ -1,10 +1,5 @@
 package com.fresh.app.bean;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
-
-import com.fresh.app.BR;
-
 import java.util.List;
 
 /**

@@ -1,27 +1,26 @@
 package com.fresh.app.viewmodel;
 
-import android.os.CountDownTimer;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
 import com.fresh.app.applaction.CustomApplaction;
-import com.fresh.app.base.BaseLoadListener;
 import com.fresh.app.base.BindingAdapter;
 import com.fresh.app.base.BindingAdapterItem;
-import com.fresh.app.bean.CardHistoryBean;
-import com.fresh.app.bean.CardHistoryItem2Bean;
 import com.fresh.app.bean.CardHistoryItemBean;
 import com.fresh.app.bean.QueryCardBean;
+import com.fresh.app.bean.SMSBean;
+import com.fresh.app.commonUtil.GsonUtil;
 import com.fresh.app.commonUtil.UIUtils;
+import com.fresh.app.constant.NetResponse;
 import com.fresh.app.databinding.FragmentQueryBinding;
-import com.fresh.app.listener.OnCardHistoryListener;
-import com.fresh.app.listener.OnGetSmsCodeListener;
-import com.fresh.app.listener.OnLoadCardInfoListener;
-import com.fresh.app.listener.OnUpdateCardInfoListener;
+import com.fresh.app.httputil.HttpConstant;
 import com.fresh.app.model.modelimpl.QueryCardModel;
 import com.fresh.app.view.IQueryView;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,7 @@ import java.util.List;
  * Created by mr.miao on 2018/6/1.
  */
 
-public class QueryCardViewModel implements OnCardHistoryListener, OnLoadCardInfoListener, OnGetSmsCodeListener, OnUpdateCardInfoListener {
+public class QueryCardViewModel  {
     private final IQueryView mQueryView;
     private final FragmentQueryBinding mBinding;
     private final QueryCardModel queryCardModel;
@@ -56,7 +55,7 @@ public class QueryCardViewModel implements OnCardHistoryListener, OnLoadCardInfo
                 return;
             }
             mQueryView.startTimer();
-            queryCardModel.getSmsCode(tel,this);
+            queryCardModel.getSmsCode(tel);
 
 
         });
@@ -67,7 +66,7 @@ public class QueryCardViewModel implements OnCardHistoryListener, OnLoadCardInfo
                 return;
             }
 
-            queryCardModel.updateCardInfo(s,msgId,CustomApplaction.MEMBER_ID,tel,"20180515_01",this);
+            queryCardModel.updateCardInfo(s,msgId,CustomApplaction.MEMBER_ID,tel,"20180515_01");
 
 
 
@@ -78,7 +77,7 @@ public class QueryCardViewModel implements OnCardHistoryListener, OnLoadCardInfo
 
     private void initCardInfo() {
         if (CustomApplaction.MEMBER_ID.equals("")) return;
-        queryCardModel.getCardInfo(CustomApplaction.MEMBER_ID, this);
+        queryCardModel.getCardInfo(CustomApplaction.MEMBER_ID);
     }
 
 
@@ -88,15 +87,9 @@ public class QueryCardViewModel implements OnCardHistoryListener, OnLoadCardInfo
      * @param card_id
      */
     public void getCardInfo(String card_id) {
-        queryCardModel.getCardHistory(card_id, this);
+        queryCardModel.getCardHistory(card_id);
     }
 
-    @Override
-    public void getCardHistorySuccess(List<CardHistoryItemBean> cardHistoryBeans) {
-        //得到会员卡信息
-        mainList.addAll(cardHistoryBeans);
-        adapter.setItems(mainList);
-    }
 
 
     /**
@@ -118,49 +111,38 @@ public class QueryCardViewModel implements OnCardHistoryListener, OnLoadCardInfo
     }
 
 
-    @Override
-    public void onSuccessed(QueryCardBean queryCardBean) {
-        mBinding.textView4.setText(String.valueOf(queryCardBean.getMembershipBalance()));
-        mBinding.layoutAttach.etMemberCard.setText(String.valueOf(CustomApplaction.MEMBER_ID));
-        mBinding.layoutAttach.etMemberCard.setEnabled(false);
-        mBinding.layoutAttach.tvUpdate.setVisibility(queryCardBean.getMembershipTel().equals("") ? View.GONE : View.VISIBLE);
-        mBinding.layoutAttach.etTel.setText(queryCardBean.getMembershipTel());
-        mBinding.layoutAttach.etTel.setEnabled(queryCardBean.getMembershipTel().equals(""));
-        mBinding.layoutAttach.tvUpdate.setOnClickListener(v -> {
-            mBinding.layoutAttach.etTel.setEnabled(true);
-        });
-    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiveData(NetResponse netResponse){
+        switch (netResponse.getTag()){
+            case HttpConstant.STATE_CARD_INFO:
+                QueryCardBean queryCardBean = GsonUtil.GsonToBean((String) netResponse.getData(), QueryCardBean.class);
+                mBinding.textView4.setText(String.valueOf(queryCardBean.getMembershipBalance()));
+                mBinding.layoutAttach.etMemberCard.setText(String.valueOf(CustomApplaction.MEMBER_ID));
+                mBinding.layoutAttach.etMemberCard.setEnabled(false);
+                mBinding.layoutAttach.tvUpdate.setVisibility(queryCardBean.getMembershipTel().equals("") ? View.GONE : View.VISIBLE);
+                mBinding.layoutAttach.etTel.setText(queryCardBean.getMembershipTel());
+                mBinding.layoutAttach.etTel.setEnabled(queryCardBean.getMembershipTel().equals(""));
+                mBinding.layoutAttach.tvUpdate.setOnClickListener(v -> {
+                    mBinding.layoutAttach.etTel.setEnabled(true);
+                });
+                break;
 
-    @Override
-    public void onFailed(String err_msg) {
+            case HttpConstant.STATE_CARD_HISTORY:
+                List<CardHistoryItemBean> cardHistoryItemBeans = GsonUtil.jsonToList((String) netResponse.getData(), CardHistoryItemBean.class);
+                //得到会员卡信息
+                mainList.addAll(cardHistoryItemBeans);
+                adapter.setItems(mainList);
+                break;
 
-    }
+            case HttpConstant.STATE_GET_SMS_CODE:
+                SMSBean smsBean = GsonUtil.GsonToBean((String) netResponse.getData(), SMSBean.class);
+                msgId=smsBean.getMsgID();
+                break;
 
-    @Override
-    public void getSmsCodeSuccessed(String msg_id) {
-        //获取验证码成功
-        msgId=msg_id;
-        UIUtils.showToast("验证码获取成功");
+            case HttpConstant.STATE_UPDATE_CARD_INFO:
+                mQueryView.setlayout(0);
+                break;
 
-    }
-
-    @Override
-    public void getSmsCodeFailed(String err_msg) {
-
-
-
-
-
-    }
-
-    @Override
-    public void OnUpdateCardSuccessed(boolean result) {
-        UIUtils.showToast("更新成功！");
-        mQueryView.setlayout(0);
-    }
-
-    @Override
-    public void OnUpdateCardFailed(String err_msg) {
-
+        }
     }
 }

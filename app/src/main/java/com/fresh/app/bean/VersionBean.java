@@ -6,13 +6,16 @@ package com.fresh.app.bean;
 
 public class VersionBean {
 
+
     /**
      * result : true
-     * file_path : 1
+     * msg : 数据请求成功
+     * data : {"file_path":"1"}
      */
 
     private boolean result;
-    private String file_path;
+    private String msg;
+    private DataBean data;
 
     public boolean isResult() {
         return result;
@@ -22,11 +25,35 @@ public class VersionBean {
         this.result = result;
     }
 
-    public String getFile_path() {
-        return file_path;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setFile_path(String file_path) {
-        this.file_path = file_path;
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public DataBean getData() {
+        return data;
+    }
+
+    public void setData(DataBean data) {
+        this.data = data;
+    }
+
+    public static class DataBean {
+        /**
+         * file_path : 1
+         */
+
+        private String file_path;
+
+        public String getFile_path() {
+            return file_path;
+        }
+
+        public void setFile_path(String file_path) {
+            this.file_path = file_path;
+        }
     }
 }

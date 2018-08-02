@@ -1,4 +1,4 @@
-package com.fresh.app.handlerevent;
+package com.fresh.app.handler;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,24 +18,18 @@ import com.fresh.app.bean.DebugBean2;
 import com.fresh.app.bean.DetailBean;
 import com.fresh.app.bean.HomeBean;
 import com.fresh.app.bean.MoneyBean;
-import com.fresh.app.bean.PayeeBean;
 import com.fresh.app.bean.ProductItemBean;
-import com.fresh.app.bean.ReserveBean;
 import com.fresh.app.bean.ReserveItemBean;
 import com.fresh.app.bean.SocketBean;
-import com.fresh.app.commonUtil.LogUtils;
 import com.fresh.app.commonUtil.SocketUtil;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.MessageEvent;
-import com.fresh.app.gen.ProductItemBeanDao;
 import com.fresh.app.httputil.HttpUrl;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by mr.miao on 2018/5/9.

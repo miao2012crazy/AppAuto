@@ -10,14 +10,15 @@ import com.fresh.app.R;
 import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BindingAdapter;
 import com.fresh.app.base.BindingAdapterItem;
+import com.fresh.app.bean.FreshOrderBean;
 import com.fresh.app.bean.PayeeBean;
-import com.fresh.app.bean.QRBean;
+import com.fresh.app.bean.QrBean;
+import com.fresh.app.commonUtil.LogUtils;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.commonUtil.ZXingUtils;
-import com.fresh.app.constant.MessageEvent;
+import com.fresh.app.constant.NetResponse;
 import com.fresh.app.databinding.FragmentPayeeBinding;
-import com.fresh.app.listener.OnCreatOrderListener;
-import com.fresh.app.listener.OnPayResultListener;
+import com.fresh.app.httputil.HttpConstant;
 import com.fresh.app.model.modelimpl.PayeeModelImpl;
 import com.fresh.app.service.PayResultService;
 import com.fresh.app.view.IPayeeView;
@@ -34,7 +35,7 @@ import static com.fresh.app.commonUtil.UIUtils.getResources;
 /**
  * Created by mr.miao on 2018/5/10.
  */
-public class PayeeViewModel implements OnCreatOrderListener, OnPayResultListener {
+public class PayeeViewModel {
     private final IPayeeView payeeView;
     private final FragmentPayeeBinding payeeBinding;
     private final PayeeModelImpl payeeModelImpl;
@@ -50,7 +51,6 @@ public class PayeeViewModel implements OnCreatOrderListener, OnPayResultListener
         this.payeeBinding = payeeBinding;
         payeeModelImpl = new PayeeModelImpl();
         initRecyclerList();
-//        initQRCode(CustomApplaction.PRODUCT_ID);
         initQRCode(CustomApplaction.QR_BEAN);
     }
 
@@ -58,8 +58,7 @@ public class PayeeViewModel implements OnCreatOrderListener, OnPayResultListener
      * 初始化二维码
      *
      */
-    private void initQRCode(QRBean qrBean) {
-//        payeeModelImpl.creatOrder(productId, "20180515_01", this);
+    private void initQRCode(QrBean qrBean) {
         CustomApplaction.ORDER_ID = qrBean.getOrder_id();
         CustomApplaction.ISRESULT = true;
         CustomApplaction.RESULT_CODE=0;
@@ -68,6 +67,29 @@ public class PayeeViewModel implements OnCreatOrderListener, OnPayResultListener
         Bitmap qrImage = ZXingUtils.createQRImage(qrBean.getWechat_url(), 400, 400);
         bindingAdapterItem.setPay_image(qrImage);
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiveData(NetResponse netResponse){
+        switch (netResponse.getTag()){
+
+            case HttpConstant.STATE_PRODUCT_PAY_STATE:
+               FreshOrderBean freshOrderBean= (FreshOrderBean) netResponse.getData();
+                if (freshOrderBean.getData().getOrderState()==1){
+                    CustomApplaction.ISRESULT=false;
+                    CustomApplaction.ORDER_ID="";
+                    payeeView.showDialogForPay(0);
+                }else{
+                    LogUtils.e("待支付");
+                }
+                break;
+            case HttpConstant.STATE_PRODUCT_PAY_CARD:
+                //会员卡支付
+                //支付成功
+                payeeView.showDialogForPay(0);
+                break;
+        }
+    }
+
 
     /**
      * 初始化列表
@@ -88,46 +110,12 @@ public class PayeeViewModel implements OnCreatOrderListener, OnPayResultListener
         homeBeans.add(payeeBean2);
         mainList.addAll(homeBeans);
         adapter.setItems(mainList);
-
     }
 
-
-    @Override
-    public void onCreatOrderSuccessed(QRBean qrBean) {
-//        CustomApplaction.ORDER_ID = qrBean.getOrder_id();
-//        CustomApplaction.ISRESULT = true;
-//        UIUtils.getContext().startService(new Intent(UIUtils.getContext(), PayResultService.class));
-//        PayeeBean bindingAdapterItem = (PayeeBean) mainList.get(1);
-//        Bitmap qrImage = ZXingUtils.createQRImage(qrBean.getWechat_url(), 400, 400);
-//        bindingAdapterItem.setPay_image(qrImage);
-    }
-
-    @Override
-    public void onCreatOrderFailed(String err_msg) {
-
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void paySuccessed(MessageEvent messageEvent) {
-        if (messageEvent.getCode()==1009){
-            //0 支付成功 1 支付失败
-            payeeView.showDialogForPay(0);
-        }
-    }
 
     public void payForOrderUseCard(String card_id) {
         CustomApplaction.ISRESULT=false;
-        payeeModelImpl.payForOrderUseCard(CustomApplaction.ORDER_ID,card_id,this);
+        payeeModelImpl.payForOrderUseCard(CustomApplaction.ORDER_ID,card_id);
     }
 
-    @Override
-    public void onPaySuccessed() {
-        //支付成功
-        payeeView.showDialogForPay(0);
-    }
-
-    @Override
-    public void onPayFailed(String err_msg) {
-        UIUtils.showToast(err_msg);
-    }
 }

@@ -3,7 +3,7 @@
     <data>
         <variable
             name="handler"
-            type="com.fresh.app.handlerevent.HandlerEvent" />
+            type="com.fresh.app.handler.HandlerEvent" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"

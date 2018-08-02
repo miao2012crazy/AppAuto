@@ -14,7 +14,7 @@ import com.fresh.app.base.BindingAdapterItem;
 import com.fresh.app.bean.DebugBean;
 import com.fresh.app.bean.DebugBean2;
 import com.fresh.app.databinding.ActivityDebugBinding;
-import com.fresh.app.handlerevent.HandlerEvent;
+import com.fresh.app.handler.HandlerEvent;
 import com.fresh.app.view.IDebugView;
 import com.fresh.app.viewmodel.DebugViewModel;
 

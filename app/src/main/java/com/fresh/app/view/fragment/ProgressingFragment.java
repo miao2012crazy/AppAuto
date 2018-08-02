@@ -2,9 +2,7 @@ package com.fresh.app.view.fragment;
 
 import android.databinding.DataBindingUtil;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,16 +15,17 @@ import com.fresh.app.R;
 import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BaseFragment;
 import com.fresh.app.bean.DebugBean;
-import com.fresh.app.bean.DebugBean2;
 import com.fresh.app.bean.RiceBucketBean;
 import com.fresh.app.commonUtil.CardReaderManage;
+import com.fresh.app.commonUtil.GsonUtil;
 import com.fresh.app.commonUtil.LogUtils;
-import com.fresh.app.commonUtil.SocketUtil;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.MessageEvent;
+import com.fresh.app.constant.NetResponse;
 import com.fresh.app.databinding.FragmentProgressBinding;
-import com.fresh.app.handlerevent.HandlerEvent;
+import com.fresh.app.handler.HandlerEvent;
+import com.fresh.app.httputil.HttpConstant;
 import com.fresh.app.httputil.HttpUrl;
 import com.fresh.app.view.IProgressView;
 import com.fresh.app.viewmodel.ProgressingViewModel;
@@ -35,8 +34,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
-import java.net.Socket;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -50,7 +47,6 @@ public class ProgressingFragment extends BaseFragment implements IProgressView, 
 
     private FragmentProgressBinding bind;
     private HttpProxyCacheServer proxy;
-    private List<RiceBucketBean.DataBean> riceBucketBeanData;
 
     private String riceBucketId = "";
     private ProgressingViewModel progressingViewModel;
@@ -144,25 +140,36 @@ public class ProgressingFragment extends BaseFragment implements IProgressView, 
         CardReaderManage.setCardReaderState(0);
     }
 
+
+
+
     @Subscribe
-    public void receive(RiceBucketBean riceBucketBean) {
-        LogUtils.e("接收到数据+" + riceBucketBean);
-        riceBucketBeanData = riceBucketBean.getData();
-        CardReaderManage.setCardReaderState(4);
-        for (int i = 0; i < riceBucketBeanData.size(); i++) {
-            RiceBucketBean.DataBean item = riceBucketBeanData.get(i);
-            if (item.getProductId().equals(AppConstant.product_id) && item.getRiceBucketState() == 0) {
-                riceBucketId = item.getRiceBucketId();
-                return;
-            }
+    public void receiveData(NetResponse netResponse) {
+        switch (netResponse.getTag()){
+            case HttpConstant.STATE_RICEBUCKET:
+                List<RiceBucketBean> riceBucketBeans = GsonUtil.jsonToList((String) netResponse.getData(), RiceBucketBean.class);
+                CardReaderManage.setCardReaderState(4);
+                for (int i = 0; i < riceBucketBeans.size(); i++) {
+                    RiceBucketBean item = riceBucketBeans.get(i);
+                    if (item.getProductId().equals(AppConstant.product_id) && item.getRiceBucketState() == 0) {
+                        riceBucketId = item.getRiceBucketId();
+                        return;
+                    }
+                }
+                if (riceBucketId.equals("")) {
+                    UIUtils.showToast("没有米了！");
+                    return;
+                }
+                //TODO 提米电机启动
+                UIUtils.showToast("提米电机启动");
+                break;
+
+            case HttpConstant.STATE_UPDATE_RICEBUCKET:
+                //数据上传成功
+                UIUtils.showToast("更新完成");
+                break;
         }
 
-        if (riceBucketId.equals("")) {
-            UIUtils.showToast("没有米了！");
-            return;
-        }
-        //TODO 提米电机启动
-        UIUtils.showToast("提米电机启动");
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -1,130 +1,49 @@
 package com.fresh.app.model.modelimpl;
 
-import android.util.Log;
-
-import com.fresh.app.base.BaseLoadListener;
-import com.fresh.app.bean.CardHistoryBean;
-import com.fresh.app.bean.ProductBean;
-import com.fresh.app.bean.QueryCardBean;
-import com.fresh.app.commonUtil.LogUtils;
-import com.fresh.app.httputil.HttpUtils;
-import com.fresh.app.listener.OnCardHistoryListener;
-import com.fresh.app.listener.OnGetSmsCodeListener;
-import com.fresh.app.listener.OnLoadCardInfoListener;
-import com.fresh.app.listener.OnUpdateCardInfoListener;
+import com.fresh.app.httputil.HttpConstant;
+import com.fresh.app.httputil.HttpUrl;
+import com.fresh.app.model.BaseModel;
 import com.fresh.app.model.IQueryModel;
-
-import java.util.concurrent.Executors;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.http.HTTP;
 
 /**
  * Created by mr.miao on 2018/6/1.
  */
 
-public class QueryCardModel implements IQueryModel{
+public class QueryCardModel extends BaseModel implements IQueryModel{
 
 
     @Override
-    public void getCardInfo(String card_id, OnLoadCardInfoListener onLoadCardInfoListener) {
-        HttpUtils.getCardInfo(card_id).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableObserver<QueryCardBean>() {
-                    @Override
-                    public void onNext(QueryCardBean queryCardBean) {
-                        LogUtils.e(queryCardBean.toString());
-                        onLoadCardInfoListener.onSuccessed(queryCardBean);
-                    }
+    public void getCardInfo(String card_id) {
+        map.clear();
+        map.put("card_id",card_id);
+        getDataFromNet(HttpConstant.STATE_CARD_INFO, HttpUrl.CARD_INFO_URL,map);
 
-                    @Override
-                    public void onError(Throwable e) {
-                        LogUtils.e(e.getMessage());
 
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
     }
 
     @Override
-    public void getCardHistory(String card_id, OnCardHistoryListener loadListener) {
-        HttpUtils.getCardHistory(card_id).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableObserver<CardHistoryBean>() {
-                               @Override
-                               public void onNext(CardHistoryBean cardHistoryBean) {
-                                   loadListener.getCardHistorySuccess(cardHistoryBean.getData());
-                               }
-
-                               @Override
-                               public void onError(Throwable e) {
-
-                               }
-
-                               @Override
-                               public void onComplete() {
-
-                               }
-                           }
-                );
+    public void getCardHistory(String card_id) {
+        map.clear();
+        map.put("card_id",card_id);
+        getDataFromNet(HttpConstant.STATE_CARD_HISTORY, HttpUrl.CARD_HISTORY_URL,map);
     }
 
     @Override
-    public void getSmsCode(String tel, OnGetSmsCodeListener onGetSmsCodeListener) {
-        HttpUtils.getSmsCode(tel).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableObserver<String>() {
-                               @Override
-                               public void onNext(String msg_id) {
-                                   onGetSmsCodeListener.getSmsCodeSuccessed(msg_id);
-                               }
-
-                               @Override
-                               public void onError(Throwable e) {
-
-                               }
-
-                               @Override
-                               public void onComplete() {
-
-                               }
-                           }
-                );
+    public void getSmsCode(String tel) {
+        map.clear();
+        map.put("tel",tel);
+        getDataFromNet(HttpConstant.STATE_GET_SMS_CODE, HttpUrl.GET_SMSCODE_URL,map);
     }
 
     @Override
-    public void updateCardInfo(String code, String msg_id, String member_id, String tel, String device_id, OnUpdateCardInfoListener onUpdateCardInfoListener) {
-        HttpUtils.updateCard(code,tel,msg_id,member_id,device_id).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableObserver<String>() {
-                               @Override
-                               public void onNext(String result) {
-                                   try{
-                                   boolean b = Boolean.parseBoolean(result);
-                                       onUpdateCardInfoListener.OnUpdateCardSuccessed(b);
-                                   }catch (Exception ex){
-                                        onUpdateCardInfoListener.OnUpdateCardFailed("更新失败");
-                                   }
-
-                               }
-
-                               @Override
-                               public void onError(Throwable e) {
-
-                               }
-
-                               @Override
-                               public void onComplete() {
-
-                               }
-                           }
-                );
+    public void updateCardInfo(String code, String msg_id, String member_id, String tel, String device_id) {
+        map.clear();
+        map.put("code",code);
+        map.put("tel",tel);
+        map.put("msg_id",msg_id);
+        map.put("member_id",member_id);
+        map.put("device_id",device_id);
+        getDataFromNet(HttpConstant.STATE_UPDATE_CARD_INFO,HttpUrl.UPDATE_CARD_INFO,map);
     }
 
 

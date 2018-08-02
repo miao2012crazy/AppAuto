@@ -26,7 +26,6 @@ public class ProductDetailFragment extends BaseFragment implements IDetailView {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         bind = DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false);
-
         return bind.getRoot();
 
 

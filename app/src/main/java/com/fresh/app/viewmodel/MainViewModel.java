@@ -1,20 +1,24 @@
 package com.fresh.app.viewmodel;
 
 import com.fresh.app.bean.ReserOrderBean;
+import com.fresh.app.commonUtil.GsonUtil;
 import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.MessageEvent;
+import com.fresh.app.constant.NetResponse;
 import com.fresh.app.databinding.ActivityMainBinding;
-import com.fresh.app.listener.OnLoadReserveOrderListener;
+import com.fresh.app.httputil.HttpConstant;
 import com.fresh.app.model.modelimpl.MainModelImpl;
 import com.fresh.app.view.IMainView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by mr.miao on 2018/7/12.
  */
 
-public class MainViewModel implements OnLoadReserveOrderListener {
+public class MainViewModel  {
 
     private IMainView mMainView;
     private ActivityMainBinding mActivityMainBinding;
@@ -28,19 +32,25 @@ public class MainViewModel implements OnLoadReserveOrderListener {
 
 
     public void takeGoods(String code, String device_id) {
-        mainModelImpl.takeGoods(code,device_id,this);
+        mainModelImpl.takeGoods(code,device_id);
     }
 
-    @Override
-    public void onSuccessed(ReserOrderBean reserOrderBean) {
-        //获取数据成功 选择产品精度》》开始加工
-        AppConstant.product_id=reserOrderBean.getProductId();
-        AppConstant.RESERORDERBEAN=reserOrderBean;
-        EventBus.getDefault().post(new MessageEvent(10065,"2"));
-    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiveData(NetResponse netResponse){
+        switch (netResponse.getTag()){
+            case HttpConstant.STATE_TAKEGOODS:
+                ReserOrderBean reserOrderBean = GsonUtil.GsonToBean((String) netResponse.getData(), ReserOrderBean.class);
+                AppConstant.product_id=reserOrderBean.getProductId();
+                AppConstant.RESERORDERBEAN=reserOrderBean;
+                EventBus.getDefault().post(new MessageEvent(10065,"2"));
 
-    @Override
-    public void onFailed(String msg) {
+
+                break;
+
+        }
+
+
+
 
     }
 }

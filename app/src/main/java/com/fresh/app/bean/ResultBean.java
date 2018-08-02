@@ -12,15 +12,7 @@ public class ResultBean {
      */
 
     private String result;
-    private String err_msg;
-
-    public String getErr_msg() {
-        return err_msg;
-    }
-
-    public void setErr_msg(String err_msg) {
-        this.err_msg = err_msg;
-    }
+    private String msg;
 
     public String getResult() {
         return result;
@@ -30,12 +22,11 @@ public class ResultBean {
         this.result = result;
     }
 
+    public String getMsg() {
+        return msg;
+    }
 
-    @Override
-    public String toString() {
-        return "ResultBean{" +
-                "result='" + result + '\'' +
-                ", err_msg='" + err_msg + '\'' +
-                '}';
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }

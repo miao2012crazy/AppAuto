@@ -4,36 +4,24 @@ import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Handler;
-import android.util.Log;
 
 import com.danikula.videocache.HttpProxyCacheServer;
 import com.danikula.videocache.file.FileNameGenerator;
 import com.fresh.app.bean.PayeeBean;
-import com.fresh.app.bean.ProductDetailBean;
 import com.fresh.app.bean.ProductItemBean;
-import com.fresh.app.bean.QRBean;
-import com.fresh.app.bean.ReserOrderBean;
+import com.fresh.app.bean.QrBean;
 import com.fresh.app.bean.SocketBean;
-import com.fresh.app.commonUtil.ApkController;
-import com.fresh.app.commonUtil.CardReaderManage;
 import com.fresh.app.commonUtil.LogUtils;
-import com.fresh.app.commonUtil.SerialPortUtil;
 import com.fresh.app.commonUtil.SocketUtil;
 import com.fresh.app.commonUtil.StringUtils;
 import com.fresh.app.commonUtil.UIUtils;
-import com.fresh.app.constant.IConstant;
 import com.fresh.app.gen.DaoMaster;
 import com.fresh.app.gen.DaoSession;
 import com.iflytek.cloud.SpeechUtility;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.io.File;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -44,7 +32,7 @@ import java.util.concurrent.Executors;
 
 public class CustomApplaction extends Application {
     public static int RESULT_CODE = 0;
-    public static QRBean QR_BEAN = null;
+    public static QrBean QR_BEAN = null;
     public static int MONEY_CHECK_POSITION = -1;
     public static boolean ISRESULT = false;
     public static int RICE_TYPE = -1;
@@ -103,7 +91,7 @@ public class CustomApplaction extends Application {
         //设置数据库
         setDatabase();
         //初始化读卡器状态
-        CardReaderManage.setCardReaderState(0);
+//        CardReaderManage.setCardReaderState(0);
 
     }
 
