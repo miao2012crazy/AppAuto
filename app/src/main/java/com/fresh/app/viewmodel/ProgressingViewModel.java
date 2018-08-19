@@ -1,6 +1,6 @@
 package com.fresh.app.viewmodel;
 
-import com.fresh.app.applaction.CustomApplaction;
+import com.fresh.app.constant.AppConstant;
 import com.fresh.app.databinding.FragmentProgressBinding;
 import com.fresh.app.model.modelimpl.ProgressingModel;
 import com.fresh.app.view.IProgressView;
@@ -19,14 +19,20 @@ public class ProgressingViewModel {
         this.mBind = bind;
         progressingModel = new ProgressingModel();
 //        initRiceBucket();
+        getVideo();
     }
 
     private void initRiceBucket() {
-        progressingModel.getRiceBucket("20180515_01");
+        progressingModel.getRiceBucket(AppConstant.DEVICE_ID);
     }
 
 
     public void updateRiceBucket(String riceBucketId) {
-        progressingModel.updateRiceBucket("20180515_01",riceBucketId);
+        progressingModel.updateRiceBucket(AppConstant.DEVICE_ID,riceBucketId);
     }
+
+    public void  getVideo(){
+        progressingModel.getVideoData(AppConstant.DEVICE_ID);
+    }
+
 }

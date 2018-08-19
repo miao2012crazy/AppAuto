@@ -20,8 +20,10 @@ import com.fresh.app.bean.MoneyBean;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.MessageEvent;
+import com.fresh.app.constant.NetResponse;
 import com.fresh.app.databinding.FragmentRechargeBinding;
 import com.fresh.app.handler.HandlerEvent;
+import com.fresh.app.httputil.HttpConstant;
 import com.fresh.app.service.PayResultService;
 import com.fresh.app.view.IRechargeView;
 import com.fresh.app.viewmodel.RechargeViewModel;
@@ -107,12 +109,14 @@ public class RechargeFragment extends BaseFragment implements IRechargeView {
                 String memberId = CustomApplaction.MEMBER_ID;
                 String money = messageEvent.getMessage();
                 if (tel.equals("") && memberId.equals("")) {
-                    UIUtils.showToast("请刷卡或者输入绑定手机号");
+                    EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_ERROR,"请刷卡或者输入绑定手机号！"));
+
                     return;
                 }
 
                 if (money.equals("")) {
-                    UIUtils.showToast("请输入或选择充值金额");
+                    EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_ERROR,"请输入或选择充值金额！"));
+
                     return;
                 }
                 rechargeViewModel.setRecharge(tel, memberId, money);
@@ -125,7 +129,8 @@ public class RechargeFragment extends BaseFragment implements IRechargeView {
                 //读取到会员卡
                 String money1 = messageEvent.getMessage();
                 if (money1.equals("")) {
-                    UIUtils.showToast("请输入或选择充值金额");
+                    EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_ERROR,"请输入或选择充值金额！"));
+
                     return;
                 }
                 //TODO 未完成

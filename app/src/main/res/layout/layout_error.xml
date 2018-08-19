@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:orientation="vertical"
+        android:background="@drawable/dialog_bg">
+        <!--对话框标题区域-->
+        <TextView
+            android:padding="@dimen/dp_20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="提示"
+            android:textColor="#f00"
+            android:textSize="@dimen/sp_36" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#999"/>
+        <TextView
+            android:id="@+id/tv_error_content"
+            android:textSize="@dimen/sp_30"
+            android:gravity="center"
+            android:text="这个是错误提示"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#999"/>
+        <Button
+            android:id="@+id/btn_confirm"
+            android:textColor="#fff"
+            android:textSize="@dimen/sp_30"
+            android:text="确 认"
+            android:background="@drawable/shape_btn_get"
+            android:layout_margin="@dimen/dp_10"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60" />
+    </LinearLayout>
+</layout>

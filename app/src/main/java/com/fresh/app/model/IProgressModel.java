@@ -9,4 +9,6 @@ public interface IProgressModel {
     void getRiceBucket(String deviceid);
 
     void updateRiceBucket(String deviceid, String riceBucketId);
+
+    void getVideoData(String deviceId);
 }

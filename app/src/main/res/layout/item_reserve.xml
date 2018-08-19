@@ -20,8 +20,6 @@
     <RelativeLayout
         android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/dp_10"
-        android:background="#666"
         android:onClick="@{(view)->handler.reserveItem(view,item)}">
 
         <ImageView
@@ -40,7 +38,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="@dimen/dp_200"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/linearLayout2">
 
             <TextView
                 android:id="@+id/tv_name"
@@ -149,13 +148,18 @@
             android:textColor="#666"
             android:textSize="26sp" />
 
-        <ImageView
-            android:layout_width="300dp"
-            android:layout_height="120dp"
-            android:layout_alignParentBottom="true"
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout2"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dp_200"
-            app:imageUrl="@{item.productImg03}" />
+            android:layout_marginTop="380dp"
+            android:background="@drawable/shape_btn_get"
+            android:padding="@dimen/dp_20"
+            android:text="立刻预定"
+            android:textColor="#fff"
+            android:textSize="@dimen/sp_26" />
     </RelativeLayout>
 
 </layout>

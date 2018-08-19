@@ -13,6 +13,7 @@ import com.fresh.app.bean.QueryCardBean;
 import com.fresh.app.bean.SMSBean;
 import com.fresh.app.commonUtil.GsonUtil;
 import com.fresh.app.commonUtil.UIUtils;
+import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.NetResponse;
 import com.fresh.app.databinding.FragmentQueryBinding;
 import com.fresh.app.httputil.HttpConstant;
@@ -65,11 +66,7 @@ public class QueryCardViewModel  {
                 UIUtils.showToast("请输入验证码！");
                 return;
             }
-
-            queryCardModel.updateCardInfo(s,msgId,CustomApplaction.MEMBER_ID,tel,"20180515_01");
-
-
-
+            queryCardModel.updateCardInfo(s,msgId,CustomApplaction.MEMBER_ID,tel, AppConstant.DEVICE_ID);
         });
     }
 

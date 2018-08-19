@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.constant.NetResponse;
+import com.fresh.app.httputil.HttpConstant;
 import com.fresh.app.httputil.NovateUtil;
 import com.tamic.novate.BaseSubscriber;
 import com.tamic.novate.Throwable;
@@ -31,8 +32,20 @@ public class BaseModel {
 
         NovateUtil.getInstance().post(url, map, new BaseSubscriber<ResponseBody>() {
             @Override
+            public void onStart() {
+                super.onStart();
+                EventBus.getDefault().post(new NetResponse(HttpConstant.PROGRESS_DIALOG,""));
+            }
+
+            @Override
+            public void onCompleted() {
+                super.onCompleted();
+                EventBus.getDefault().post(new NetResponse(HttpConstant.PROGRESS_DIALOG_DISMISS,""));
+            }
+
+            @Override
             public void onError(Throwable e) {
-                Log.e("miao","请求失败");
+                EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_ERROR,"网络连接失败！"));
             }
 
             @Override
@@ -42,13 +55,11 @@ public class BaseModel {
                     JSONObject jsonObject = new JSONObject(responseBody.string());
                     boolean result = jsonObject.getBoolean("result");
                     if (result){
-                        Log.e("新网络框架","请求成功");
                         String data = jsonObject.getString("data");
                         EventBus.getDefault().post(new NetResponse(tag,data));
                     }else{
-                        UIUtils.showToast(jsonObject.getString("msg"));
+                        EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_ERROR,jsonObject.getString("msg")));
                     }
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -56,7 +67,5 @@ public class BaseModel {
                 }
             }
         });
-
     }
-
 }

@@ -151,7 +151,6 @@ public class SocketUtil {
 
         try {
 
-            Log.e("miao", "发送数据"+Arrays.toString(data));
             OutputStream outputStream = socket.getOutputStream();
             outputStream.write(data);
             // 特别注意：数据的结尾加上换行符才可让服务器端的readline()停止阻塞
@@ -159,7 +158,6 @@ public class SocketUtil {
             outputStream.flush();
 
 
-//            UIUtils.showToast("数据发送"+Arrays.toString(data));
         } catch (IOException e) {
             e.printStackTrace();
         }

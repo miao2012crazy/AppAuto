@@ -5,6 +5,9 @@ package com.fresh.app.httputil;
  */
 
 public class HttpConstant {
+
+
+    public static final String STATE_ERROR = "STATE_ERROR";
     public static final String STATE_PRODUCT_DETAIL = "STATE_PRODUCT_DETAIL";
     public static final String STATE_PRODUCT = "STATE_PRODUCT";
 
@@ -26,4 +29,9 @@ public class HttpConstant {
     public static final String STATE_GET_VERSION="STATE_GET_VERSION";
     public static final String STATE_RICEBUCKET="STATE_RICEBUCKET";
     public static final String STATE_UPDATE_RICEBUCKET="STATE_UPDATE_RICEBUCKET";
+    public static final String PROGRESS_DIALOG="PROGRESS_DIALOG";
+    public static final String PROGRESS_DIALOG_DISMISS="PROGRESS_DIALOG_DISMISS";
+    public static final String STATE_GET_VIDEO="STATE_GET_VIDEO";
+
+    public static final String STATE_CHECK ="STATE_CHECK";
 }

@@ -6,4 +6,6 @@ package com.fresh.app.model;
 
 public interface IMainModel {
     void takeGoods(String code,String device_id);
+
+    void checkDeviceID(String device_id);
 }

@@ -14,7 +14,6 @@
             type="com.fresh.app.handler.HandlerEvent" />
     </data>
 
-
     <LinearLayout
         android:orientation="vertical"
         android:onClick="@{(view)->handler.openFragment(view,item)}"

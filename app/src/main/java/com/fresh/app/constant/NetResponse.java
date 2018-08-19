@@ -1,6 +1,5 @@
 package com.fresh.app.constant;
 
-import com.fresh.app.bean.BaseResultBean;
 
 /**
  * Created by mr.miao on 2018/7/30.

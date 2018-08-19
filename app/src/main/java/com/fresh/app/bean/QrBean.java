@@ -1,7 +1,5 @@
 package com.fresh.app.bean;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 /**
  * Created by mr.miao on 2018/6/25.
  */

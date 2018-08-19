@@ -14,8 +14,8 @@ public class HttpUrl {
 
     public static String getBaseUrl() {
         if (AppConstant.isDebug){
-            return "http://192.168.1.101:8080/";
-//            return "http://39.105.77.235/app/";
+//            return "http://192.168.1.101:8080/";
+            return "http://39.105.77.235/app/";
         }
         return baseUrl;
     }
@@ -107,6 +107,15 @@ public class HttpUrl {
      */
     public static String URDATE_RICEBUCKET_URL="updateRiceBucket";
 
+    /**
+     * 获取设备视频信息
+     */
+    public static String STATE_GET_VIDEO="getVideo";
+
+    /**
+     * 设备ID验证
+     */
+    public static String STATE_CHECK="checkDeviceId";
 
 }
 

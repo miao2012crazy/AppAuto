@@ -19,17 +19,25 @@ import android.widget.TextView;
 
 import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BaseActivity;
-import com.fresh.app.base.IBaseView;
+import com.fresh.app.bean.DeviceBean;
 import com.fresh.app.commonUtil.FragmentFactory;
+import com.fresh.app.commonUtil.GsonUtil;
 import com.fresh.app.commonUtil.LogUtils;
+import com.fresh.app.commonUtil.SharedPreferencesUtils;
+import com.fresh.app.commonUtil.StringUtils;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.commonUtil.UpdateAppManager;
 import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.MessageEvent;
+import com.fresh.app.constant.NetResponse;
 import com.fresh.app.databinding.ActivityMainBinding;
+import com.fresh.app.databinding.LayoutDialogSetDeviceIdBinding;
 import com.fresh.app.databinding.LayoutDialogTakeGoodsBinding;
+import com.fresh.app.databinding.LayoutErrorBinding;
 import com.fresh.app.handler.HandlerEvent;
+import com.fresh.app.httputil.HttpConstant;
 import com.fresh.app.service.TimeService;
+import com.fresh.app.ui.CustomProgressBar;
 import com.fresh.app.view.IMainView;
 import com.fresh.app.view.viewimpl.DebugActivity;
 import com.fresh.app.viewmodel.MainViewModel;
@@ -38,21 +46,21 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class MainActivity extends BaseActivity implements IBaseView, IMainView {
+public class MainActivity extends BaseActivity implements IMainView {
 
     private ActivityMainBinding binding;
-
     private ImageView[] imgArr;
     private TextView[] tvArr;
     private AlertDialog dialog;
     private MainViewModel mainViewModel;
+    private CustomProgressBar customProgressBar;
+    private AlertDialog dialog1;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setHandler(new HandlerEvent(this));
@@ -79,13 +87,28 @@ public class MainActivity extends BaseActivity implements IBaseView, IMainView {
 //        startActivityBase(DebugActivity.class);
 //        //定时器服务
         startService(new Intent(MainActivity.this, TimeService.class));
-        openFragment(new MessageEvent(10065,"7"));
+//        openFragment(new MessageEvent(10065,"7"));
 //        startActivityBase(DebugActivity.class);
 
         UpdateAppManager updateAppManager = new UpdateAppManager(this);
         updateAppManager.checkVersion();
+
+
     }
 
+    /**
+     * 初始化设备id
+     */
+    private void initDeviceId() {
+        String device_id = (String) SharedPreferencesUtils.getParam(UIUtils.getContext(), "DEVICE_ID", "");
+        if (StringUtils.isEmpty(device_id)) {
+            setDeviceId();
+        }else{
+            AppConstant.DEVICE_ID=device_id;
+        }
+
+
+    }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -95,7 +118,7 @@ public class MainActivity extends BaseActivity implements IBaseView, IMainView {
                 FragmentManager supportFragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
                 int position = Integer.parseInt(messageEvent.getMessage());
-                if (CustomApplaction.POSITION==position){
+                if (CustomApplaction.POSITION == position) {
                     return;
                 }
                 CustomApplaction.POSITION = position;
@@ -108,8 +131,7 @@ public class MainActivity extends BaseActivity implements IBaseView, IMainView {
                 showDialogForTakeGoods();
                 break;
             case 1004:
-//                startActivityBase(CardCenterActivity.class);
-                openFragment(new MessageEvent(10065,"7"));
+                openFragment(new MessageEvent(10065, "7"));
                 break;
             case 10909:
                 startActivityBase(DebugActivity.class);
@@ -153,6 +175,7 @@ public class MainActivity extends BaseActivity implements IBaseView, IMainView {
             case 5:
                 binding.bottom.llBottom.setVisibility(View.GONE);
                 break;
+
             default:
                 binding.bottom.llBottom.setVisibility(View.GONE);
                 binding.btnReturn.setVisibility(View.GONE);
@@ -170,8 +193,6 @@ public class MainActivity extends BaseActivity implements IBaseView, IMainView {
             tvArr[position].setTextColor(Color.parseColor("#ffffff"));
             CustomApplaction.last_position = position;
         }
-
-
     }
 
     @Override
@@ -212,7 +233,7 @@ public class MainActivity extends BaseActivity implements IBaseView, IMainView {
         binding.btnConfirm.setOnClickListener(v -> {
             String code = binding.etCode.getText().toString();
             if (!TextUtils.isEmpty(code)) {
-                mainViewModel.takeGoods(code, "20180515_01");
+                mainViewModel.takeGoods(code, AppConstant.DEVICE_ID);
                 dialog.dismiss();
             }
 
@@ -221,4 +242,88 @@ public class MainActivity extends BaseActivity implements IBaseView, IMainView {
             dialog.dismiss();
         });
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void reveiveData(NetResponse netResponse) {
+        switch (netResponse.getTag()) {
+            case HttpConstant.PROGRESS_DIALOG:
+                if (customProgressBar == null) {
+                    customProgressBar = new CustomProgressBar(this);
+                }
+                customProgressBar.show();
+                break;
+            case HttpConstant.PROGRESS_DIALOG_DISMISS:
+
+                if (customProgressBar != null) {
+                    customProgressBar.dismiss();
+                }
+
+
+                break;
+            case HttpConstant.STATE_ERROR:
+                String tag = (String) netResponse.getData();
+                showErrorDialog(tag);
+                break;
+
+
+            case HttpConstant.STATE_CHECK:
+                //校验成功
+                DeviceBean deviceBean = GsonUtil.GsonToBean((String) netResponse.getData(), DeviceBean.class);
+                if (deviceBean != null) {
+                    SharedPreferencesUtils.setParam(UIUtils.getContext(), "DEVICE_ID", deviceBean.getDeviceId());
+                }
+                if (dialog1!=null){
+                    dialog1.dismiss();
+                }
+                break;
+        }
+    }
+
+
+    public void showErrorDialog(String message) {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutErrorBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.layout_error, null, false);
+        builder.setView(binding.getRoot());
+        dialog = builder.create();
+        dialog.show();
+        dialog.setCanceledOnTouchOutside(true);
+        Window window = dialog.getWindow();
+        assert window != null;
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        binding.tvErrorContent.setText(message);
+//        dialog.getWindow().setLayout(UIUtils.dip2px(800), UIUtils.dip2px(800));
+        binding.btnConfirm.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
+    }
+
+    public void setDeviceId() {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutDialogSetDeviceIdBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.layout_dialog_set_device_id, null, false);
+        builder.setView(binding.getRoot());
+        dialog1 = builder.create();
+        dialog1.show();
+        dialog1.setCanceledOnTouchOutside(false);
+        Window window = dialog1.getWindow();
+        assert window != null;
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog1.getWindow().setLayout(UIUtils.dip2px(800), UIUtils.dip2px(800));
+        binding.btnConfirm.setOnClickListener(v -> {
+            String device_id = binding.etCode.getText().toString();
+            //设备id验证
+            mainViewModel.checkDeviceId(device_id);
+        });
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initDeviceId();
+    }
+
+
 }

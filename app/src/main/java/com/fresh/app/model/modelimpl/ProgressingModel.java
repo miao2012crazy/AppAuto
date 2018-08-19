@@ -27,4 +27,11 @@ public class ProgressingModel extends BaseModel implements IProgressModel {
         map.put("deviceid",deviceid);
         getDataFromNet(HttpConstant.STATE_UPDATE_RICEBUCKET, HttpUrl.URDATE_RICEBUCKET_URL,map);
     }
+
+    @Override
+    public void getVideoData(String deviceId) {
+        map.clear();
+        map.put("device_id",deviceId);
+        getDataFromNet(HttpConstant.STATE_GET_VIDEO, HttpUrl.STATE_GET_VIDEO,map);
+    }
 }

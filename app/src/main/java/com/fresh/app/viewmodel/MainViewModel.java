@@ -1,7 +1,10 @@
 package com.fresh.app.viewmodel;
 
+import com.fresh.app.bean.DeviceBean;
 import com.fresh.app.bean.ReserOrderBean;
 import com.fresh.app.commonUtil.GsonUtil;
+import com.fresh.app.commonUtil.SharedPreferencesUtils;
+import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.constant.NetResponse;
@@ -28,6 +31,7 @@ public class MainViewModel  {
         this.mActivityMainBinding = activityMainBinding;
         this.mMainView = mainView;
         mainModelImpl = new MainModelImpl();
+        EventBus.getDefault().register(this);
     }
 
 
@@ -43,14 +47,17 @@ public class MainViewModel  {
                 AppConstant.product_id=reserOrderBean.getProductId();
                 AppConstant.RESERORDERBEAN=reserOrderBean;
                 EventBus.getDefault().post(new MessageEvent(10065,"2"));
-
-
                 break;
-
         }
 
+    }
 
-
+    /**
+     * 验证设备ID
+     * @param device_id
+     */
+    public void checkDeviceId(String device_id) {
+        mainModelImpl.checkDeviceID(device_id);
 
     }
 }

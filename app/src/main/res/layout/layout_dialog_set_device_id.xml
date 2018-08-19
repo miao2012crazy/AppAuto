@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="handler"
+            type="com.fresh.app.handler.HandlerEvent" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="700dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_pay_dialog"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dp_10">
+
+        <TextView
+            android:id="@+id/tv_option_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="输入设备ID"
+            android:textColor="#333"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#999" />
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp">
+
+            <TextView
+                android:id="@+id/tv_option_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="ID："
+                android:textColor="#666"
+                android:textSize="40sp" />
+
+            <EditText
+                android:paddingLeft="@dimen/dp_20"
+                android:background="@drawable/shape_et_input_2"
+                android:id="@+id/et_code"
+                android:textSize="@dimen/sp_40"
+                android:layout_width="500dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+        </LinearLayout>
+
+        <TextView
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_80"
+            android:textSize="@dimen/sp_30"
+            android:textColor="#3aba36"
+            android:text="请联系管理员获取设备ID" />
+
+        <LinearLayout
+            android:gravity="center"
+            android:padding="@dimen/dp_20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:padding="@dimen/dp_10"
+                android:textSize="@dimen/sp_30"
+                android:textColor="#fff"
+                android:background="@drawable/shape_btn_get"
+                android:id="@+id/btn_confirm"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:text="确认" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>

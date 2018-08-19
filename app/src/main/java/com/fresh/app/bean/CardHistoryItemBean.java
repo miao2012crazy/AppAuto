@@ -10,6 +10,7 @@ import com.fresh.app.base.BindingAdapterItem;
 /**
  *
  * Created by mr.miao on 2018/7/12.
+ *
  */
 public class CardHistoryItemBean extends BaseObservable implements BindingAdapterItem {
     /**

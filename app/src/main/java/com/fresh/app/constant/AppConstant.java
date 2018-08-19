@@ -1,5 +1,6 @@
 package com.fresh.app.constant;
 
+import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.ReserOrderBean;
 
 /**
@@ -33,6 +34,7 @@ public class AppConstant {
     public static int CARD_READER_STATE=999;
 
 
-    public static String DEVICE_ID="20180515_01";
+    public static String DEVICE_ID="";
 
+    public static ProductItemBean PRODUCT_ITEM_BEAN=null;
 }

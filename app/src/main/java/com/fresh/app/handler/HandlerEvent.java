@@ -38,9 +38,6 @@ import java.net.Socket;
 public class HandlerEvent {
 
     private final Context mActivity;
-    private Bundle bundle = new Bundle();
-
-
     public HandlerEvent(Context context) {
         this.mActivity = context;
     }
@@ -53,7 +50,7 @@ public class HandlerEvent {
             UIUtils.showToast("库存不足");
             return;
         }
-
+        AppConstant.PRODUCT_ITEM_BEAN=productItemBean;
         AppConstant.product_id = productItemBean.getProductId();
         EventBus.getDefault().post(new MessageEvent(10065, "2"));
     }
@@ -195,26 +192,6 @@ public class HandlerEvent {
         CustomApplaction.socketbean = null;
         SocketBean updateBit = SocketUtil.getUpdateBit("99", true);
         getSocketAndSendData(updateBit);
-    }
-
-
-    //启动页面不带参数 直接启动
-    private void startActivityBase(Context context, Class clazz) {
-        Intent intent = new Intent(context, clazz);
-        context.startActivity(intent);
-    }
-
-    /**
-     * 带参数启动
-     *
-     * @param context
-     * @param clazz
-     * @param bundle
-     */
-    private void startActivityBase(Context context, Class clazz, Bundle bundle) {
-        Intent intent = new Intent(context, clazz);
-        intent.putExtras(bundle);
-        context.startActivity(intent);
     }
 
     /**

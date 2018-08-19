@@ -30,6 +30,23 @@ public class DetailBean extends  BaseObservable implements BindingAdapterItem {
     private int btn_bg;
 
     private int icon_bg;
+
+
+    private int press_num;
+
+    public DetailBean(String PRODUCT_ID, int id, String poroduct_name, int imagebg, String product_desc, String btn_name, int btn_bg, int icon_bg, int press_num, boolean visiable) {
+        this.PRODUCT_ID = PRODUCT_ID;
+        this.id = id;
+        this.poroduct_name = poroduct_name;
+        this.imagebg = imagebg;
+        this.product_desc = product_desc;
+        this.btn_name = btn_name;
+        this.btn_bg = btn_bg;
+        this.icon_bg = icon_bg;
+        this.press_num = press_num;
+        this.visiable = visiable;
+    }
+
     @Bindable
     public int getIcon_bg() {
         return icon_bg;
@@ -59,17 +76,12 @@ public class DetailBean extends  BaseObservable implements BindingAdapterItem {
         this.PRODUCT_ID = product_id;
     }
 
+    public int getPress_num() {
+        return press_num;
+    }
 
-    public DetailBean(String product_id, int id, String poroduct_name, int imagebg, String product_desc, String btn_name, int btn_bg, int icon_bg, boolean visiable) {
-        this.PRODUCT_ID = product_id;
-        this.id = id;
-        this.poroduct_name = poroduct_name;
-        this.imagebg = imagebg;
-        this.product_desc = product_desc;
-        this.btn_name = btn_name;
-        this.btn_bg = btn_bg;
-        this.icon_bg = icon_bg;
-        this.visiable = visiable;
+    public void setPress_num(int press_num) {
+        this.press_num = press_num;
     }
 
     @Bindable

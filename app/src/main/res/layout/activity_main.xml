@@ -12,15 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <com.fresh.app.ui.CustomsTextView
-            android:background="@drawable/title_bg"
+            android:background="@drawable/ic_main_header"
             android:textSize="100sp"
             android:gravity="center"
-            android:text="@string/tv_title"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>
-
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#000" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -33,7 +34,10 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true" >
+
+
             </FrameLayout>
+
             <include
                 android:id="@+id/bottom"
                 layout="@layout/layout_bottom"
@@ -43,9 +47,12 @@
                 android:layout_centerHorizontal="true" />
 
         </RelativeLayout>
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#000" />
         <RelativeLayout
-            android:background="@drawable/bottom"
+            android:background="@drawable/bg_daoxiang"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">

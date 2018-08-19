@@ -2,12 +2,14 @@ package com.fresh.app.applaction;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Handler;
 
 import com.danikula.videocache.HttpProxyCacheServer;
 import com.danikula.videocache.file.FileNameGenerator;
+import com.fresh.app.MainActivity;
 import com.fresh.app.bean.PayeeBean;
 import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.QrBean;
@@ -28,9 +30,9 @@ import java.util.concurrent.Executors;
 
 /**
  * Created by mr.miao on 2018/4/23.
+ * 自定义applaction
  */
-
-public class CustomApplaction extends Application {
+public class CustomApplaction extends Application implements Thread.UncaughtExceptionHandler{
     public static int RESULT_CODE = 0;
     public static QrBean QR_BEAN = null;
     public static int MONEY_CHECK_POSITION = -1;
@@ -61,6 +63,8 @@ public class CustomApplaction extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //设置Thread Exception Handler
+        Thread.setDefaultUncaughtExceptionHandler(this);
         app = this;
         //在此方法中需要获取handler对象,上下文环境
         context = getApplicationContext();
@@ -198,6 +202,7 @@ public class CustomApplaction extends Application {
                 .build();
         return httpProxyCacheServer;
     }
+
     private class CustomFileNameGenerator implements FileNameGenerator {
         @Override
         public String generate(String url) {
@@ -229,6 +234,19 @@ public class CustomApplaction extends Application {
      * -------------------视频缓存结束——————————————————————
      */
 
-
+    /**
+     * 异常处理相关
+     * @param thread
+     * @param ex
+     */
+    @Override
+    public void uncaughtException(Thread thread, Throwable ex) {
+        System.out.println("uncaughtException"+ex.getMessage());
+        System.exit(0);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 
 }

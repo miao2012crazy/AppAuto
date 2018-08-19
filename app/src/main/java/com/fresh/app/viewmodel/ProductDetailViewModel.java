@@ -12,6 +12,7 @@ import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.QrBean;
 import com.fresh.app.commonUtil.GsonUtil;
 import com.fresh.app.commonUtil.UIUtils;
+import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.constant.NetResponse;
 import com.fresh.app.databinding.FragmentDetailBinding;
@@ -70,9 +71,9 @@ public class ProductDetailViewModel {
         recyclerList.setAdapter(adapter);
         
         String productId = productItemBean.getProductId();
-        DetailBean detailBean0 = new DetailBean(productId,0, productItemBean.getProductName(), R.drawable.caomi, "与普通米相比，糙米中维他命，矿物质与膳食纤维含量更高","糙米",R.drawable.ic_btn_caomi,R.drawable.ic_caomi_bg,false);
-        DetailBean detailBean1 = new DetailBean(productId,1, productItemBean.getProductName(), R.drawable.peiyami, productItemBean.getProductDetailDesc(), "立刻购买",R.drawable.ic_btn_peiyami,R.drawable.ic_peiyami_bg,true);
-        DetailBean detailBean2 = new DetailBean(productId,2, productItemBean.getProductName(), R.drawable.jingmomi, productItemBean.getProductDetailDesc(), "立刻购买",R.drawable.ic_btn_jingmomi,R.drawable.ic_jingmomi_bg,false);
+        DetailBean detailBean0 = new DetailBean(productId,0, productItemBean.getProductName(), R.drawable.caomi, "与普通米相比，糙米中维他命，矿物质与膳食纤维含量更高","糙米",R.drawable.ic_btn_caomi,R.drawable.ic_caomi_bg,productItemBean.getProductPress1(),false);
+        DetailBean detailBean1 = new DetailBean(productId,1, productItemBean.getProductName(), R.drawable.peiyami, productItemBean.getProductDetailDesc(), "立刻购买",R.drawable.ic_btn_peiyami,R.drawable.ic_peiyami_bg,productItemBean.getProductPress2(),true);
+        DetailBean detailBean2 = new DetailBean(productId,2, productItemBean.getProductName(), R.drawable.jingmomi, productItemBean.getProductDetailDesc(), "立刻购买",R.drawable.ic_btn_jingmomi,R.drawable.ic_jingmomi_bg,productItemBean.getProductPress3(),false);
         detailBean1.setVisiable(true);
         homeBeans.add(detailBean0);
         homeBeans.add(detailBean1);
@@ -128,7 +129,7 @@ public class ProductDetailViewModel {
             case 10066:
                 String message = messageEvent.getMessage();
                 //创建订单
-                payeeModelImpl.creatOrder(message,"20180515_01");
+                payeeModelImpl.creatOrder(message, AppConstant.DEVICE_ID);
                 break;
         }
     }

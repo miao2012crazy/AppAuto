@@ -8,14 +8,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.danikula.videocache.HttpProxyCacheServer;
+import com.fresh.app.MainActivity;
 import com.fresh.app.R;
 import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BaseFragment;
 import com.fresh.app.bean.DebugBean;
 import com.fresh.app.bean.RiceBucketBean;
+import com.fresh.app.bean.VideoBean;
 import com.fresh.app.commonUtil.CardReaderManage;
 import com.fresh.app.commonUtil.GsonUtil;
 import com.fresh.app.commonUtil.LogUtils;
@@ -27,6 +30,7 @@ import com.fresh.app.databinding.FragmentProgressBinding;
 import com.fresh.app.handler.HandlerEvent;
 import com.fresh.app.httputil.HttpConstant;
 import com.fresh.app.httputil.HttpUrl;
+import com.fresh.app.ui.CountDownView;
 import com.fresh.app.view.IProgressView;
 import com.fresh.app.viewmodel.ProgressingViewModel;
 
@@ -67,50 +71,35 @@ public class ProgressingFragment extends BaseFragment implements IProgressView, 
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
         progressingViewModel = new ProgressingViewModel(this, bind);
-        initVideo();
-        //TODO 以下为测试代码
-        CardReaderManage.setCardReaderState(4);
+
+//        //TODO 以下为测试代码
+//        CardReaderManage.setCardReaderState(4);
         handlerEvent = new HandlerEvent(getActivity());
         DebugBean bean0_0 = new DebugBean("30", "买米模式", "", "");
-        handlerEvent.start(view, bean0_0);
-        ////TODO 测试代码
-//        DebugBean bean02 = new DebugBean("30", "", "", "");
-//        handlerEvent.stop(getView(), bean02);
+//        handlerEvent.start(view, bean0_0);
+
+        initCountDown();
     }
 
+    /**
+     * 倒计时启动
+     */
+    public void initCountDown() {
+        CountDownView mTimerHour = bind.countdownTimerHour;
+        mTimerHour.initTime(0,5,0);
+        mTimerHour.start();
+        mTimerHour.setOnTimeCompleteListener(() -> {
+            EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_ERROR,"倒计时结束！"));
+           UIUtils.showToast("倒计时结束");
+        });
+    }
 
-    private void initVideo() {
+    /**
+     * 初始化视频
+     */
+    private void initVideo(String video_url) {
         proxy = CustomApplaction.getProxy(UIUtils.getContext());
-//        String innerSDCardPath = UIUtils.getInnerSDCardPath();
-//        String strFile = innerSDCardPath + "/video/";
-//        boolean b = UIUtils.fileIsExists(strFile);
-//        File file = new File(innerSDCardPath + "/video/");
-//        File[] files = file.listFiles();
-//        try {
-//            for (int i=0;i<files.length;i++){
-//                String fileSuffix = FileUtils.getFileSuffix(files[i].getName());
-//                if (fileSuffix.equals("download")){
-//                    boolean b1 = FileUtils.deleteFile(files[i]);
-//                    Log.e("miao111",b1+"");
-//                }
-//                Log.e("miao111",files[i].getName());
-//            }
-//
-//
-//            long fileSizes = FileUtils.getFileSizes(file);
-//            String s = FileUtils.FormetFileSize(fileSizes);
-//            Log.e("miao111", s);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        if (!b) {
-//            File file1 = new File(innerSDCardPath + "/video/");
-//            if (!file.exists()) {
-//                boolean mkdir = file1.mkdir();
-//            }
-//        }
-        String proxyUrl = proxy.getProxyUrl(HttpUrl.getBaseUrl() + "app/static/1.mp4");
+        String proxyUrl = proxy.getProxyUrl(HttpUrl.getBaseUrl() + "/app/static/video/"+video_url);
         VideoView videoview = bind.video;
         videoview.setVideoPath(proxyUrl);
         videoview.requestFocus();
@@ -137,7 +126,9 @@ public class ProgressingFragment extends BaseFragment implements IProgressView, 
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
-        CardReaderManage.setCardReaderState(0);
+        if (!AppConstant.isDebug){
+            CardReaderManage.setCardReaderState(0);
+        }
     }
 
 
@@ -146,12 +137,17 @@ public class ProgressingFragment extends BaseFragment implements IProgressView, 
     @Subscribe
     public void receiveData(NetResponse netResponse) {
         switch (netResponse.getTag()){
+            case HttpConstant.STATE_GET_VIDEO:
+                List<VideoBean> videoBeans = GsonUtil.jsonToList((String) netResponse.getData(), VideoBean.class);
+                initVideo(videoBeans.get(0).getVideoName());
+
+                break;
             case HttpConstant.STATE_RICEBUCKET:
                 List<RiceBucketBean> riceBucketBeans = GsonUtil.jsonToList((String) netResponse.getData(), RiceBucketBean.class);
                 CardReaderManage.setCardReaderState(4);
                 for (int i = 0; i < riceBucketBeans.size(); i++) {
                     RiceBucketBean item = riceBucketBeans.get(i);
-                    if (item.getProductId().equals(AppConstant.product_id) && item.getRiceBucketState() == 0) {
+                    if (item.getProductId().equals(AppConstant.PRODUCT_ITEM_BEAN.getProductId()) && item.getRiceBucketState() == 0) {
                         riceBucketId = item.getRiceBucketId();
                         return;
                     }
@@ -168,7 +164,10 @@ public class ProgressingFragment extends BaseFragment implements IProgressView, 
                 //数据上传成功
                 UIUtils.showToast("更新完成");
                 break;
+
+
         }
+
 
     }
 
@@ -177,7 +176,6 @@ public class ProgressingFragment extends BaseFragment implements IProgressView, 
         if (messageEvent.getCode() == 10034) {
             //TODO 测试代码
             riceBucketId = "000d015c009a8b130e013416e09f";
-
 
             boolean equals = riceBucketId.equals(messageEvent.getMessage());
             LogUtils.e(equals + "");
@@ -193,7 +191,7 @@ public class ProgressingFragment extends BaseFragment implements IProgressView, 
                 //TODO
                 UIUtils.showToast("买米模式米桶到达");
                 //上传米桶编号
-//                progressingViewModel.updateRiceBucket(riceBucketId);
+                progressingViewModel.updateRiceBucket(riceBucketId);
                 //开始加工
                 UIUtils.showToast("开始加工");
 
@@ -234,6 +232,8 @@ public class ProgressingFragment extends BaseFragment implements IProgressView, 
             //接收到下位机的数据 进行数据解析
             if (substring00.equals("1")) {
                 Log.e("miao111", "碾米电机已经启动了！");
+
+
             }
 
             if (substring30.equals("1")) {

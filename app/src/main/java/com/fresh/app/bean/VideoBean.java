@@ -8,79 +8,68 @@ import java.util.List;
 
 public class VideoBean {
 
-    private List<DataBean> data;
 
-    public List<DataBean> getData() {
-        return data;
+    /**
+     * id : 1
+     * videoName : 111111.mp4
+     * videoState : 1
+     * regDate : 111
+     * isHome : 0
+     * deviceId : 20180515_01
+     */
+
+    private int id;
+    private String videoName;
+    private int videoState;
+    private String regDate;
+    private int isHome;
+    private String deviceId;
+
+    public int getId() {
+        return id;
     }
 
-    public void setData(List<DataBean> data) {
-        this.data = data;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public static class DataBean {
-        /**
-         * deviceId : 20180515_01
-         * id : 1
-         * isHome : 0
-         * regDate : 111
-         * videoName : 111111.mp4
-         * videoState : 1
-         */
+    public String getVideoName() {
+        return videoName;
+    }
 
-        private String deviceId;
-        private int id;
-        private int isHome;
-        private String regDate;
-        private String videoName;
-        private int videoState;
+    public void setVideoName(String videoName) {
+        this.videoName = videoName;
+    }
 
-        public String getDeviceId() {
-            return deviceId;
-        }
+    public int getVideoState() {
+        return videoState;
+    }
 
-        public void setDeviceId(String deviceId) {
-            this.deviceId = deviceId;
-        }
+    public void setVideoState(int videoState) {
+        this.videoState = videoState;
+    }
 
-        public int getId() {
-            return id;
-        }
+    public String getRegDate() {
+        return regDate;
+    }
 
-        public void setId(int id) {
-            this.id = id;
-        }
+    public void setRegDate(String regDate) {
+        this.regDate = regDate;
+    }
 
-        public int getIsHome() {
-            return isHome;
-        }
+    public int getIsHome() {
+        return isHome;
+    }
 
-        public void setIsHome(int isHome) {
-            this.isHome = isHome;
-        }
+    public void setIsHome(int isHome) {
+        this.isHome = isHome;
+    }
 
-        public String getRegDate() {
-            return regDate;
-        }
+    public String getDeviceId() {
+        return deviceId;
+    }
 
-        public void setRegDate(String regDate) {
-            this.regDate = regDate;
-        }
-
-        public String getVideoName() {
-            return videoName;
-        }
-
-        public void setVideoName(String videoName) {
-            this.videoName = videoName;
-        }
-
-        public int getVideoState() {
-            return videoState;
-        }
-
-        public void setVideoState(int videoState) {
-            this.videoState = videoState;
-        }
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 }
