@@ -43,7 +43,7 @@ public class SharedPreferencesUtils {
             editor.putLong(key, (Long)object);
         }
 
-        editor.commit();
+        editor.apply();
     }
 
 
@@ -89,7 +89,7 @@ public class SharedPreferencesUtils {
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
-        editor.clear().commit();
+        editor.clear().apply();
     }
 
     /**
@@ -101,7 +101,7 @@ public class SharedPreferencesUtils {
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.remove("定义的键名");
-        editor.commit();
+        editor.apply();
     }
 
 

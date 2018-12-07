@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="handler"
+            type="com.fresh.app.handler.HandlerEvent" />
+    </data>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/btn_start_debug"
+            android:layout_marginTop="50dp"
+            android:textSize="@dimen/sp_50"
+            android:text="维修调试"
+            android:padding="@dimen/dp_60"
+            android:background="@drawable/shape_item_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/start_update_rice_bucket"
+            android:layout_marginTop="50dp"
+            android:textSize="@dimen/sp_50"
+            android:text="装米模式"
+            android:padding="@dimen/dp_60"
+            android:background="@drawable/shape_item_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+
+</layout>

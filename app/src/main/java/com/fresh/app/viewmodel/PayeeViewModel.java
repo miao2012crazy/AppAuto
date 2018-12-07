@@ -54,18 +54,23 @@ public class PayeeViewModel {
         initQRCode(CustomApplaction.QR_BEAN);
     }
 
+
     /**
      * 初始化二维码
      *
      */
     private void initQRCode(QrBean qrBean) {
+        payeeBinding.tvPayPrice.setText(" ¥"+qrBean.getOrder_price());
         CustomApplaction.ORDER_ID = qrBean.getOrder_id();
         CustomApplaction.ISRESULT = true;
         CustomApplaction.RESULT_CODE=0;
         UIUtils.getContext().startService(new Intent(UIUtils.getContext(), PayResultService.class));
         PayeeBean bindingAdapterItem = (PayeeBean) mainList.get(1);
-        Bitmap qrImage = ZXingUtils.createQRImage(qrBean.getWechat_url(), 400, 400);
+        PayeeBean bindingAdapterItem2 = (PayeeBean) mainList.get(2);
+        Bitmap qrImage = ZXingUtils.createQRImage(qrBean.getWechat_url(), 500, 400);
+        Bitmap qrImage2 = ZXingUtils.createQRImage(qrBean.getAlipay_url(), 400, 400);
         bindingAdapterItem.setPay_image(qrImage);
+        bindingAdapterItem2.setPay_image(qrImage2);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -104,7 +109,7 @@ public class PayeeViewModel {
         recyclerList.setAdapter(adapter);
         PayeeBean payeeBean0 = new PayeeBean("云稻会员卡", BitmapFactory.decodeResource(getResources(), R.mipmap.ic_huiyuan), true, 0);
         PayeeBean payeeBean1 = new PayeeBean("微信扫码支付", BitmapFactory.decodeResource(getResources(), R.mipmap.ic_wechat), true, 1);
-        PayeeBean payeeBean2 = new PayeeBean("支付宝扫码支付", BitmapFactory.decodeResource(getResources(), R.mipmap.ic_alipay), true, 2);
+        PayeeBean payeeBean2 = new PayeeBean("支付宝扫码支付", BitmapFactory.decodeResource(getResources(), R.drawable.ic_pay_ali), true, 2);
         homeBeans.add(payeeBean0);
         homeBeans.add(payeeBean1);
         homeBeans.add(payeeBean2);

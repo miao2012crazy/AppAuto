@@ -46,7 +46,9 @@ public class RechargeViewModel {
 
     private void initQR(QrBean qrBean) {
         Bitmap qrImage = ZXingUtils.createQRImage(qrBean.getWechat_url(), 400, 400);
+        Bitmap qrImage1 = ZXingUtils.createQRImage(qrBean.getAlipay_url(), 400, 400);
         mBind.qrLayout.imageView2.setImageBitmap(qrImage);
+        mBind.qrLayout.imageView3.setImageBitmap(qrImage1);
         mBind.qrLayout.rlQrLayout.setVisibility(View.VISIBLE);
         mBind.recyclerList.llSelect.setVisibility(View.GONE);
         mBind.qrLayout.btnReturn.setOnClickListener(v -> {

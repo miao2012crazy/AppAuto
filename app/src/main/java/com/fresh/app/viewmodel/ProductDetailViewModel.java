@@ -8,11 +8,13 @@ import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BindingAdapter;
 import com.fresh.app.base.BindingAdapterItem;
 import com.fresh.app.bean.DetailBean;
+import com.fresh.app.bean.PressureBean;
 import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.QrBean;
 import com.fresh.app.commonUtil.GsonUtil;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.constant.AppConstant;
+import com.fresh.app.constant.IConstant;
 import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.constant.NetResponse;
 import com.fresh.app.databinding.FragmentDetailBinding;
@@ -46,21 +48,20 @@ public class ProductDetailViewModel {
     private List<DetailBean> homeBeans;
 
     public ProductDetailViewModel(IDetailView detailView, FragmentDetailBinding fragmentDetailBinding) {
-        EventBus.getDefault().register(this);
         this.mDetailView=detailView;
         this.mActivityDetailBinding=fragmentDetailBinding;
         payeeModelImpl = new PayeeModelImpl();
         detailModel = new DetailModelImpl();
+        detailModel.getPressureFormNet(AppConstant.product_id);
     }
-
-
 
 
     /**
      * 初始化列表
      * @param productItemBean
+     * @param pressureBean
      */
-    private void initRecyclerList(ProductItemBean productItemBean) {
+    private void initRecyclerList(ProductItemBean productItemBean, PressureBean pressureBean) {
         mainList = new ArrayList<>();
         homeBeans = new ArrayList<>();
 
@@ -71,9 +72,9 @@ public class ProductDetailViewModel {
         recyclerList.setAdapter(adapter);
         
         String productId = productItemBean.getProductId();
-        DetailBean detailBean0 = new DetailBean(productId,0, productItemBean.getProductName(), R.drawable.caomi, "与普通米相比，糙米中维他命，矿物质与膳食纤维含量更高","糙米",R.drawable.ic_btn_caomi,R.drawable.ic_caomi_bg,productItemBean.getProductPress1(),false);
-        DetailBean detailBean1 = new DetailBean(productId,1, productItemBean.getProductName(), R.drawable.peiyami, productItemBean.getProductDetailDesc(), "立刻购买",R.drawable.ic_btn_peiyami,R.drawable.ic_peiyami_bg,productItemBean.getProductPress2(),true);
-        DetailBean detailBean2 = new DetailBean(productId,2, productItemBean.getProductName(), R.drawable.jingmomi, productItemBean.getProductDetailDesc(), "立刻购买",R.drawable.ic_btn_jingmomi,R.drawable.ic_jingmomi_bg,productItemBean.getProductPress3(),false);
+        DetailBean detailBean0 = new DetailBean(productId,0, productItemBean.getProductName(), R.drawable.caomi, "与普通米相比，糙米中维他命，矿物质与膳食纤维含量更高","糙米",R.drawable.ic_btn_caomi,R.drawable.ic_caomi_bg,pressureBean.getPressure10(),false);
+        DetailBean detailBean1 = new DetailBean(productId,1, productItemBean.getProductName(), R.drawable.peiyami, productItemBean.getProductDetailDesc(), "立刻购买",R.drawable.ic_btn_peiyami,R.drawable.ic_peiyami_bg,pressureBean.getPressure2(),true);
+        DetailBean detailBean2 = new DetailBean(productId,2, productItemBean.getProductName(), R.drawable.jingmomi, productItemBean.getProductDetailDesc(), "立刻购买",R.drawable.ic_btn_jingmomi,R.drawable.ic_jingmomi_bg,pressureBean.getPressure3(),false);
         detailBean1.setVisiable(true);
         homeBeans.add(detailBean0);
         homeBeans.add(detailBean1);
@@ -87,51 +88,18 @@ public class ProductDetailViewModel {
     /**
      * 设置product_id
      */
-    public void setProductId(String product_id){
+    public void setProductId(String product_id, PressureBean pressureBean){
         detailModel.getDataForModel(product_id);
         ProductItemBean productItemBean = productItemBeanDao.queryBuilder()
                 .where(ProductItemBeanDao.Properties.ProductId.eq(product_id))
                 .unique();
-        initRecyclerList(productItemBean);
+        initRecyclerList(productItemBean,pressureBean);
+
     }
 
 
+    public void creatFreshOrder(String message, String deviceId) {
+        payeeModelImpl.creatOrder(message,deviceId);
 
-    /**
-     * 收到数据
-     * @param netResponse
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public  void receiveData(NetResponse netResponse){
-        if (netResponse.getTag().equals(HttpConstant.STATE_PRODUCT_DETAIL)){
-        }else{
-        }
-        switch (netResponse.getTag()){
-            case HttpConstant.STATE_PRODUCT_DETAIL:
-                CustomApplaction.product_detail_bean = GsonUtil.GsonToBean((String) netResponse.getData(), ProductItemBean.class);
-                break;
-            case HttpConstant.STATE_PRODUCT_DETAIL_2:
-                CustomApplaction.product_detail_bean= (ProductItemBean) netResponse.getData();
-                break;
-            case HttpConstant.STATE_CREAT_ORDER:
-                CustomApplaction.QR_BEAN= GsonUtil.GsonToBean((String) netResponse.getData(),QrBean.class);
-                EventBus.getDefault().post(new MessageEvent(10065, "3"));
-                break;
-        }
     }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getData(MessageEvent messageEvent) {
-        switch (messageEvent.getCode()) {
-            case 1002:
-//                Log.e("miao网络数据","请求网络数据");
-                break;
-            case 10066:
-                String message = messageEvent.getMessage();
-                //创建订单
-                payeeModelImpl.creatOrder(message, AppConstant.DEVICE_ID);
-                break;
-        }
-    }
-
 }

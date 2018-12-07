@@ -5,4 +5,5 @@ package com.fresh.app.model;
  */
 public interface IDetailModel {
     void getDataForModel(String product_id);
+    void getPressureFormNet(String product_id);
 }

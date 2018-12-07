@@ -3,6 +3,7 @@ package com.fresh.app.base;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Location location = LocationUtils.getInstance(this).showLocation();
         if (location != null) {
             String address = "纬度：" + location.getLatitude() + "经度：" + location.getLongitude();
@@ -74,6 +76,5 @@ public abstract class BaseActivity extends AppCompatActivity implements Location
     @Override
     public void onProviderDisabled(String provider) {
         LogUtils.e("yichang");
-
     }
 }

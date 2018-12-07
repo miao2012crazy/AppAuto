@@ -34,4 +34,12 @@ public class HttpConstant {
     public static final String STATE_GET_VIDEO="STATE_GET_VIDEO";
 
     public static final String STATE_CHECK ="STATE_CHECK";
+    public static final String UPDATE_STATE_RICEBUCKET="UPDATE_STATE_RICEBUCKET";
+    public static final String STATE_RICEBUCKET_ID="STATE_RICEBUCKET_ID";
+    public static final String STATE_PRESSURE="STATE_PRESSURE";
+    public static final String STATE_CLIENT_BIND="STATE_CLIENT_BIND";
+
+    public static final String STATE_BIND ="STATE_BIND";
+    public static final String STATE_SPEAK = "STATE_SPEAK";
+
 }

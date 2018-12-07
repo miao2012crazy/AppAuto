@@ -31,41 +31,62 @@
             android:gravity="center"
             android:text="@{item.name}"
             android:textSize="40sp" />
-
-        <TextView
-            android:id="@+id/tv_debug_speed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="当前状态："
-            android:textSize="30sp" />
-
         <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_debug_speed"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="编号"
+                android:textSize="30sp" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@{item.id}"
+                android:textSize="30sp" />
+        </LinearLayout>
+
+
+
+        <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_40"
             android:orientation="horizontal"
             android:padding="@dimen/dp_10">
 
-            <Button
-                android:onClick="@{(view)->handler.start(view,item)}"
-
+            <RadioButton
+                android:background="@drawable/radio_group_selector"
+                android:gravity="center"
+                android:button="@null"
                 android:id="@+id/btn_start"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_80"
                 android:layout_weight="1"
+                android:onClick="@{(view)->handler.start(view,item)}"
                 android:text="通电"
+                android:textColor="#fff"
                 android:textSize="30sp" />
 
-            <Button
-                android:onClick="@{(view)->handler.stop(view,item)}"
-
+            <RadioButton
+                android:checked="true"
+                android:background="@drawable/radio_group_selector"
+                android:gravity="center"
+                android:button="@null"
                 android:id="@+id/btn_stop"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="断电"
+                android:onClick="@{(view)->handler.stop(view,item)}"
+                android:layout_height="@dimen/dp_80"
                 android:textSize="30sp" />
+        </RadioGroup>
 
-        </LinearLayout>
+
     </LinearLayout>
 </layout>

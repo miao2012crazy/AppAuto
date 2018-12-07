@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 
 import com.fresh.app.R;
 import com.fresh.app.base.BaseFragment;
+import com.fresh.app.bean.DebugBean;
 import com.fresh.app.databinding.FragmentHomeBinding;
+import com.fresh.app.handler.HandlerEvent;
 import com.fresh.app.view.IHomeView;
 import com.fresh.app.viewmodel.HomeViewModel;
 
@@ -20,6 +22,7 @@ import com.fresh.app.viewmodel.HomeViewModel;
 public class HomeFragment extends BaseFragment implements IHomeView{
 
     private FragmentHomeBinding bind;
+    private HandlerEvent handlerEvent;
 
     @Nullable
     @Override
@@ -32,5 +35,6 @@ public class HomeFragment extends BaseFragment implements IHomeView{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         HomeViewModel homeViewModel = new HomeViewModel(this,bind);
+        handlerEvent = new HandlerEvent(getActivity());
     }
 }

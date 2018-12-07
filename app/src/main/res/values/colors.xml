@@ -7,4 +7,6 @@
     <color name="detail_desc_color">#333</color>
     <color name="main_background">#f5f5f5</color>
     <color name="item_background">#fff</color>
+    <color name="color_bg_selected">#4ef203</color>
+    <color name="color_bg_normal">#999</color>
 </resources>

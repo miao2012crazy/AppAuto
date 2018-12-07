@@ -66,26 +66,13 @@ public class ProductItemBean extends BaseObservable implements BindingAdapterIte
      */
 
     private String productDetailDesc;
-    /**
-     * id : 1
-     * deviceId : 20180515_01
-     * productPrice : 25.5
-     * productPress1 : 50
-     * productPress2 : 70
-     * productPress3 : 90
-     */
 
-    private int productPress1;
-    private int productPress2;
-    private int productPress3;
-
-
-    @Generated(hash = 959084042)
+    @Generated(hash = 347670074)
     public ProductItemBean(long id, String productDesc, String productId, String productImg01,
             String productImg02, String productImg03, String productImg04, String productManage,
             String productName, String productOption, double productPrice, int productStock, int productUsable,
             String regDate, int deviceProductStock, String singleDeviceId, String singleStorageRoomId,
-            String productDetailDesc, int productPress1, int productPress2, int productPress3) {
+            String productDetailDesc) {
         this.id = id;
         this.productDesc = productDesc;
         this.productId = productId;
@@ -104,16 +91,12 @@ public class ProductItemBean extends BaseObservable implements BindingAdapterIte
         this.singleDeviceId = singleDeviceId;
         this.singleStorageRoomId = singleStorageRoomId;
         this.productDetailDesc = productDetailDesc;
-        this.productPress1 = productPress1;
-        this.productPress2 = productPress2;
-        this.productPress3 = productPress3;
     }
 
     @Generated(hash = 1206367571)
     public ProductItemBean() {
     }
-
-
+  
     public long getId() {
         return id;
     }
@@ -297,29 +280,5 @@ public class ProductItemBean extends BaseObservable implements BindingAdapterIte
     public void setProductDetailDesc(String productDetailDesc) {
         this.productDetailDesc = productDetailDesc;
         notifyPropertyChanged(BR.productDetailDesc);
-    }
-
-    public int getProductPress1() {
-        return productPress1;
-    }
-
-    public void setProductPress1(int productPress1) {
-        this.productPress1 = productPress1;
-    }
-
-    public int getProductPress2() {
-        return productPress2;
-    }
-
-    public void setProductPress2(int productPress2) {
-        this.productPress2 = productPress2;
-    }
-
-    public int getProductPress3() {
-        return productPress3;
-    }
-
-    public void setProductPress3(int productPress3) {
-        this.productPress3 = productPress3;
     }
 }

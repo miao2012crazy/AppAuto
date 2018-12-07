@@ -172,11 +172,7 @@ public class PayResultService extends Service {
                                 UIUtils.showToast(reserveResultBean.getMsg());
                             }
                             break;
-
                     }
-
-
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

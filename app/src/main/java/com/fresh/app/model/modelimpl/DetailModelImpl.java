@@ -24,12 +24,20 @@ public class DetailModelImpl extends BaseModel implements IDetailModel {
                 .where(ProductItemBeanDao.Properties.ProductId.eq(product_id))
                 .unique();
 
-        if (productItemBean==null){
+        if (productItemBean == null) {
             map.clear();
-            map.put("product_id",product_id);
-            getDataFromNet(HttpConstant.STATE_PRODUCT_DETAIL, HttpUrl.PRODUCT_DETAIL_URL,map);
-        }else{
-            EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_PRODUCT_DETAIL_2,productItemBean));
+            map.put("product_id", product_id);
+            getDataFromNet(HttpConstant.STATE_PRODUCT_DETAIL, HttpUrl.PRODUCT_DETAIL_URL, map);
+        } else {
+            EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_PRODUCT_DETAIL_2, productItemBean));
         }
+    }
+
+    @Override
+    public void getPressureFormNet(String product_id) {
+        map.clear();
+        map.put("product_id", product_id);
+        getDataFromNet(HttpConstant.STATE_PRESSURE, HttpUrl.GET_PRODUCT_PRESSURE,map);
+
     }
 }

@@ -20,7 +20,7 @@ public class AudioUtils {
 
     private static AudioUtils audioUtils;
 
-    private SpeechSynthesizer mySynthesizer;
+    private static SpeechSynthesizer mySynthesizer;
 
     public AudioUtils() {
     }
@@ -42,7 +42,7 @@ public class AudioUtils {
         return audioUtils;
     }
 
-    private InitListener myInitListener = new InitListener() {
+    private static InitListener myInitListener = new InitListener() {
         @Override
         public void onInit(int code) {
             Log.d("mySynthesiezer:", "InitListener init() code = " + code);
@@ -56,16 +56,15 @@ public class AudioUtils {
      * 邮箱:344176791@qq.com
      * 创建时间: 2016/8/19 14:38
      */
-    public void init(Context context) {
+    public static void init(Context context) {
         //处理语音合成关键类
         mySynthesizer = SpeechSynthesizer.createSynthesizer(context, myInitListener);
         //设置发音人
-        mySynthesizer.setParameter(SpeechConstant.VOICE_NAME, "xiaoyan");
+        mySynthesizer.setParameter(SpeechConstant.VOICE_NAME, "vixy");
         //设置音调
         mySynthesizer.setParameter(SpeechConstant.PITCH, "50");
         //设置音量
         mySynthesizer.setParameter(SpeechConstant.VOLUME, "50");
-
     }
 
     /**
@@ -75,6 +74,7 @@ public class AudioUtils {
      * 创建时间: 2016/8/19 14:39
      */
     public void speakText(String content) {
+
         int code = mySynthesizer.startSpeaking(content, new SynthesizerListener() {
             @Override
             public void onSpeakBegin() {
@@ -83,27 +83,27 @@ public class AudioUtils {
 
             @Override
             public void onBufferProgress(int i, int i1, int i2, String s) {
-
+                Log.e("miao","开始朗读");
             }
 
             @Override
             public void onSpeakPaused() {
-
+                Log.e("miao","开始朗读");
             }
 
             @Override
             public void onSpeakResumed() {
-
+                Log.e("miao","开始朗读");
             }
 
             @Override
             public void onSpeakProgress(int i, int i1, int i2) {
-
+                Log.e("miao",i+"");
             }
 
             @Override
             public void onCompleted(SpeechError speechError) {
-
+                LogUtils.e(speechError.getErrorDescription());
             }
 
             @Override

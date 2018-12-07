@@ -31,10 +31,9 @@ public class DetailBean extends  BaseObservable implements BindingAdapterItem {
 
     private int icon_bg;
 
+    private String press_num;
 
-    private int press_num;
-
-    public DetailBean(String PRODUCT_ID, int id, String poroduct_name, int imagebg, String product_desc, String btn_name, int btn_bg, int icon_bg, int press_num, boolean visiable) {
+    public DetailBean(String PRODUCT_ID, int id, String poroduct_name, int imagebg, String product_desc, String btn_name, int btn_bg, int icon_bg, String press_num, boolean visiable) {
         this.PRODUCT_ID = PRODUCT_ID;
         this.id = id;
         this.poroduct_name = poroduct_name;
@@ -76,11 +75,11 @@ public class DetailBean extends  BaseObservable implements BindingAdapterItem {
         this.PRODUCT_ID = product_id;
     }
 
-    public int getPress_num() {
+    public String getPress_num() {
         return press_num;
     }
 
-    public void setPress_num(int press_num) {
+    public void setPress_num(String press_num) {
         this.press_num = press_num;
     }
 

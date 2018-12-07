@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.base.BaseActivity;
 import com.fresh.app.bean.DeviceBean;
+import com.fresh.app.commonUtil.AudioUtils;
+import com.fresh.app.commonUtil.FileUtil;
 import com.fresh.app.commonUtil.FragmentFactory;
 import com.fresh.app.commonUtil.GsonUtil;
 import com.fresh.app.commonUtil.LogUtils;
@@ -36,15 +39,21 @@ import com.fresh.app.databinding.LayoutDialogTakeGoodsBinding;
 import com.fresh.app.databinding.LayoutErrorBinding;
 import com.fresh.app.handler.HandlerEvent;
 import com.fresh.app.httputil.HttpConstant;
+import com.fresh.app.service.CustomIntentService;
+import com.fresh.app.service.CustomPushService;
 import com.fresh.app.service.TimeService;
 import com.fresh.app.ui.CustomProgressBar;
 import com.fresh.app.view.IMainView;
+import com.fresh.app.view.viewimpl.ControllerActivity;
 import com.fresh.app.view.viewimpl.DebugActivity;
 import com.fresh.app.viewmodel.MainViewModel;
+import com.igexin.sdk.PushManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.text.BreakIterator;
 
 public class MainActivity extends BaseActivity implements IMainView {
 
@@ -63,9 +72,9 @@ public class MainActivity extends BaseActivity implements IMainView {
         EventBus.getDefault().register(this);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
         binding.setHandler(new HandlerEvent(this));
         mainViewModel = new MainViewModel(binding, this);
-//        binding.bottom.
         ImageView iv0 = binding.bottom.iv0;
         ImageView iv1 = binding.bottom.iv1;
         ImageView iv2 = binding.bottom.iv2;
@@ -77,37 +86,33 @@ public class MainActivity extends BaseActivity implements IMainView {
         TextView tv2 = binding.bottom.tv2;
         TextView tv3 = binding.bottom.tv3;
         TextView tv4 = binding.bottom.tv4;
-
-
         imgArr = new ImageView[]{iv0, iv1, iv2, iv3, iv4};
         tvArr = new TextView[]{tv0, tv1, tv2, tv3, tv4};
-//        imgArr={binding.bottom.,binding.bottom.iv1};
         openFragment(new MessageEvent(10065, "0"));
-
-//        startActivityBase(DebugActivity.class);
 //        //定时器服务
         startService(new Intent(MainActivity.this, TimeService.class));
-//        openFragment(new MessageEvent(10065,"7"));
 //        startActivityBase(DebugActivity.class);
-
-        UpdateAppManager updateAppManager = new UpdateAppManager(this);
-        updateAppManager.checkVersion();
-
-
+        initDeviceId();
+        EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_SPEAK,"欢迎使用云稻自助平台！"));
     }
 
     /**
      * 初始化设备id
      */
     private void initDeviceId() {
+        try{
         String device_id = (String) SharedPreferencesUtils.getParam(UIUtils.getContext(), "DEVICE_ID", "");
         if (StringUtils.isEmpty(device_id)) {
+            String path = Environment.getExternalStorageDirectory() + "/" + "AppDeviceId" + "/deviceId.txt";
+            FileUtil.createIfNotExist(path);
+             device_id = FileUtil.readString(path, "utf-8");
             setDeviceId();
-        }else{
-            AppConstant.DEVICE_ID=device_id;
+        } else {
+            AppConstant.DEVICE_ID = device_id;
         }
-
-
+        }catch (Exception ex){
+            EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_ERROR,ex.getMessage()));
+        }
     }
 
 
@@ -129,13 +134,21 @@ public class MainActivity extends BaseActivity implements IMainView {
             case 10088:
                 //自提
                 showDialogForTakeGoods();
+                EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_SPEAK,"请输入4位提货码！"));
+
                 break;
             case 1004:
                 openFragment(new MessageEvent(10065, "7"));
                 break;
             case 10909:
-                startActivityBase(DebugActivity.class);
+                startActivityBase(ControllerActivity.class);
                 break;
+            case 10023:
+                if (dialog!=null){
+                    dialog.dismiss();
+                }
+                break;
+
         }
 
     }
@@ -147,7 +160,6 @@ public class MainActivity extends BaseActivity implements IMainView {
      * @param position
      */
     private void setNavigation(int position) {
-        LogUtils.e(position + "");
         position -= 1;
         switch (position) {
             case -1:
@@ -250,14 +262,16 @@ public class MainActivity extends BaseActivity implements IMainView {
                 if (customProgressBar == null) {
                     customProgressBar = new CustomProgressBar(this);
                 }
-                customProgressBar.show();
+                try {
+                    customProgressBar.show();
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
                 break;
             case HttpConstant.PROGRESS_DIALOG_DISMISS:
-
                 if (customProgressBar != null) {
                     customProgressBar.dismiss();
                 }
-
 
                 break;
             case HttpConstant.STATE_ERROR:
@@ -272,9 +286,17 @@ public class MainActivity extends BaseActivity implements IMainView {
                 if (deviceBean != null) {
                     SharedPreferencesUtils.setParam(UIUtils.getContext(), "DEVICE_ID", deviceBean.getDeviceId());
                 }
-                if (dialog1!=null){
+                if (dialog1 != null) {
                     dialog1.dismiss();
                 }
+                break;
+
+            case HttpConstant.STATE_SPEAK:
+                CustomApplaction.getExecutorService().execute(() -> {
+                    String data = (String) netResponse.getData();
+                    AudioUtils.getInstance().speakText(data);
+                });
+
                 break;
         }
     }
@@ -292,15 +314,12 @@ public class MainActivity extends BaseActivity implements IMainView {
         assert window != null;
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         binding.tvErrorContent.setText(message);
-//        dialog.getWindow().setLayout(UIUtils.dip2px(800), UIUtils.dip2px(800));
         binding.btnConfirm.setOnClickListener(v -> {
             dialog.dismiss();
         });
-
     }
 
     public void setDeviceId() {
-
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutDialogSetDeviceIdBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.layout_dialog_set_device_id, null, false);
         builder.setView(binding.getRoot());
@@ -318,12 +337,31 @@ public class MainActivity extends BaseActivity implements IMainView {
         });
     }
 
+    /**
+     * 处理服务器推送消息
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiveDataForNet(NetResponse netResponse){
+        switch (netResponse.getTag()){
+            case HttpConstant.STATE_CLIENT_BIND:
+                //个推clientid 绑定
+                String client_id = (String)netResponse.getData();
+                mainViewModel.bindClientId(client_id);
+                break;
+            case HttpConstant.STATE_BIND:
+                //绑定成功
+        }
+    }
+
+
 
     @Override
     protected void onResume() {
         super.onResume();
-        initDeviceId();
+//        initDeviceId();
+        PushManager.getInstance().initialize(this.getApplicationContext(), CustomPushService.class);
+        PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), CustomIntentService.class);
+        UpdateAppManager updateAppManager = new UpdateAppManager(this);
+        updateAppManager.checkVersion();
     }
-
-
 }

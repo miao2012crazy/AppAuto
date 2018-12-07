@@ -39,8 +39,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.viewimpl.DebugActivity"/>
+        <activity android:name=".view.viewimpl.DebugActivity" />
         <activity android:name=".view.viewimpl.DebugControlActivity"/>
+        <activity android:name=".view.viewimpl.ControllerActivity"/>
+        <activity android:name=".view.viewimpl.UpdateRiceBucketActivity"/>
         <!--<activity android:name=".view.fragment.ProductFragment"/>-->
         <receiver android:name=".receiver.BootReceiver" android:enabled="true" android:exported="true">
             <intent-filter>
@@ -52,7 +54,14 @@
 
         <service android:name=".service.TimeService"/>
         <service android:name=".service.PayResultService"/>
-
+        <service android:name=".service.ServerService"/>
+        <service android:name=".service.CustomIntentService"/>
+        <service
+            android:name=".service.CustomPushService"
+            android:exported="true"
+            android:label="PushService"
+            android:process=":pushservice">
+        </service>
 
     </application>
 

@@ -23,9 +23,9 @@ public class ProgressingModel extends BaseModel implements IProgressModel {
     @Override
     public void updateRiceBucket(String deviceid, String riceBucketId) {
         //更新米桶编号
-        map.clear();
-        map.put("deviceid",deviceid);
-        getDataFromNet(HttpConstant.STATE_UPDATE_RICEBUCKET, HttpUrl.URDATE_RICEBUCKET_URL,map);
+//        map.clear();
+//        map.put("deviceid",deviceid);
+//        getDataFromNet(HttpConstant.STATE_UPDATE_RICEBUCKET, HttpUrl.URDATE_RICEBUCKET_URL,map);
     }
 
     @Override

@@ -6,7 +6,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -87,10 +86,11 @@
                     android:padding="@dimen/dp_20">
 
                     <ImageView
-                        android:layout_width="match_parent"
+                        android:background="@drawable/ic_wechat_gz"
+                        android:layout_width="wrap_content"
                         android:layout_height="@dimen/dp_140"
-                        android:background="#111"
                         android:gravity="center"
+                        android:scaleType="fitCenter"
                         android:padding="@dimen/dp_10"
                         android:textColor="#1e9111" />
 

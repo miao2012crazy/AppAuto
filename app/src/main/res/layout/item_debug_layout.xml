@@ -37,13 +37,13 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:layout_height="wrap_content"
-                android:text="转速"
+                android:text="编号"
                 android:textSize="30sp" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="@{item.speed}"
+                android:text="@{item.id}"
                 android:textSize="30sp" />
         </LinearLayout>
 
@@ -68,23 +68,31 @@
         </LinearLayout>
 
 
-        <LinearLayout
+        <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_40"
             android:orientation="horizontal"
             android:padding="@dimen/dp_10">
 
-            <Button
+            <RadioButton
+                android:background="@drawable/radio_group_selector"
+                android:gravity="center"
+                android:button="@null"
                 android:id="@+id/btn_start"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_80"
                 android:layout_weight="1"
                 android:onClick="@{(view)->handler.start(view,item)}"
                 android:text="启动"
+                android:textColor="#fff"
                 android:textSize="30sp" />
 
-            <Button
+            <RadioButton
+                android:checked="true"
+                android:background="@drawable/radio_group_selector"
+                android:gravity="center"
+                android:button="@null"
                 android:id="@+id/btn_stop"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -92,6 +100,6 @@
                 android:onClick="@{(view)->handler.stop(view,item)}"
                 android:layout_height="@dimen/dp_80"
                 android:textSize="30sp" />
-        </LinearLayout>
+        </RadioGroup>
     </LinearLayout>
 </layout>

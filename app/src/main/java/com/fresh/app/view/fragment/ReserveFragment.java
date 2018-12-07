@@ -20,13 +20,16 @@ import com.fresh.app.base.BaseFragment;
 import com.fresh.app.bean.QrBean;
 import com.fresh.app.bean.ReserveResultBean;
 import com.fresh.app.commonUtil.UIUtils;
+import com.fresh.app.commonUtil.ZXingUtils;
 import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.constant.NetResponse;
 import com.fresh.app.databinding.FragmentReserveBinding;
 import com.fresh.app.databinding.LayoutInputReserveBinding;
+import com.fresh.app.databinding.LayoutLoginReserveBinding;
 import com.fresh.app.databinding.LayoutReserveSuccessedBinding;
 import com.fresh.app.handler.HandlerEvent;
 import com.fresh.app.httputil.HttpConstant;
+import com.fresh.app.httputil.HttpUrl;
 import com.fresh.app.service.PayResultService;
 import com.fresh.app.view.IReserveView;
 import com.fresh.app.viewmodel.PayeeVM;
@@ -35,6 +38,11 @@ import com.fresh.app.viewmodel.ReserveViewModel;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLEncoder;
+
 
 /**
  * Created by mr.miao on 2018/6/28.
@@ -70,8 +78,8 @@ public class ReserveFragment extends BaseFragment implements IReserveView {
     public void receice(MessageEvent messageEvent) {
         if (messageEvent.getCode() == 10097) {
             showDialog(messageEvent.getMessage());
+//            showDialogForWechatOrAli();
         }
-
     }
 
     @Subscribe
@@ -116,6 +124,32 @@ public class ReserveFragment extends BaseFragment implements IReserveView {
         binding.btnCancel.setOnClickListener(v -> dialog.dismiss());
     }
 
+    /**
+     * 用户登陆身份识别 wechat/ali
+     */
+    private void showDialogForWechatOrAli(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutLoginReserveBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), R.layout.layout_login_reserve, null, false);
+        builder.setView(binding.getRoot());
+        dialog = builder.create();
+        dialog.show();
+        String APPID="wx87d3cc6a3943c5a9";
+        String REDIRECT_URI= HttpUrl.getBaseUrl()+HttpUrl.REDIRECT_URI;
+        try {
+            String encode = URLEncoder.encode(REDIRECT_URI, "UTF-8");
+            binding.ivWechat.setImageBitmap(ZXingUtils.createQRImage("https://open.weixin.qq.com/connect/qrconnect?appid="+APPID+"&redirect_uri="+encode+"&response_type=code&scope=snsapi_login&state=123123#wechat_redirect",400,400));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        dialog.setCanceledOnTouchOutside(false);
+        Window window = dialog.getWindow();
+        assert window != null;
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    }
+
+
     @Override
     public void initPayee(QrBean qrBean) {
         dialog.dismiss();
@@ -124,10 +158,6 @@ public class ReserveFragment extends BaseFragment implements IReserveView {
         bind.rlReserve.setVisibility(View.GONE);
         payeeVM.initQRCode(qrBean);
     }
-
-
-
-
 
 
     @Override
@@ -153,7 +183,6 @@ public class ReserveFragment extends BaseFragment implements IReserveView {
         dialog.getWindow().setLayout(UIUtils.dip2px(600), LinearLayout.LayoutParams.WRAP_CONTENT);
         if (last_position == 0) {
 //            startProgress();
-
         }
         startProgress();
     }
@@ -165,5 +194,11 @@ public class ReserveFragment extends BaseFragment implements IReserveView {
                 EventBus.getDefault().post(new MessageEvent(10065, "0"));
             }
         }, 3000);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 }

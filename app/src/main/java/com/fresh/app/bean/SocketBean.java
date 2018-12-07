@@ -1,6 +1,9 @@
 package com.fresh.app.bean;
 
+import com.fresh.app.commonUtil.LogUtils;
 import com.fresh.app.commonUtil.StringUtils;
+
+import java.util.Arrays;
 
 /**
  * Created by mr.miao on 2018/5/31.
@@ -473,9 +476,13 @@ public class SocketBean {
     /**
      *
      * @param pressure 压力
+     * @param pressure2
+     * @param pressure_cha2
+     * @param pressure3
+     * @param pressure_cha3
      * @return  byte数组
      */
-    public byte[] getBinary(String pressure,String pressure_cha){
+    public byte[] getBinary(String pressure, String pressure_cha, String pressure2, String pressure_cha2, String pressure3, String pressure_cha3){
 
         boolean[] bool0_0={b0_7,b0_6,b0_5,b0_4,b0_3,b0_2,b0_1,b0};
         boolean[] bool0_1={b1_7,b1_6,b1_5,b1_4,b1_3,b1_2,b1_1,b1_0};
@@ -490,7 +497,6 @@ public class SocketBean {
         boolean[] bool2_1={b5_7,b5_6,b5_5,b5_4,b5_3,b5_2,b5_1,b5_0};
 
         boolean[] bool3_0={b6_7,b6_6,b6_5,b6_4,b6_3,b6_2,b6_1,b6_0};
-
 
 
         boolean[] bool4_0={b8_7,b8_6,b8_5,b8_4,b8_3,b8_2,b8_1,b8_0};
@@ -508,20 +514,90 @@ public class SocketBean {
 
         byte[] barr={aByte0_0,aByte0_1,aByte1_0,aByte1_1,aByte2_0,aByte2_1,aByte3_0};
 
+        //一号碾米电机压力设定值转换
         String s = StringUtils.convertDecToHexString(pressure);
+        //转换为2进制
         byte[] bytes = StringUtils.hexStringToBytes(s);
-        byte[] bytes1 = StringUtils.byteMerger(barr, bytes);
+//        //合并
+//        byte[] bytes1 = StringUtils.byteMerger(barr, bytes);
 
 
-
+        //一号碾米电机压力设定值波动范围
         String s8 = StringUtils.convertDecToHexString(pressure_cha);
+        //2进制转换
         byte[] bytes8 = StringUtils.hexStringToBytes(s8);
 
         byte[] bytes88 = StringUtils.byteMerger(byte11, bytes8);
 
-        byte[] bytes888 = StringUtils.byteMerger( bytes1,bytes88);
+//        byte[] bytes888 = StringUtils.byteMerger( bytes1,bytes88);
 
-        return bytes888;
+
+        //二号碾米电机压力设定值
+        String s2 = StringUtils.convertDecToHexString(pressure2);
+        //转换为2进制
+        byte[] bytes2 = StringUtils.hexStringToBytes(s2);
+        //合并
+//        byte[] bytes22 = StringUtils.byteMerger(bytes888, bytes2);
+
+
+
+        //2号碾米电机压力设定值波动范围
+        String s2_sub = StringUtils.convertDecToHexString(pressure_cha2);
+        //2进制转换
+        byte[] bytes2_sub = StringUtils.hexStringToBytes(s2_sub);
+
+        byte[] bytes22_sub = StringUtils.byteMerger(byte11, bytes2_sub);
+
+//        byte[] bytes222_sub = StringUtils.byteMerger(bytes22, bytes22_sub);
+
+
+
+
+        //二号碾米电机压力设定值
+        String s3 = StringUtils.convertDecToHexString(pressure3);
+        //转换为2进制
+        byte[] bytes3 = StringUtils.hexStringToBytes(s3);
+        //合并
+//        byte[] bytes33 = StringUtils.byteMerger(bytes222_sub, bytes3);
+
+
+
+        //2号碾米电机压力设定值波动范围
+        String s3_sub = StringUtils.convertDecToHexString(pressure_cha3);
+        //2进制转换
+        byte[] bytes3_sub = StringUtils.hexStringToBytes(s3_sub);
+
+        byte[] bytes33_sub = StringUtils.byteMerger(byte11, bytes3_sub);
+
+//        byte[] bytes333_sub = StringUtils.byteMerger(bytes33, bytes33_sub);
+
+        byte[] bytes1 = StringUtils.byteMerger(barr, bytes);
+        byte[] bytes1_sub = StringUtils.byteMerger(bytes1, bytes88);
+
+        byte[] bytes1_sub1 = StringUtils.byteMerger(bytes1_sub, byte11);
+
+
+        byte[] bytes22 = StringUtils.byteMerger(bytes1_sub1, bytes2);
+        byte[] bytes222_sub = StringUtils.byteMerger(bytes22, bytes22_sub);
+
+        byte[] bytes2_sub2 = StringUtils.byteMerger(bytes222_sub, byte11);
+
+
+        byte[] bytes333 = StringUtils.byteMerger(bytes2_sub2, bytes3);
+        byte[] bytes333_sub = StringUtils.byteMerger(bytes333, bytes33_sub);
+
+        byte[] bytes3_sub3 = StringUtils.byteMerger(bytes333_sub, byte11);
+
+        LogUtils.e("开始");
+        LogUtils.e(Arrays.toString(bytes1));
+        LogUtils.e(Arrays.toString(bytes1_sub));
+        LogUtils.e(Arrays.toString(bytes22));
+        LogUtils.e(Arrays.toString(bytes222_sub));
+        LogUtils.e(Arrays.toString(bytes333));
+        LogUtils.e(Arrays.toString(bytes333_sub));
+        LogUtils.e("结束:"+StringUtils.binary(bytes3_sub3,2));
+
+        return bytes3_sub3;
     }
 
 

@@ -45,8 +45,13 @@ public class IConstant {
     public  static final String reset_walte="0x0010 00 23 00 01 FF FF FF FF FF FF 04 03 02 01".replace(" ","").replace("0x","");
 
 
+    public static String PRESS1="";
+    public static String PRESS2="";
+    public static String PRESS3="";
+    public static String PRESS1_CHA="";
+    public static String PRESS2_CHA="";
+    public static String PRESS3_CHA="";
 
-
-
-
+    public static boolean ISCHECKED=true;
+    public static boolean ISSHOW=true;
 }

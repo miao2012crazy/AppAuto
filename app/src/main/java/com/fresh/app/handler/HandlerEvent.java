@@ -2,11 +2,9 @@ package com.fresh.app.handler;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -22,9 +20,13 @@ import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.ReserveItemBean;
 import com.fresh.app.bean.SocketBean;
 import com.fresh.app.commonUtil.SocketUtil;
+import com.fresh.app.commonUtil.StringUtils;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.constant.AppConstant;
+import com.fresh.app.constant.IConstant;
 import com.fresh.app.constant.MessageEvent;
+import com.fresh.app.constant.NetResponse;
+import com.fresh.app.httputil.HttpConstant;
 import com.fresh.app.httputil.HttpUrl;
 
 import org.greenrobot.eventbus.EventBus;
@@ -128,13 +130,20 @@ public class HandlerEvent {
         SocketUtil.getSocket(new SocketUtil.OnInitSocketListener() {
             @Override
             public void onInitSuccess(Socket socket) {
-                byte[] binary = socketBean.getBinary("3", "5");
-                SocketUtil.sendDataToServer(socket, binary);
+                EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_ERROR,"socket已连接"));
+                if (!StringUtils.isEmpty(IConstant.PRESS1)&&!StringUtils.isEmpty(IConstant.PRESS2)&&!StringUtils.isEmpty(IConstant.PRESS3)){
+                    byte[] binary = socketBean.getBinary(IConstant.PRESS1, IConstant.PRESS1_CHA, IConstant.PRESS2, IConstant.PRESS2_CHA, IConstant.PRESS3, IConstant.PRESS3_CHA);
+                    SocketUtil.sendDataToServer(socket, binary);
+                }else{
+                    byte[] binary = socketBean.getBinary("90", "20", "90", "2", "90", "2");
+                    SocketUtil.sendDataToServer(socket, binary);
+                }
             }
 
             @Override
             public void onInitFailed(String errStr) {
-                UIUtils.showToast("连接主机错误");
+                EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_ERROR,"socket连接失败"));
+                UIUtils.showToast("socket连接主机错误");
             }
         });
     }
@@ -252,7 +261,10 @@ public class HandlerEvent {
 
 
     public void returnMain(View view) {
-        UIUtils.showToast("点击出发");
+        EventBus.getDefault().post(new MessageEvent(10065, "0"));
+    }
+
+    public void returnMain() {
         EventBus.getDefault().post(new MessageEvent(10065, "0"));
     }
 
@@ -261,8 +273,6 @@ public class HandlerEvent {
         UIUtils.showToast("点击了" + reserveItemBean.getProductName());
         //选择数量提交数据到服务器
         EventBus.getDefault().post(new MessageEvent(10097, reserveItemBean.getProductId()));
-
-
     }
 
     public void queryHistory(View view){

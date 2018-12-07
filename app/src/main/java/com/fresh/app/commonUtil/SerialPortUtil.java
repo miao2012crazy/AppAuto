@@ -7,6 +7,8 @@ import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.IConstant;
 import com.fresh.app.constant.MessageEvent;
+import com.fresh.app.constant.NetResponse;
+import com.fresh.app.httputil.HttpConstant;
 import com.fresh.app.view.viewimpl.DebugActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -121,7 +123,6 @@ public class SerialPortUtil {
 
         if (receiveThread != null)
             return;
-
 //        创建子线程接收串口数据
         receiveThread = new Thread() {
             @Override
@@ -138,8 +139,7 @@ public class SerialPortUtil {
                         while (readCount < count) {
                             readCount += inputStream.read(bytes, readCount, count - readCount);
                             String s = StringUtils.bytesToHexString(bytes, readCount);
-                            Log.e("miao", "有数据" + s);
-
+                            Log.e("miao", "有数据  " + s);
                             parseData(s);
                         }
 
@@ -169,6 +169,7 @@ public class SerialPortUtil {
      */
     private static void parseData(String s) {
         String replace = s.replace(" ", "");
+        Log.e("123",replace);
         if (replace.equals("000d015c00e88b130e013416e0ed")){
              EventBus.getDefault().post(new MessageEvent(10909,""));
 //            UIUtils.getContext().startActivity(new Intent(UIUtils.getContext(),DebugActivity.class));
@@ -193,16 +194,13 @@ public class SerialPortUtil {
             case 2:
                 AppConstant.CARD_READER_STATE = 999;
 
-
                 break;
             case 3:
-
-
+                EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_RICEBUCKET_ID,replace));
 
                 break;
             case 4:
                 EventBus.getDefault().post(new MessageEvent(10034,replace));
-
 
                 break;
             case 5:
@@ -210,7 +208,6 @@ public class SerialPortUtil {
             case 6:
                 break;
             default:
-
 
                 break;
 

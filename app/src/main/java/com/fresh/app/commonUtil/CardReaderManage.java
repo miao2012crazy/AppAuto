@@ -20,9 +20,11 @@ public class CardReaderManage {
     public static void setCardReaderState(int state){
         SerialPortUtil.closeSerialPort();
         AppConstant.CARD_READER_STATE=state;
-        if (state==3||state==4){
+        if (state==4){
             SerialPortUtil.openSrialPort("/dev/ttymxc2");
-        }else{
+        }else if (state==3){
+            SerialPortUtil.openSrialPort("/dev/ttymxc3");
+        }else {
             SerialPortUtil.openSrialPort("/dev/ttymxc1");
         }
     }

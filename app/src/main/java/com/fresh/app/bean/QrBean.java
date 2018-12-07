@@ -11,12 +11,30 @@ public class QrBean {
 
     private String wechat_url;
     private String order_id;
+    private String order_price;
+    private String alipay_url;
+
+    public String getAlipay_url() {
+        return alipay_url;
+    }
+
+    public void setAlipay_url(String alipay_url) {
+        this.alipay_url = alipay_url;
+    }
+
     /**
      * msg : 下单成功
      */
 
     private String msg;
 
+    public String getOrder_price() {
+        return order_price;
+    }
+
+    public void setOrder_price(String order_price) {
+        this.order_price = order_price;
+    }
 
     public String getOrder_id() {
         return order_id;
@@ -42,4 +60,8 @@ public class QrBean {
     public void setMsg(String msg) {
         this.msg = msg;
     }
+
+
+
+
 }

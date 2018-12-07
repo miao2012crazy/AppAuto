@@ -75,8 +75,11 @@ public class PayeeVM {
         CustomApplaction.ISRESULT = true;
         UIUtils.getContext().startService(new Intent(UIUtils.getContext(), PayResultService.class));
         PayeeBean bindingAdapterItem = (PayeeBean) mainList.get(1);
+        PayeeBean bindingAdapterItem1 = (PayeeBean) mainList.get(2);
         Bitmap qrImage = ZXingUtils.createQRImage(qrBean.getWechat_url(), 400, 400);
+        Bitmap qrImage1 = ZXingUtils.createQRImage(qrBean.getAlipay_url(), 400, 400);
         bindingAdapterItem.setPay_image(qrImage);
+        bindingAdapterItem1.setPay_image(qrImage1);
         IPayeeView.getPayResult(qrBean.getOrder_id());
     }
 

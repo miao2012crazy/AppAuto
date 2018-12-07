@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:padding="@dimen/dp_60"
+        android:background="#FFF"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginTop="@dimen/dp_60"
+            android:background="@drawable/shape_item_confirm"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="fitCenter"
+            android:id="@+id/iv_wechat"
+            android:layout_width="400dp"
+            android:layout_height="300dp"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"/>
+
+         <ImageView
+            android:layout_marginTop="@dimen/dp_60"
+            android:background="@drawable/shape_item_confirm"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="fitCenter"
+            android:id="@+id/iv_ali"
+            android:layout_width="400dp"
+            android:layout_height="300dp"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"/>
+    </LinearLayout>
+
+</layout>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Handler;
+import android.support.multidex.MultiDex;
 
 import com.danikula.videocache.HttpProxyCacheServer;
 import com.danikula.videocache.file.FileNameGenerator;
@@ -14,10 +15,15 @@ import com.fresh.app.bean.PayeeBean;
 import com.fresh.app.bean.ProductItemBean;
 import com.fresh.app.bean.QrBean;
 import com.fresh.app.bean.SocketBean;
+import com.fresh.app.commonUtil.AudioUtils;
+import com.fresh.app.commonUtil.CardReaderManage;
 import com.fresh.app.commonUtil.LogUtils;
+import com.fresh.app.commonUtil.SerialPortUtil;
 import com.fresh.app.commonUtil.SocketUtil;
 import com.fresh.app.commonUtil.StringUtils;
 import com.fresh.app.commonUtil.UIUtils;
+import com.fresh.app.constant.AppConstant;
+import com.fresh.app.constant.IConstant;
 import com.fresh.app.gen.DaoMaster;
 import com.fresh.app.gen.DaoSession;
 import com.iflytek.cloud.SpeechUtility;
@@ -35,7 +41,6 @@ import java.util.concurrent.Executors;
 public class CustomApplaction extends Application implements Thread.UncaughtExceptionHandler{
     public static int RESULT_CODE = 0;
     public static QrBean QR_BEAN = null;
-    public static int MONEY_CHECK_POSITION = -1;
     public static boolean ISRESULT = false;
     public static int RICE_TYPE = -1;
     public static int POSITION = -1;
@@ -48,8 +53,7 @@ public class CustomApplaction extends Application implements Thread.UncaughtExce
     private static Thread mainThread;
     private static int mainThreadId;
     private static CustomApplaction app;
-    public static PayeeBean lastItem;
-    private static ExecutorService executorService = Executors.newFixedThreadPool(3);
+    private static ExecutorService executorService = Executors.newFixedThreadPool(5);
     public static ProductItemBean product_detail_bean;
     public static SocketBean socketbean = null;
     public static int last_position = -1;
@@ -94,10 +98,23 @@ public class CustomApplaction extends Application implements Thread.UncaughtExce
         });
         //设置数据库
         setDatabase();
-        //初始化读卡器状态
+        if (!AppConstant.isDebug){
+            //初始化读卡器状态
 //        CardReaderManage.setCardReaderState(0);
-
+//        init();
+        }
+        AudioUtils.init(this);
     }
+
+    /**
+     * 初始化 读卡机 打开串口 打开输入输出流
+     */
+    private void init() {
+        String cmd = IConstant.default_state + StringUtils.xor(IConstant.default_state);
+        SerialPortUtil.sendSerialPort(cmd);
+//        SerialPortUtil.sendSerialPort(cmd);
+    }
+
 
     /**
      * 设置数据库
@@ -230,9 +247,7 @@ public class CustomApplaction extends Application implements Thread.UncaughtExce
         return spo;
     }
 
-    /**
-     * -------------------视频缓存结束——————————————————————
-     */
+
 
     /**
      * 异常处理相关
@@ -242,6 +257,7 @@ public class CustomApplaction extends Application implements Thread.UncaughtExce
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
         System.out.println("uncaughtException"+ex.getMessage());
+        UIUtils.showToast("出现异常"+ex.getMessage());
         System.exit(0);
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
@@ -249,4 +265,9 @@ public class CustomApplaction extends Application implements Thread.UncaughtExce
         startActivity(intent);
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 }

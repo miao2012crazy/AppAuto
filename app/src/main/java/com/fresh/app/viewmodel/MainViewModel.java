@@ -60,4 +60,8 @@ public class MainViewModel  {
         mainModelImpl.checkDeviceID(device_id);
 
     }
+
+    public void bindClientId(String client_id) {
+        mainModelImpl.bindClientId(client_id,AppConstant.DEVICE_ID);
+    }
 }

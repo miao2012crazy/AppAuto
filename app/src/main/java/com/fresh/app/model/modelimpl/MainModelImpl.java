@@ -26,4 +26,12 @@ public class MainModelImpl extends BaseModel implements IMainModel {
         map.put("device_id", device_id);
         getDataFromNet(HttpConstant.STATE_CHECK, HttpUrl.STATE_CHECK, map);
     }
+
+    @Override
+    public void bindClientId(String client_id, String deviceId) {
+        map.clear();
+        map.put("device_id", deviceId);
+        map.put("client_id",client_id);
+        getDataFromNet(HttpConstant.STATE_BIND, HttpUrl.STATE_BIND, map);
+    }
 }

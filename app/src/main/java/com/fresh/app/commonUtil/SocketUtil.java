@@ -4,7 +4,11 @@ import android.util.Log;
 
 import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.bean.SocketBean;
+import com.fresh.app.constant.AppConstant;
+import com.fresh.app.constant.IConstant;
 import com.fresh.app.constant.MessageEvent;
+import com.fresh.app.constant.NetResponse;
+import com.fresh.app.httputil.HttpConstant;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -16,7 +20,11 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Arrays;
 
+import retrofit2.http.HTTP;
+
 /**
+ *
+ *
  * Created by mr.miao on 2018/5/14.
  */
 
@@ -26,7 +34,7 @@ public class SocketUtil {
     private static SocketBean socketBean;
 
     public static void initSocket(final OnInitSocketListener onInitSocketListener) {
-        new Thread(() -> {
+        CustomApplaction.getExecutorService().execute(() -> {
             try {
                 socket = new Socket("192.168.1.10", 2000);
                 onInitSocketListener.onInitSuccess(socket);
@@ -34,7 +42,7 @@ public class SocketUtil {
                 e.printStackTrace();
                 onInitSocketListener.onInitFailed("主机错误");
             }
-        }).start();
+        });
     }
 
 
@@ -69,7 +77,7 @@ public class SocketUtil {
             Log.e("miao", "socket未连接");
             return;
         }
-        new Thread(() -> {
+        CustomApplaction.getExecutorService().execute(() -> {
             String data = "";
             try {
                 // 步骤1：创建输入流对象InputStream
@@ -87,30 +95,27 @@ public class SocketUtil {
                 }
 
 
-
-
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
-        }).start();
-
+        });
     }
 
     private static void parseData(byte[] bytes) {
-        if (bytes[0]==0&&bytes[1]==0&&bytes[2]==0&&bytes[3]==0&&bytes[4]==0&&bytes[5]==0&&bytes[6]==0&&bytes[7]==0){
+        if (bytes[0] == 0 && bytes[1] == 0 && bytes[2] == 0 && bytes[3] == 0 && bytes[4] == 0 && bytes[5] == 0 && bytes[6] == 0 && bytes[7] == 0) {
             return;
         }
+
+        Log.e("miao222", Arrays.toString(bytes));
+
+
         StringBuilder binary = new StringBuilder(StringUtils.binary(bytes, 2));
 
-        if (binary.length()<64){
-            for (int i=binary.length();i<64;i++){
+        if (binary.length() < 64) {
+            for (int i = binary.length(); i < 64; i++) {
                 binary.insert(0, "0");
             }
         }
-
-
-
-
         StringBuilder reverse = binary.reverse();
         String substring0 = String.valueOf(reverse).substring(0, 8);
         String substring1 = String.valueOf(reverse).substring(8, 16);
@@ -120,17 +125,37 @@ public class SocketUtil {
         String substring5 = String.valueOf(reverse).substring(40, 48);
         String substring6 = String.valueOf(reverse).substring(48, 56);
         String substring7 = String.valueOf(reverse).substring(56, 64);
-        String result=substring7+substring6+substring5+substring4+substring3+substring2+substring1+substring0;
+        String result = substring7 + substring6 + substring5 + substring4 + substring3 + substring2 + substring1 + substring0;
 
+        Log.e("miao", Arrays.toString(bytes) + "\n" + "miao数据解析" + substring7 + " " + substring6 + " " + substring5 + " " + substring4 + " " + substring3 + " " + substring2
+                + " " + substring1 + " " + substring0);
+        Log.e("miao11", binary.length() + "");
 
-        Log.e("miao",Arrays.toString(bytes)+"\n"+"miao数据解析"+substring7+" "+substring6+" "+substring5+" "+substring4+" "+substring3+" "+substring2
-        +" "+substring1+" "+ substring0);
-        Log.e("miao11",binary.length()+"");
-        EventBus.getDefault().post(new MessageEvent(10035,result));
+        //出米按钮
+        String substring26 = result.substring(22, 23);
+        //出米完成检测信号
+        String substring40 = result.substring(32, 33);
+        if (substring26.equals("1")) {
+            if (IConstant.ISCHECKED){
+                IConstant.ISCHECKED=false;
+                //点击了出米按钮
+                EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_ERROR,"出米按钮或急停按钮"));
+
+                EventBus.getDefault().post(new MessageEvent(10023, ""));
+            }
+        }
+
+        if (substring40.equals("1")) {
+            if (IConstant.ISSHOW){
+                IConstant.ISSHOW=false;
+                EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_ERROR, "加工完成"));
+                //加工完成 语音提示 提示可以出米
+                EventBus.getDefault().post(new MessageEvent(10035, ""));
+            }
+        }
+
 
     }
-
-
 
 
     /**
@@ -145,23 +170,25 @@ public class SocketUtil {
         }
 
         if (!socket.isConnected()) {
+            EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_ERROR,"socket未初始化"));
             Log.e("miao", "socket未连接");
             return;
         }
 
         try {
-
             OutputStream outputStream = socket.getOutputStream();
             outputStream.write(data);
             // 特别注意：数据的结尾加上换行符才可让服务器端的readline()停止阻塞
             // 步骤3：发送数据到服务端 刷新缓冲区
             outputStream.flush();
-
-
         } catch (IOException e) {
+
+
             e.printStackTrace();
+            EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_ERROR,"发送数据异常"+e.getMessage()));
         }
     }
+
 
 
     /**
@@ -172,11 +199,11 @@ public class SocketUtil {
      *
      * @param id
      */
-    public static SocketBean getUpdateBit(String id,boolean bool) {
-        socketBean=  CustomApplaction.socketbean;
-        if (socketBean==null){
+    public static SocketBean getUpdateBit(String id, boolean bool) {
+        socketBean = CustomApplaction.socketbean;
+        if (socketBean == null) {
             socketBean = new SocketBean();
-            CustomApplaction.socketbean=socketBean;
+            CustomApplaction.socketbean = socketBean;
         }
         switch (id) {
             case "00":

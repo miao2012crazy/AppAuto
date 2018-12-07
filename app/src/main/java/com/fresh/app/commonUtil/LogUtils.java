@@ -11,7 +11,7 @@ import com.fresh.app.constant.AppConstant;
 
 public class LogUtils {
 
-    private final static String APP_TAG = "miao";
+    private final static String APP_TAG = "miao串口";
 
     /**
      * 获取相关数据:类名,方法名,行号等.用来定位行<br>

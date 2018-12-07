@@ -8,4 +8,6 @@ public interface IMainModel {
     void takeGoods(String code,String device_id);
 
     void checkDeviceID(String device_id);
+
+    void bindClientId(String client_id, String deviceId);
 }

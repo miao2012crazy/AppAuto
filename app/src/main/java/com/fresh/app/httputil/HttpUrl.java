@@ -8,16 +8,14 @@ import com.fresh.app.constant.AppConstant;
 
 public class HttpUrl {
 
-    public  static String SOCKET_URL="192.168.1.3";
-    private static String baseUrl="";
-
-
     public static String getBaseUrl() {
         if (AppConstant.isDebug){
 //            return "http://192.168.1.101:8080/";
             return "http://39.105.77.235/app/";
+
+        }else{
+            return "http://39.105.77.235/app/";
         }
-        return baseUrl;
     }
 
     /**
@@ -116,6 +114,21 @@ public class HttpUrl {
      * 设备ID验证
      */
     public static String STATE_CHECK="checkDeviceId";
+
+    /**
+     * 获取压力
+     */
+    public static String GET_PRODUCT_PRESSURE="product_pressure";
+
+    /**
+     * 绑定推送id
+     */
+    public static String STATE_BIND="updateClientId";
+
+    /**
+     * 微信登陆回掉
+     */
+    public static String REDIRECT_URI="wechatLoginResult";
 
 }
 
