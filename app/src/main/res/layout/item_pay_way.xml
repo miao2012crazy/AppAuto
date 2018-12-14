@@ -15,32 +15,31 @@
             type="com.fresh.app.handler.HandlerEvent"/>
     </data>
     <LinearLayout
+         android:background="@drawable/shape_return"
+        android:layout_margin="@dimen/dp_10"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_marginTop="@dimen/dp_60"
+            android:layout_marginTop="@dimen/dp_10"
             android:background="@drawable/shape_item_confirm"
             android:layout_gravity="center_horizontal"
             app:bitmapUrlLocal="@{item.pay_image}"
             android:scaleType="fitCenter"
             android:id="@+id/iv_pay_image"
-            android:layout_width="500dp"
-            android:layout_height="400dp"
-            android:layout_marginRight="@dimen/dp_10"
-            android:layout_marginLeft="@dimen/dp_10"/>
+            android:layout_width="400dp"
+            android:layout_height="300dp"
+           />
 
         <TextView
-            android:layout_marginTop="@dimen/dp_40"
             android:id="@+id/tv_pay_way"
             style="@style/detail_text_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:padding="@dimen/dp_10"
             android:text="@{item.pay_name}"
-            android:textColor="#333"
+            android:textColor="#FFF"
             android:textSize="40sp" />
 
     </LinearLayout>

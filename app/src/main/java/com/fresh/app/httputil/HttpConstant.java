@@ -42,4 +42,5 @@ public class HttpConstant {
     public static final String STATE_BIND ="STATE_BIND";
     public static final String STATE_SPEAK = "STATE_SPEAK";
 
+    public static final String STATE_LOGIN_RESIULT="STATE_LOGIN_RESIULT";
 }

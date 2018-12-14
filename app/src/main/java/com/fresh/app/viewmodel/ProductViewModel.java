@@ -51,7 +51,7 @@ public class ProductViewModel{
     private void initList(List<ProductItemBean> productItemBean) {
         mainList = new ArrayList<>();
         recyclerList = viewDataBinding.recyclerList.recyclerList;
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(UIUtils.getContext(), 4);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(UIUtils.getContext(), 3);
         adapter = new BindingAdapter();
         recyclerList.setLayoutManager(gridLayoutManager);
         recyclerList.setAdapter(adapter);

@@ -9,10 +9,9 @@ import com.fresh.app.view.fragment.HomeFragment;
 import com.fresh.app.view.fragment.PayeeFragment;
 import com.fresh.app.view.fragment.ProductDetailFragment;
 import com.fresh.app.view.fragment.ProductFragment;
-import com.fresh.app.view.fragment.ProgressingFragment;
+import com.fresh.app.view.fragment.QueryFragment;
 import com.fresh.app.view.fragment.RechargeFragment;
 import com.fresh.app.view.fragment.ReserveFragment;
-import com.fresh.app.view.fragment.QueryFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -42,16 +41,16 @@ public class FragmentFactory {
                     break;
                 case 2:
                     fragment = new ProductDetailFragment();
-                    EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_SPEAK,"请选择碾米精度！"));
+                    EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_SPEAK,"您可以直接下单或者返回商品页重新选择！"));
 
                     break;
                 case 3:
                     fragment = new PayeeFragment();
-                    EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_SPEAK,"请支付！您可以使用会员卡,微信，和支付宝扫码的方式进行支付！"));
+
+                    EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_SPEAK,"请进行身份认证！您可以使用会员卡,微信，和支付宝扫码的方式进行认证！"));
 
                     break;
                 case 4:
-                    fragment = new ProgressingFragment();
                     EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_SPEAK,"设备初始化中，请您耐心等待！"));
 
                     break;

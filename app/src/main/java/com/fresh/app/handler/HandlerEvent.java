@@ -13,7 +13,6 @@ import com.fresh.app.R;
 import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.bean.DebugBean;
 import com.fresh.app.bean.DebugBean2;
-import com.fresh.app.bean.DetailBean;
 import com.fresh.app.bean.HomeBean;
 import com.fresh.app.bean.MoneyBean;
 import com.fresh.app.bean.ProductItemBean;
@@ -207,21 +206,19 @@ public class HandlerEvent {
      * 开始加工
      *
      * @param view
-     * @param detailBean
+     * @param productItemBean
      */
-    public void startProcessing(View view, DetailBean detailBean) {
-        UIUtils.showToast(detailBean.getBtn_name());
+    public void startProcessing(View view, ProductItemBean productItemBean) {
         if (AppConstant.RESERORDERBEAN != null) {
             EventBus.getDefault().post(new MessageEvent(10065, "4"));
             return;
         }
 
-        //此处直接生成订单
-        CustomApplaction.RICE_TYPE = detailBean.getId();
-        CustomApplaction.PRODUCT_ID = detailBean.getProduct_id();
-        //创建订单 返回支付二维码
-        EventBus.getDefault().post(new MessageEvent(10066, detailBean.getProduct_id()));
-
+//        //此处直接生成订单
+//        CustomApplaction.PRODUCT_ID = productItemBean.getProductId();
+//        //创建订单 返回支付二维码
+//        EventBus.getDefault().post(new MessageEvent(10066, CustomApplaction.PRODUCT_ID));
+        EventBus.getDefault().post(new MessageEvent(10065, "3"));
 
     }
 

@@ -8,6 +8,7 @@ import com.fresh.app.constant.AppConstant;
 
 public class HttpUrl {
 
+
     public static String getBaseUrl() {
         if (AppConstant.isDebug){
 //            return "http://192.168.1.101:8080/";
@@ -129,6 +130,12 @@ public class HttpUrl {
      * 微信登陆回掉
      */
     public static String REDIRECT_URI="wechatLoginResult";
+
+    /**
+     * 客户端扫码登陆结果
+     */
+    public static  String LOGIN_RESULT_URL = "confirmUserId";
+
 
 }
 

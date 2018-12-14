@@ -33,11 +33,5 @@ public class DetailModelImpl extends BaseModel implements IDetailModel {
         }
     }
 
-    @Override
-    public void getPressureFormNet(String product_id) {
-        map.clear();
-        map.put("product_id", product_id);
-        getDataFromNet(HttpConstant.STATE_PRESSURE, HttpUrl.GET_PRODUCT_PRESSURE,map);
 
-    }
 }

@@ -50,13 +50,13 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/textView4"
-                android:layout_margin="@dimen/dp_40"
+                android:layout_margin="@dimen/dp_20"
                 android:layout_marginTop="76dp"
                 android:background="@drawable/shape_btn_get"
                 android:gravity="center"
                 android:text="返回购买页"
                 android:textColor="#fff"
-                android:textSize="@dimen/sp_30" />
+                android:textSize="@dimen/sp_24" />
 
             <TextView
                 android:id="@+id/textView5"

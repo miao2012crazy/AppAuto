@@ -1,46 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
+
         <variable
             name="handler"
             type="com.fresh.app.handler.HandlerEvent" />
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/dp_40"
         android:background="@drawable/shape_recharge_bg"
         android:orientation="horizontal">
-
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/imageView"
-                android:layout_marginTop="26dp"
-                android:layout_toEndOf="@+id/imageView"
-                android:layout_toRightOf="@+id/imageView"
-                android:text="加入会员后，可以享受更多优惠"
-                android:textColor="#333"
-                android:textSize="@dimen/sp_30" />
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="245dp"
-                android:layout_height="93dp"
-                android:src="@drawable/icon_chongzhi" />
-
-            <ImageView
-                android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_chongzhi" />
-        </RelativeLayout>
 
         <TextView
             android:layout_width="1dp"
@@ -56,19 +28,6 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:orientation="horizontal">
-
-                <include
-                    android:id="@+id/layout_recharge"
-                    layout="@layout/layout_recharge_tab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true" />
-            </RelativeLayout>
-
-            <RelativeLayout
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -78,57 +37,60 @@
                     layout="@layout/layout_select" />
 
                 <include
-                    android:layout_centerInParent="true"
                     android:id="@+id/qr_layout"
                     layout="@layout/layout_qr_code"
-                    android:visibility="gone"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent" />
+                    android:layout_centerInParent="true"
+                    android:visibility="gone" />
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/ll_pay_success"
-                    android:gravity="center_horizontal"
-                    android:background="#fff"
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="#fff"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
                     <ImageView
-                        android:layout_marginTop="@dimen/dp_30"
-                        android:layout_gravity="center"
+                        android:id="@+id/imageView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_pay_successed"
-                        android:id="@+id/imageView4" />
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/dp_30"
+                        android:src="@drawable/ic_pay_successed" />
+
                     <LinearLayout
-                        android:layout_marginTop="@dimen/dp_40"
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <Button
-                            android:padding="@dimen/dp_10"
-                            android:background="@drawable/shape_btn_return_2"
-                            android:layout_margin="@dimen/dp_20"
-                            android:onClick="@{handler.fragmentReturnMain}"
-                            android:layout_width="0dp"
-                            android:textColor="#fff"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:text="返回首页"
-                            android:textSize="@dimen/sp_30"
-                            android:id="@+id/button2" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_40"
+                        android:orientation="horizontal">
 
                         <Button
-                            android:padding="@dimen/dp_10"
-                            android:textColor="#fff"
-                            android:background="@drawable/shape_btn_get"
-                            android:layout_margin="@dimen/dp_20"
-                            android:textSize="@dimen/sp_30"
-                            android:onClick="@{handler.fragmentReturnRecharge}"
+                            android:id="@+id/button2"
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="继续充值" />
+                            android:layout_margin="@dimen/dp_20"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_btn_return_2"
+                            android:onClick="@{handler.fragmentReturnMain}"
+                            android:padding="@dimen/dp_10"
+                            android:text="返回首页"
+                            android:textColor="#fff"
+                            android:textSize="@dimen/sp_30" />
+
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dp_20"
+                            android:layout_weight="1"
+                            android:background="@drawable/shape_btn_get"
+                            android:onClick="@{handler.fragmentReturnRecharge}"
+                            android:padding="@dimen/dp_10"
+                            android:text="继续充值"
+                            android:textColor="#fff"
+                            android:textSize="@dimen/sp_30" />
                     </LinearLayout>
 
                 </LinearLayout>

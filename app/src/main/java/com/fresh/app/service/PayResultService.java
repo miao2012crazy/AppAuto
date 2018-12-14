@@ -10,9 +10,11 @@ import com.fresh.app.applaction.CustomApplaction;
 import com.fresh.app.bean.FreshOrderBean;
 import com.fresh.app.bean.RechargeResultBean;
 import com.fresh.app.bean.ReserveResultBean;
+import com.fresh.app.bean.UserLoginMsgBean;
 import com.fresh.app.commonUtil.GsonUtil;
 import com.fresh.app.commonUtil.LogUtils;
 import com.fresh.app.commonUtil.UIUtils;
+import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.NetResponse;
 import com.fresh.app.httputil.HttpConstant;
 import com.fresh.app.httputil.HttpUrl;
@@ -37,8 +39,9 @@ public class PayResultService extends Service {
     /**
      * post请求参数集合  使用前请清空
      */
-    private HashMap<String,Object> map=new HashMap<>();
+    private HashMap<String, Object> map = new HashMap<>();
     private Timer timer = new Timer();
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -48,14 +51,14 @@ public class PayResultService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        timer.schedule(timerTask,0,2000);
+        timer.schedule(timerTask, 0, 2000);
     }
 
 
-    private TimerTask timerTask=new TimerTask() {
+    private TimerTask timerTask = new TimerTask() {
         @Override
         public void run() {
-            if (CustomApplaction.ISRESULT){
+            if (CustomApplaction.ISRESULT) {
                 getResultFromNet();
             }
         }
@@ -67,13 +70,11 @@ public class PayResultService extends Service {
     }
 
 
-
     private void getResultFromNet() {
-        switch (CustomApplaction.RESULT_CODE){
+        switch (CustomApplaction.RESULT_CODE) {
             case 0:
                 //普通支付
                 getData();
-
                 break;
             case 1:
                 getWechatRechargeResult();
@@ -83,7 +84,24 @@ public class PayResultService extends Service {
                 //预定支付
                 getReserveResult();
                 break;
+            case 3:
+                getLoginResult();
+                break;
+            default:
+                break;
         }
+    }
+
+
+    /**
+     * 登陆
+     */
+    private void getLoginResult() {
+
+        map.clear();
+        map.put("deviceId", AppConstant.DEVICE_ID);
+        map.put("nonceStr", AppConstant.NONCE_STR);
+        getDataFromNet(HttpConstant.STATE_LOGIN_RESIULT, HttpUrl.LOGIN_RESULT_URL, map);
     }
 
     /**
@@ -91,10 +109,8 @@ public class PayResultService extends Service {
      */
     private void getReserveResult() {
         map.clear();
-        map.put("order_id",CustomApplaction.ORDER_ID);
-        getDataFromNet(HttpConstant.STATE_RESERVE_RESIULT,HttpUrl.RESERVE_RESULT_URL,map);
-
-
+        map.put("order_id", CustomApplaction.ORDER_ID);
+        getDataFromNet(HttpConstant.STATE_LOGIN_RESIULT, HttpUrl.LOGIN_RESULT_URL, map);
     }
 
     /**
@@ -102,8 +118,8 @@ public class PayResultService extends Service {
      */
     private void getWechatRechargeResult() {
         map.clear();
-        map.put("order_id",CustomApplaction.ORDER_ID);
-        getDataFromNet(HttpConstant.STATE_RECHARGE_PAY_RESULT, HttpUrl.PAY_RECHARGE_RESULT_URL,map);
+        map.put("order_id", CustomApplaction.ORDER_ID);
+        getDataFromNet(HttpConstant.STATE_RECHARGE_PAY_RESULT, HttpUrl.PAY_RECHARGE_RESULT_URL, map);
 
     }
 
@@ -111,13 +127,13 @@ public class PayResultService extends Service {
      * 购买商品
      */
     private void getData() {
-        if (CustomApplaction.ORDER_ID.equals("")){
+        if (CustomApplaction.ORDER_ID.equals("")) {
             LogUtils.e("订单id为null");
             return;
         }
         map.clear();
-        map.put("order_id",CustomApplaction.ORDER_ID);
-        getDataFromNet(HttpConstant.STATE_PRODUCT_PAY_STATE, HttpUrl.PAY_PRODUCT_RESULT_URL,map);
+        map.put("order_id", CustomApplaction.ORDER_ID);
+        getDataFromNet(HttpConstant.STATE_PRODUCT_PAY_STATE, HttpUrl.PAY_PRODUCT_RESULT_URL, map);
     }
 
     @Override
@@ -126,7 +142,6 @@ public class PayResultService extends Service {
         timer.cancel();
         timerTask.cancel();
     }
-
 
 
     protected void getDataFromNet(String tag, String url, HashMap<String, Object> map) {
@@ -141,12 +156,11 @@ public class PayResultService extends Service {
             public void onNext(ResponseBody responseBody) {
 
                 try {
-                    switch (CustomApplaction.RESULT_CODE){
+                    switch (CustomApplaction.RESULT_CODE) {
                         case 0:
                             FreshOrderBean freshOrderBean = GsonUtil.GsonToBean(responseBody.string(), FreshOrderBean.class);
 
                             if (freshOrderBean.isResult()) {
-                                Log.e("新网络框架", "请求成功");
                                 EventBus.getDefault().post(new NetResponse(tag, freshOrderBean));
                             } else {
                                 UIUtils.showToast(freshOrderBean.getMsg());
@@ -157,19 +171,25 @@ public class PayResultService extends Service {
                             RechargeResultBean rechargeResultBean = GsonUtil.GsonToBean(responseBody.string(), RechargeResultBean.class);
 
                             if (rechargeResultBean.isResult()) {
-                                Log.e("新网络框架", "请求成功");
                                 EventBus.getDefault().post(new NetResponse(tag, rechargeResultBean));
                             } else {
                                 UIUtils.showToast(rechargeResultBean.getMsg());
                             }
-                            break; case 2:
+                            break;
+                        case 2:
                             ReserveResultBean reserveResultBean = GsonUtil.GsonToBean(responseBody.string(), ReserveResultBean.class);
 
                             if (reserveResultBean.isResult()) {
-                                Log.e("新网络框架", "请求成功");
                                 EventBus.getDefault().post(new NetResponse(tag, reserveResultBean));
                             } else {
                                 UIUtils.showToast(reserveResultBean.getMsg());
+                            }
+                            break;
+                        case 3:
+                            UserLoginMsgBean userLoginMsgBean = GsonUtil.GsonToBean(responseBody.string(), UserLoginMsgBean.class);
+                            LogUtils.e(userLoginMsgBean.toString());
+                            if (userLoginMsgBean.isResult()&&userLoginMsgBean.getData()!=null) {
+                                EventBus.getDefault().post(new NetResponse(tag, userLoginMsgBean));
                             }
                             break;
                     }

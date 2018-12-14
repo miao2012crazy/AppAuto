@@ -169,16 +169,7 @@ public class SerialPortUtil {
      */
     private static void parseData(String s) {
         String replace = s.replace(" ", "");
-        Log.e("123",replace);
-        if (replace.equals("000d015c00e88b130e013416e0ed")){
-             EventBus.getDefault().post(new MessageEvent(10909,""));
-//            UIUtils.getContext().startActivity(new Intent(UIUtils.getContext(),DebugActivity.class));
-            return;
-        }
 
-
-
-//        if (replace.length()!=24)return;
         CustomApplaction.MEMBER_ID = s;
         switch (AppConstant.CARD_READER_STATE) {
             case 0:

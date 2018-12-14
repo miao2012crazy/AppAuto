@@ -10,7 +10,7 @@
         <ImageView
             android:id="@+id/iv_logo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="97dp"
             android:layout_margin="@dimen/dp_20"
             android:padding="@dimen/dp_10"
             android:src="@drawable/home_ic_logo" />
@@ -18,13 +18,14 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="342dp"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dp_80"
+            android:layout_marginLeft="@dimen/dp_40"
+            android:layout_marginRight="@dimen/dp_40"
             android:src="@drawable/home_tv_logo" />
 
         <include
-            android:layout_marginTop="@dimen/dp_100"
+            android:layout_marginTop="@dimen/dp_10"
             android:id="@+id/recycler_list"
             layout="@layout/layout_list"
             android:layout_width="match_parent"

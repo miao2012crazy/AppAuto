@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-   <data>
-       <import type="android.view.View"/>
-       <variable
-           name="handler"
-           type="com.fresh.app.handler.HandlerEvent" />
-   </data>
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="handler"
+            type="com.fresh.app.handler.HandlerEvent" />
+    </data>
 
     <LinearLayout
         android:id="@+id/ll_center"
@@ -17,7 +20,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="@dimen/dp_30">
@@ -42,7 +44,7 @@
 
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:padding="@dimen/dp_20">
+                android:padding="@dimen/dp_10">
 
                 <ImageView
                     android:id="@+id/iv_recharge"
@@ -58,7 +60,7 @@
 
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:padding="@dimen/dp_20">
+                android:padding="@dimen/dp_10">
 
                 <ImageView
                     android:id="@+id/iv_tel"
@@ -73,12 +75,12 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="60dp">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scaleType="fitXY"
                 android:src="@drawable/ic_center_3" />
 
         </RelativeLayout>

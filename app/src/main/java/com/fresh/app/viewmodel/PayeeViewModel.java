@@ -3,7 +3,7 @@ package com.fresh.app.viewmodel;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.fresh.app.R;
@@ -12,10 +12,13 @@ import com.fresh.app.base.BindingAdapter;
 import com.fresh.app.base.BindingAdapterItem;
 import com.fresh.app.bean.FreshOrderBean;
 import com.fresh.app.bean.PayeeBean;
-import com.fresh.app.bean.QrBean;
+import com.fresh.app.bean.UserLoginMsgBean;
+import com.fresh.app.commonUtil.GsonUtil;
 import com.fresh.app.commonUtil.LogUtils;
+import com.fresh.app.commonUtil.StringUtils;
 import com.fresh.app.commonUtil.UIUtils;
 import com.fresh.app.commonUtil.ZXingUtils;
+import com.fresh.app.constant.AppConstant;
 import com.fresh.app.constant.NetResponse;
 import com.fresh.app.databinding.FragmentPayeeBinding;
 import com.fresh.app.httputil.HttpConstant;
@@ -51,7 +54,7 @@ public class PayeeViewModel {
         this.payeeBinding = payeeBinding;
         payeeModelImpl = new PayeeModelImpl();
         initRecyclerList();
-        initQRCode(CustomApplaction.QR_BEAN);
+        initQRCode();
     }
 
 
@@ -59,33 +62,29 @@ public class PayeeViewModel {
      * 初始化二维码
      *
      */
-    private void initQRCode(QrBean qrBean) {
-        payeeBinding.tvPayPrice.setText(" ¥"+qrBean.getOrder_price());
-        CustomApplaction.ORDER_ID = qrBean.getOrder_id();
+    private void initQRCode() {
+
+        String uuid = StringUtils.getUUID();
+        AppConstant.NONCE_STR=uuid;
+        UserLoginMsgBean.DataBean userLoginMsgBean = new UserLoginMsgBean.DataBean(AppConstant.DEVICE_ID, uuid);
+        String s = GsonUtil.GsonString(userLoginMsgBean);
+        LogUtils.e(s);
         CustomApplaction.ISRESULT = true;
-        CustomApplaction.RESULT_CODE=0;
+        CustomApplaction.RESULT_CODE=3;
         UIUtils.getContext().startService(new Intent(UIUtils.getContext(), PayResultService.class));
         PayeeBean bindingAdapterItem = (PayeeBean) mainList.get(1);
-        PayeeBean bindingAdapterItem2 = (PayeeBean) mainList.get(2);
-        Bitmap qrImage = ZXingUtils.createQRImage(qrBean.getWechat_url(), 500, 400);
-        Bitmap qrImage2 = ZXingUtils.createQRImage(qrBean.getAlipay_url(), 400, 400);
+        Bitmap qrImage = ZXingUtils.createQRImage(s, 500, 400);
         bindingAdapterItem.setPay_image(qrImage);
-        bindingAdapterItem2.setPay_image(qrImage2);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void receiveData(NetResponse netResponse){
         switch (netResponse.getTag()){
-
-            case HttpConstant.STATE_PRODUCT_PAY_STATE:
-               FreshOrderBean freshOrderBean= (FreshOrderBean) netResponse.getData();
-                if (freshOrderBean.getData().getOrderState()==1){
-                    CustomApplaction.ISRESULT=false;
-                    CustomApplaction.ORDER_ID="";
-                    payeeView.showDialogForPay(0);
-                }else{
-                    LogUtils.e("待支付");
-                }
+            case HttpConstant.STATE_LOGIN_RESIULT:
+                UIUtils.getContext().stopService(new Intent(UIUtils.getContext(), PayResultService.class));
+                UserLoginMsgBean userLoginMsgBean= (UserLoginMsgBean) netResponse.getData();
+                LogUtils.e(userLoginMsgBean.getData().toString());
+                payeeView.showDialogForPay(1);
                 break;
             case HttpConstant.STATE_PRODUCT_PAY_CARD:
                 //会员卡支付
@@ -103,15 +102,13 @@ public class PayeeViewModel {
         mainList = new ArrayList<>();
         homeBeans = new ArrayList<>();
         recyclerList = payeeBinding.recyclerList.recyclerList;
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(UIUtils.getContext(), 3);
+        LinearLayoutManager gridLayoutManager = new LinearLayoutManager(UIUtils.getContext());
         adapter = new BindingAdapter();
         recyclerList.setLayoutManager(gridLayoutManager);
         recyclerList.setAdapter(adapter);
         PayeeBean payeeBean0 = new PayeeBean("云稻会员卡", BitmapFactory.decodeResource(getResources(), R.mipmap.ic_huiyuan), true, 0);
-        PayeeBean payeeBean1 = new PayeeBean("微信扫码支付", BitmapFactory.decodeResource(getResources(), R.mipmap.ic_wechat), true, 1);
-        PayeeBean payeeBean2 = new PayeeBean("支付宝扫码支付", BitmapFactory.decodeResource(getResources(), R.drawable.ic_pay_ali), true, 2);
+        PayeeBean payeeBean2 = new PayeeBean("华鲜汇App扫码", BitmapFactory.decodeResource(getResources(), R.drawable.ic_wechat_gz), true, 2);
         homeBeans.add(payeeBean0);
-        homeBeans.add(payeeBean1);
         homeBeans.add(payeeBean2);
         mainList.addAll(homeBeans);
         adapter.setItems(mainList);

@@ -37,4 +37,7 @@ public class AppConstant {
     public static String DEVICE_ID="";
 
     public static ProductItemBean PRODUCT_ITEM_BEAN=null;
+    //随机数全局变量
+    public static String NONCE_STR = "";
+
 }

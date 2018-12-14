@@ -25,7 +25,6 @@ import com.fresh.app.constant.MessageEvent;
 import com.fresh.app.constant.NetResponse;
 import com.fresh.app.databinding.FragmentReserveBinding;
 import com.fresh.app.databinding.LayoutInputReserveBinding;
-import com.fresh.app.databinding.LayoutLoginReserveBinding;
 import com.fresh.app.databinding.LayoutReserveSuccessedBinding;
 import com.fresh.app.handler.HandlerEvent;
 import com.fresh.app.httputil.HttpConstant;
@@ -123,32 +122,6 @@ public class ReserveFragment extends BaseFragment implements IReserveView {
         binding.avNum.setOnChangeListener(value -> num = value);
         binding.btnCancel.setOnClickListener(v -> dialog.dismiss());
     }
-
-    /**
-     * 用户登陆身份识别 wechat/ali
-     */
-    private void showDialogForWechatOrAli(){
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutLoginReserveBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), R.layout.layout_login_reserve, null, false);
-        builder.setView(binding.getRoot());
-        dialog = builder.create();
-        dialog.show();
-        String APPID="wx87d3cc6a3943c5a9";
-        String REDIRECT_URI= HttpUrl.getBaseUrl()+HttpUrl.REDIRECT_URI;
-        try {
-            String encode = URLEncoder.encode(REDIRECT_URI, "UTF-8");
-            binding.ivWechat.setImageBitmap(ZXingUtils.createQRImage("https://open.weixin.qq.com/connect/qrconnect?appid="+APPID+"&redirect_uri="+encode+"&response_type=code&scope=snsapi_login&state=123123#wechat_redirect",400,400));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        dialog.setCanceledOnTouchOutside(false);
-        Window window = dialog.getWindow();
-        assert window != null;
-        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-    }
-
 
     @Override
     public void initPayee(QrBean qrBean) {

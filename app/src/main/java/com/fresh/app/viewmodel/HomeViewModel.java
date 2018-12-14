@@ -9,7 +9,6 @@ import com.fresh.app.base.BindingAdapter;
 import com.fresh.app.base.BindingAdapterItem;
 import com.fresh.app.bean.HomeBean;
 import com.fresh.app.commonUtil.UIUtils;
-import com.fresh.app.databinding.ActivityHomeBinding;
 import com.fresh.app.databinding.FragmentHomeBinding;
 import com.fresh.app.view.IHomeView;
 
@@ -43,7 +42,7 @@ public class HomeViewModel {
         homeBeans = new ArrayList<>();
 
         recyclerList = mBinding.recyclerList.recyclerList;
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(UIUtils.getContext(), 4);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(UIUtils.getContext(), 2);
         adapter = new BindingAdapter();
         recyclerList.setLayoutManager(gridLayoutManager);
         recyclerList.setAdapter(adapter);

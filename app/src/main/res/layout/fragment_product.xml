@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+        <TextView
+            android:background="@mipmap/ic_main_bg"
+            android:textColor="#25b4b4"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp_60"
+            android:gravity="center"
+            android:text="选择商品"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_100" />
         <include
             android:id="@+id/recycler_list"
             layout="@layout/layout_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </RelativeLayout>
+    </LinearLayout>
 </layout>

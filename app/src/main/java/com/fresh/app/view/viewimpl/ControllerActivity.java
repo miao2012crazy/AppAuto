@@ -23,7 +23,7 @@ public class ControllerActivity extends BaseActivity {
             startActivityBase(DebugActivity.class);
         });
         binding.startUpdateRiceBucket.setOnClickListener((v -> {
-            startActivityBase(UpdateRiceBucketActivity.class);
+//            startActivityBase(UpdateRiceBucketActivity.class);
         }));
     }
 }

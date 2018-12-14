@@ -58,8 +58,6 @@ import java.text.BreakIterator;
 public class MainActivity extends BaseActivity implements IMainView {
 
     private ActivityMainBinding binding;
-    private ImageView[] imgArr;
-    private TextView[] tvArr;
     private AlertDialog dialog;
     private MainViewModel mainViewModel;
     private CustomProgressBar customProgressBar;
@@ -75,23 +73,11 @@ public class MainActivity extends BaseActivity implements IMainView {
 
         binding.setHandler(new HandlerEvent(this));
         mainViewModel = new MainViewModel(binding, this);
-        ImageView iv0 = binding.bottom.iv0;
-        ImageView iv1 = binding.bottom.iv1;
-        ImageView iv2 = binding.bottom.iv2;
-        ImageView iv3 = binding.bottom.iv3;
-        ImageView iv4 = binding.bottom.iv4;
 
-        TextView tv0 = binding.bottom.tv0;
-        TextView tv1 = binding.bottom.tv1;
-        TextView tv2 = binding.bottom.tv2;
-        TextView tv3 = binding.bottom.tv3;
-        TextView tv4 = binding.bottom.tv4;
-        imgArr = new ImageView[]{iv0, iv1, iv2, iv3, iv4};
-        tvArr = new TextView[]{tv0, tv1, tv2, tv3, tv4};
         openFragment(new MessageEvent(10065, "0"));
 //        //定时器服务
         startService(new Intent(MainActivity.this, TimeService.class));
-//        startActivityBase(DebugActivity.class);
+//      startActivityBase(DebugActivity.class);
         initDeviceId();
         EventBus.getDefault().post(new NetResponse(HttpConstant.STATE_SPEAK,"欢迎使用云稻自助平台！"));
     }
@@ -127,7 +113,6 @@ public class MainActivity extends BaseActivity implements IMainView {
                     return;
                 }
                 CustomApplaction.POSITION = position;
-                setNavigation(position);
                 fragmentTransaction.replace(R.id.fl_container, FragmentFactory.getFragment(position));
                 fragmentTransaction.commit();
                 break;
@@ -148,64 +133,11 @@ public class MainActivity extends BaseActivity implements IMainView {
                     dialog.dismiss();
                 }
                 break;
-
         }
 
     }
 
 
-    /**
-     * 设置导航条
-     *
-     * @param position
-     */
-    private void setNavigation(int position) {
-        position -= 1;
-        switch (position) {
-            case -1:
-                binding.bottom.llBottom.setVisibility(View.GONE);
-                binding.btnReturn.setVisibility(View.GONE);
-                return;
-            case 0:
-            case 1:
-            case 2:
-                binding.bottom.llBottom.setVisibility(View.VISIBLE);
-                binding.btnReturn.setVisibility(View.VISIBLE);
-                break;
-            case 3:
-                binding.btnReturn.setVisibility(View.GONE);
-                if (AppConstant.RESERORDERBEAN == null) {
-                    binding.bottom.llBottom.setVisibility(View.VISIBLE);
-                } else {
-                    binding.bottom.llBottom.setVisibility(View.GONE);
-                }
-                break;
-            case 4:
-                binding.bottom.llBottom.setVisibility(View.GONE);
-                binding.btnReturn.setVisibility(View.GONE);
-                break;
-            case 5:
-                binding.bottom.llBottom.setVisibility(View.GONE);
-                break;
-
-            default:
-                binding.bottom.llBottom.setVisibility(View.GONE);
-                binding.btnReturn.setVisibility(View.GONE);
-                break;
-        }
-
-        if (CustomApplaction.last_position != -1 && position < 5) {
-            imgArr[CustomApplaction.last_position].setBackgroundResource(R.drawable.ic_circle_normal);
-            tvArr[CustomApplaction.last_position].setTextSize(30);
-            tvArr[CustomApplaction.last_position].setTextColor(Color.parseColor("#e7e3e3"));
-        }
-        if (position < 5) {
-            imgArr[position].setBackgroundResource(R.drawable.ic_circle_checked);
-            tvArr[position].setTextSize(34);
-            tvArr[position].setTextColor(Color.parseColor("#ffffff"));
-            CustomApplaction.last_position = position;
-        }
-    }
 
     @Override
     protected void onDestroy() {

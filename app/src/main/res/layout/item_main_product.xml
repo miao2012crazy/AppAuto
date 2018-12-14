@@ -16,173 +16,101 @@
             name="handler"
             type="com.fresh.app.handler.HandlerEvent" />
     </data>
-
     <RelativeLayout
+        android:background="@drawable/shape_border_product"
+        android:layout_margin="@dimen/dp_4"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-
+        android:layout_height="270dp">
         <ImageView
             android:id="@+id/iv_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_gravity="center_horizontal"
             android:scaleType="fitXY"
             app:imageUrl="@{item.productImg01}" />
 
-        <LinearLayout
+
+    <LinearLayout
+        android:layout_margin="@dimen/dp_4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_marginTop="@dimen/dp_60"
+            android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_200"
-            android:orientation="vertical">
+            android:gravity="center"
+            android:text="@{item.productName}"
+            android:textColor="#333"
+            android:textSize="@dimen/sp_30" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="left"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:paddingLeft="@dimen/dp_10"
                 android:paddingRight="@dimen/dp_10"
-                android:text="@{item.productName}"
-                android:textColor="#fff"
-                android:textSize="@dimen/sp_30" />
+                android:text="价格:"
+                android:textColor="#666"
+                android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/tv_desc"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                android:lineSpacingExtra="@dimen/dp_10"
-                android:maxLines="3"
-                android:paddingLeft="@dimen/dp_10"
-                android:paddingRight="@dimen/dp_10"
-                android:text="@{item.productDesc}"
-                android:textColor="#fff"
-                android:textSize="26sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_20"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.7"
-                    android:gravity="left"
-                    android:paddingLeft="@dimen/dp_10"
-                    android:paddingRight="@dimen/dp_10"
-                    android:text="重量:"
-                    android:textColor="#fff"
-                    android:textSize="26sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.7"
-                    android:gravity="left"
-                    android:text="重量:"
-                    android:textColor="#fff"
-                    android:textSize="26sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_20"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="left"
-                    android:paddingLeft="@dimen/dp_10"
-                    android:paddingRight="@dimen/dp_10"
-                    android:text="价格:"
-                    android:textColor="#fff"
-                    android:textSize="26sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="left"
-                    android:text="@{'¥'+String.valueOf(item.productPrice)+'/'+'每'+'桶'}"
-                    android:textColor="#fff"
-                    android:textSize="26sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_20"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.7"
-                    android:gravity="left"
-                    android:paddingLeft="@dimen/dp_10"
-                    android:paddingRight="@dimen/dp_10"
-                    android:text="库存:"
-                    android:textColor="#fff"
-                    android:textSize="26sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.7"
-                    android:gravity="left"
-                    android:text="@{String.valueOf(item.deviceProductStock)}"
-                    android:textColor="#fff"
-                    android:textSize="26sp" />
-
-
-            </LinearLayout>
-
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@{'¥'+String.valueOf(item.productPrice)+'/'+'斤'}"
+                android:textColor="#FFF"
+                android:textSize="20sp" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="71dp"
-            android:layout_marginStart="71dp"
-            android:layout_marginTop="39dp"
-            android:layout_weight="1"
-            android:gravity="left|center_vertical"
-            android:text="@{String.valueOf(item.deviceProductStock)+'桶'}"
-            android:textColor="#666"
-            android:textSize="20sp" />
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/textView"
-            android:layout_alignStart="@+id/textView"
-            android:layout_weight="1"
-            android:gravity="left|center_vertical"
-            android:text="1kg/每桶"
-            android:textColor="#666"
-            android:textSize="20sp" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10"
+                android:text="产地:"
+                android:textColor="#666"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@{item.productManage}"
+                android:textColor="#666"
+                android:textSize="20sp" />
+        </LinearLayout>
 
         <ImageView
-            app:imageUrl="@{item.productImg03}"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="@dimen/dp_20"
             android:onClick="@{(view)->handler.itemClick(view,item)}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dp_70" />
-    </RelativeLayout>
+            app:imageUrl="@{item.productImg03}" />
 
+    </LinearLayout>
+
+    </RelativeLayout>
 </layout>
